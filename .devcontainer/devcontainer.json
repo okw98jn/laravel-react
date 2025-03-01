@@ -1,0 +1,12 @@
+{
+  "name": "Laravel React Development",
+  "dockerComposeFile": "../docker/docker-compose.yml",
+  "service": "laravel-app",
+  "workspaceFolder": "/var/www",
+  "customizations": {
+    "vscode": {
+      "extensions": [],
+      "settings": {}
+    }
+  }
+}
