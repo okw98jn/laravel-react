@@ -25,7 +25,7 @@ WORKDIR /var/www
 
 COPY ./php.ini /usr/local/etc/php/php.ini
 
-COPY ./zzz-www.conf /usr/local/etc/php/conf.d/zzz-www.ini
+COPY ./zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 
 RUN curl -sL https://deb.nodesource.com/setup_23.x | bash - \
     && apt-get install -y nodejs \
