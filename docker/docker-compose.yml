@@ -1,0 +1,51 @@
+services:
+  laravel-app:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    volumes:
+      - ../:/var/www
+      - laravel-php-fpm-socket:/var/run/php-fpm
+
+  laravel-web:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: laravel-web
+    ports:
+      - "80:80"
+    volumes:
+      - ../:/var/www
+      - laravel-php-fpm-socket:/var/run/php-fpm
+
+
+  laravel-db:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    container_name: laravel-db
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_DB: laravel-db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - laravel-db-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  laravel-redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    container_name: laravel-redis
+    volumes:
+      - laravel-redis-volume:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  laravel-php-fpm-socket:
+  laravel-db-volume:
+  laravel-redis-volume:
