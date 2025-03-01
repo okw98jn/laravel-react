@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: laravel-app
     volumes:
-      - ../:/var/www
+      - ../src:/var/www
       - laravel-php-fpm-socket:/var/run/php-fpm
 
   laravel-web:
@@ -16,9 +16,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ../:/var/www
+      - ../src:/var/www
       - laravel-php-fpm-socket:/var/run/php-fpm
-
 
   laravel-db:
     build:
