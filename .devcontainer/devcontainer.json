@@ -27,7 +27,8 @@
         "mhutchie.git-graph",
         "Gruntfuggly.todo-tree",
         "vincaslt.highlight-matching-tag",
-        "oderwat.indent-rainbow"
+        "oderwat.indent-rainbow",
+        "ryannaddy.laravel-artisan"
       ],
       "settings": {
         "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
