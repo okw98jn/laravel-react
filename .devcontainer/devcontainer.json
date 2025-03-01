@@ -5,8 +5,48 @@
   "workspaceFolder": "/var/www",
   "customizations": {
     "vscode": {
-      "extensions": [],
-      "settings": {}
+      "extensions": [
+        "christian-kohler.path-intellisense",
+        "bmewburn.vscode-intelephense-client",
+        "SanderRonde.phpstan-vscode",
+        "junstyle.php-cs-fixer",
+        "laravel.vscode-laravel",
+        "neilbrayfield.php-docblocker",
+        "streetsidesoftware.code-spell-checker",
+        "biomejs.biome",
+        "bradlc.vscode-tailwindcss",
+        "YoavBls.pretty-ts-errors",
+        "ms-vscode.vscode-typescript-next",
+        "xabikos.JavaScriptSnippets",
+        "dsznajder.es7-react-js-snippets",
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "donjayamanne.githistory",
+        "mhutchie.git-graph",
+        "Gruntfuggly.todo-tree",
+        "vincaslt.highlight-matching-tag",
+        "oderwat.indent-rainbow"
+      ],
+      "settings": {
+        "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
+        "php-cs-fixer.onsave": true,
+        "php-cs-fixer.config": ".php-cs-fixer.dist.php",
+        "php-cs-fixer.allowRisky": false,
+        "php-cs-fixer.pathMode": "override",
+        "[php]": {
+          "editor.defaultFormatter": "junstyle.php-cs-fixer"
+        }
+      }
+    }
+  },
+  "features": {
+    // コンテナ内でDockerを使用するための設定
+    "docker-from-docker": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "v2"
     }
   }
 }
