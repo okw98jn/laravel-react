@@ -29,3 +29,6 @@ fresh:
 
 seed:
 	docker-compose -f docker/docker-compose.yml exec laravel-app php artisan db:seed
+
+stan:
+	docker-compose -f docker/docker-compose.yml exec laravel-app ./vendor/bin/phpstan analyse --memory-limit=2G
