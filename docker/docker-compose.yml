@@ -4,6 +4,9 @@ services:
       context: ./php
       dockerfile: Dockerfile
     container_name: laravel-app
+    environment:
+      # PHP8.4に対応するまで
+      PHP_CS_FIXER_IGNORE_ENV: 1
     volumes:
       - ../src:/var/www
       - laravel-php-fpm-socket:/var/run/php-fpm
