@@ -17,4 +17,9 @@ export default defineConfig({
       generatedRouteTree: './resources/ts/routeTree.gen.ts',
     }),
   ],
+  resolve: {
+    alias: {
+      '@': '/resources/ts',
+    },
+  },
 });
