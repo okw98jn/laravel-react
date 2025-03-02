@@ -7,7 +7,24 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.json", "**/*.css"]
+    "include": [
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.json",
+      "**/*.css"
+    ],
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      "public",
+      "package-lock.json",
+      "composer.json",
+      "composer.lock",
+      "vendor"
+    ]
   },
   "formatter": {
     "enabled": true,
