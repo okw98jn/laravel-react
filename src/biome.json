@@ -23,7 +23,8 @@
       "package-lock.json",
       "composer.json",
       "composer.lock",
-      "vendor"
+      "vendor",
+      "resources/ts/routeTree.gen.ts"
     ]
   },
   "formatter": {
