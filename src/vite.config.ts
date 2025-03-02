@@ -7,7 +7,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [
     laravel({
-      input: ['resources/ts/main.tsx'],
+      input: ['resources/css/app.css', 'resources/ts/main.tsx'],
       refresh: true,
     }),
     tailwindcss(),
@@ -17,9 +17,4 @@ export default defineConfig({
       generatedRouteTree: './resources/ts/routeTree.gen.ts',
     }),
   ],
-  resolve: {
-    alias: {
-      '@': '/resources/ts',
-    },
-  },
 });
