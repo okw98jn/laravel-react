@@ -34,7 +34,7 @@ tinker:
 	docker-compose -f docker/docker-compose.yml exec laravel-app php artisan tinker
 
 stan:
-	docker-compose -f docker/docker-compose.yml exec laravel-app ./vendor/bin/phpstan analyse --memory-limit=2G
+	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/phpstan analyse --memory-limit=2G
 
 fixer:
-	docker-compose -f docker/docker-compose.yml exec laravel-app ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php
+	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/php-cs-fixer fix --config=src/.php-cs-fixer.dist.php
