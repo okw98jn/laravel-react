@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
+    "@tanstack/react-router": "^1.112.0",
     "axios": "^1.7.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -15,6 +16,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@tanstack/router-devtools": "^1.112.0",
+    "@tanstack/router-plugin": "^1.112.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
