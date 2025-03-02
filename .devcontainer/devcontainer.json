@@ -28,13 +28,29 @@
         "ryannaddy.laravel-artisan"
       ],
       "settings": {
+        "editor.formatOnSave": true,
         "php-cs-fixer.executablePath": "${workspaceFolder}/src/vendor/bin/php-cs-fixer",
-        "php-cs-fixer.onsave": true,
         "php-cs-fixer.config": "src/.php-cs-fixer.dist.php",
         "php-cs-fixer.allowRisky": false,
         "php-cs-fixer.pathMode": "override",
         "[php]": {
           "editor.defaultFormatter": "junstyle.php-cs-fixer"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[css]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "editor.codeActionsOnSave": {
+          "quickfix.biome": "explicit",
+          "source.organizeImports.biome": "explicit"
         }
       }
     }
