@@ -16,11 +16,11 @@ $config = new PhpCsFixer\Config();
 return $config
     ->setRiskyAllowed(true)
     ->setRules([
-        '@PSR2'             => true,
-        'no_unused_imports' => true,
+        '@PSR2'                      => true,
+        'no_unused_imports'          => true,
         'no_superfluous_phpdoc_tags' => false,
-        'phpdoc_summary' => false,
-        'phpdoc_align' => [
+        'phpdoc_summary'             => false,
+        'phpdoc_align'               => [
             'align' => 'vertical',
         ],
         'binary_operator_spaces' => [
