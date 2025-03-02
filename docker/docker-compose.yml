@@ -10,7 +10,7 @@ services:
       # PHP8.4に対応するまで
       PHP_CS_FIXER_IGNORE_ENV: 1
     volumes:
-      - ../src:/var/www
+      - ../:/var/www/html
       - laravel-php-fpm-socket:/var/run/php-fpm
 
   laravel-web:
@@ -21,7 +21,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ../src:/var/www
+      - ../:/var/www/html
       - laravel-php-fpm-socket:/var/run/php-fpm
 
   laravel-db:

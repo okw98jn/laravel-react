@@ -2,32 +2,29 @@
   "name": "Laravel React Development",
   "dockerComposeFile": "../docker/docker-compose.yml",
   "service": "laravel-app",
-  "workspaceFolder": "/var/www",
+  "workspaceFolder": "/var/www/html",
   "customizations": {
     "vscode": {
       "extensions": [
-        "christian-kohler.path-intellisense",
         "bmewburn.vscode-intelephense-client",
         "SanderRonde.phpstan-vscode",
         "junstyle.php-cs-fixer",
         "laravel.vscode-laravel",
         "neilbrayfield.php-docblocker",
-        "streetsidesoftware.code-spell-checker",
         "biomejs.biome",
         "bradlc.vscode-tailwindcss",
         "YoavBls.pretty-ts-errors",
         "ms-vscode.vscode-typescript-next",
         "xabikos.JavaScriptSnippets",
         "dsznajder.es7-react-js-snippets",
-        "formulahendry.auto-close-tag",
-        "formulahendry.auto-rename-tag",
         "ms-azuretools.vscode-docker",
-        "eamodio.gitlens",
-        "donjayamanne.githistory",
+        "streetsidesoftware.code-spell-checker",
         "mhutchie.git-graph",
-        "Gruntfuggly.todo-tree",
-        "vincaslt.highlight-matching-tag",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
         "oderwat.indent-rainbow",
+        "christian-kohler.path-intellisense",
+        "Gruntfuggly.todo-tree",
         "ryannaddy.laravel-artisan"
       ],
       "settings": {
@@ -48,6 +45,7 @@
       "version": "latest",
       "moby": true,
       "dockerDashComposeVersion": "v2"
-    }
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {}
   }
 }

@@ -24,8 +24,6 @@ RUN pecl install redis && \
 
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
-
 COPY ./php.ini /usr/local/etc/php/php.ini
 
 COPY ./zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
