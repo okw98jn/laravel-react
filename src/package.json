@@ -4,7 +4,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite --host",
-    "lint": "biome check"
+    "lint": "biome check",
+    "types": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
