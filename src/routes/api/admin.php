@@ -11,8 +11,5 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(AuthController::class)->group(function () {
-        Route::get('/user', 'user');
-        Route::post('/logout', 'logout');
-    });
+    Route::controller(AuthController::class)->group(function () {});
 });
