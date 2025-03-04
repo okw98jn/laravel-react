@@ -12,8 +12,6 @@ services:
     volumes:
       - ../:/var/www/html:cached
       - laravel-php-fpm-socket:/var/run/php-fpm
-      - laravel-node-modules-volume:/var/www/html/src/node_modules
-      - laravel-vendor-volume:/var/www/html/src/vendor
 
   laravel-web:
     build:
@@ -25,8 +23,6 @@ services:
     volumes:
       - ../:/var/www/html:cached
       - laravel-php-fpm-socket:/var/run/php-fpm
-      - laravel-node-modules-volume:/var/www/html/src/node_modules
-      - laravel-vendor-volume:/var/www/html/src/vendor
 
   laravel-db:
     build:
@@ -58,5 +54,3 @@ volumes:
   laravel-php-fpm-socket:
   laravel-db-volume:
   laravel-redis-volume:
-  laravel-node-modules-volume:
-  laravel-vendor-volume:
