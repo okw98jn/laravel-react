@@ -1,0 +1,42 @@
+name: laravel
+
+on:
+  pull_request:
+    paths:
+      - "**/*.php"
+
+jobs:
+  format_and_lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+    env:
+      PHP_CS_FIXER_IGNORE_ENV: 1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: PHP CS Fixer
+        run: ./vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=.php-cs-fixer.dist.php
+
+      - name: PHPStan
+        run: ./vendor/bin/phpstan analyse -c ./phpstan.neon --memory-limit=2G
