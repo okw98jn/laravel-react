@@ -23,7 +23,7 @@ class AuthController extends Controller
         /** @var array{name: string, email: string, password: string} $validated */
         $validated = $request->validated();
 
-        return new AuthResource($useCase($validated));
+        return new AuthResource($useCase->handle($validated));
     }
 
     /**
@@ -38,6 +38,6 @@ class AuthController extends Controller
         /** @var array{email: string, password: string} $credentials */
         $credentials = $request->validated();
 
-        return new AuthResource($useCase($credentials));
+        return new AuthResource($useCase->handle($credentials));
     }
 }

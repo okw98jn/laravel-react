@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-class LoginUseCase
+final class LoginUseCase
 {
     /**
      * ユーザーをログインさせる
@@ -15,7 +15,7 @@ class LoginUseCase
      * @return User
      * @throws ValidationException
      */
-    public function __invoke(array $credentials): User
+    final public function handle(array $credentials): User
     {
         if (!Auth::attempt($credentials)) {
             throw ValidationException::withMessages([
