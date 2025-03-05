@@ -5,7 +5,7 @@
     "build": "vite build",
     "dev": "vite --host",
     "lint": "biome check",
-    "types": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
