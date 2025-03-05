@@ -32,8 +32,8 @@ services:
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: laravel-db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - laravel-db-volume:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d:ro
