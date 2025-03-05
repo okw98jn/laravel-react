@@ -11,8 +11,6 @@ jobs:
     defaults:
       run:
         working-directory: ./src
-    env:
-      PHP_CS_FIXER_IGNORE_ENV: 1
 
     steps:
       - uses: actions/checkout@v4
@@ -37,6 +35,66 @@ jobs:
 
       - name: PHP CS Fixer
         run: ./vendor/bin/php-cs-fixer fix --diff --dry-run --using-cache=no --config=.php-cs-fixer.dist.php
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
 
       - name: PHPStan
         run: ./vendor/bin/phpstan analyse -c ./phpstan.neon --memory-limit=2G
+
+  test:
+    needs: format_and_lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+
+    services:
+      postgres:
+        image: postgres:17.4
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_pgsql
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Execute tests
+        run: php artisan test --parallel
+        env:
+          DB_HOST: localhost
+          DB_DATABASE: postgres
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
