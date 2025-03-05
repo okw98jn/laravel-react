@@ -2,11 +2,26 @@ name: laravel
 
 on:
   pull_request:
-    paths:
-      - "src/**/*.php"
 
 jobs:
+  check_files:
+    runs-on: ubuntu-latest
+    outputs:
+      php_changed: ${{ steps.filter.outputs.php }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Filter changed files
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            php:
+              - "**/*.php"
+
   format_and_lint:
+    needs: [check_files]
+    if: needs.check_files.outputs.php_changed == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -43,6 +58,7 @@ jobs:
 
   test:
     needs: format_and_lint
+    if: needs.check_files.outputs.php_changed == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
