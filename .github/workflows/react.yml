@@ -10,7 +10,7 @@ on:
 jobs:
   biome:
     runs-on: ubuntu-latest
-      defaults:
+    defaults:
       run:
         working-directory: ./src
     steps:
