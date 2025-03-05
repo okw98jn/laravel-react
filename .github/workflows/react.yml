@@ -10,6 +10,9 @@ on:
 jobs:
   biome:
     runs-on: ubuntu-latest
+      defaults:
+      run:
+        working-directory: ./src
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +30,6 @@ jobs:
           working-dir: ./src
 
       - name: Run Biome
-        working-directory: ./src
         run: biome ci .
 
   typecheck:
