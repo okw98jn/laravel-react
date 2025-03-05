@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            vendor
+            ./src/vendor
             ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
@@ -76,7 +76,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            vendor
+            ./src/vendor
             ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
