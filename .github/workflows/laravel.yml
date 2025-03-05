@@ -3,7 +3,7 @@ name: laravel
 on:
   pull_request:
     paths:
-      - "**/*.php"
+      - "src/**/*.php"
 
 jobs:
   format_and_lint:
