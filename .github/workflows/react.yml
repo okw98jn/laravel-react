@@ -1,0 +1,55 @@
+name: React
+
+on:
+  pull_request:
+    paths:
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/*.css"
+
+jobs:
+  biome:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Biome
+        uses: actions/cache@v4
+        with:
+          path: ~/.biome
+          key: ${{ runner.os }}-biome-${{ hashFiles('biome.toml') }}
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
+      - name: Run Biome
+        run: biome ci .
+
+  typecheck:
+    runs-on: ubuntu-latest
+    needs: biome
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript Type Check
+        run: npm run typecheck
