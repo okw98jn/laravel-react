@@ -29,7 +29,7 @@ class RegisterUseCaseTest extends TestCase
     {
         // テスト用データの準備
         $userData = [
-            'name'     => 'テストユーザー',
+            'name'     => 'テストユーザーa',
             'email'    => 'test@example.com',
             'password' => 'password123'
         ];
