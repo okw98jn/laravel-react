@@ -10,10 +10,6 @@ on:
 jobs:
   biome:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,14 +18,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.biome
-          key: ${{ runner.os }}-biome-${{ hashFiles('biome.toml') }}
+          key: ${{ runner.os }}-biome-${{ hashFiles('**/biome.json') }}
 
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
         with:
           version: latest
+          working-directory: ./src
 
       - name: Run Biome
+        working-directory: ./src
         run: biome ci .
 
   typecheck:
