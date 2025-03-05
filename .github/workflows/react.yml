@@ -20,7 +20,7 @@ jobs:
       - name: Cache Biome
         uses: actions/cache@v4
         with:
-          path: ~/.biome
+          path: ./src/.biome
           key: ${{ runner.os }}-biome-${{ hashFiles('**/biome.json') }}
 
       - name: Setup Biome
