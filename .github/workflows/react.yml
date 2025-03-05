@@ -24,7 +24,7 @@ jobs:
         uses: biomejs/setup-biome@v2
         with:
           version: latest
-          working-directory: ./src
+          working-dir: ./src
 
       - name: Run Biome
         working-directory: ./src
