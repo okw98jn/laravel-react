@@ -27,6 +27,7 @@ class RegisterUseCaseTest extends TestCase
      */
     public function test_user_can_be_registered_with_valid_data(): void
     {
+
         // テスト用データの準備
         $userData = [
             'name'     => 'テストユーザー',
