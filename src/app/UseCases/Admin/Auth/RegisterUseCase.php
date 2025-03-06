@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCases\Api\Admin\Auth;
+namespace App\UseCases\Admin\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;

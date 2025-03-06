@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\UseCases\Api\Admin\Auth;
+namespace Tests\Unit\UseCases\Admin\Auth;
 
 use App\Models\User;
-use App\UseCases\Api\Admin\Auth\RegisterUseCase;
+use App\UseCases\Admin\Auth\RegisterUseCase;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;

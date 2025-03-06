@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Admin\Auth\LoginRequest;
-use App\Http\Requests\Api\Admin\Auth\RegisterRequest;
+use App\Http\Requests\Admin\Auth\LoginRequest;
+use App\Http\Requests\Admin\Auth\RegisterRequest;
 use App\Http\Resources\Auth\AuthResource;
-use App\UseCases\Api\Admin\Auth\LoginUseCase;
-use App\UseCases\Api\Admin\Auth\RegisterUseCase;
+use App\UseCases\Admin\Auth\LoginUseCase;
+use App\UseCases\Admin\Auth\RegisterUseCase;
 
 class AuthController extends Controller
 {
