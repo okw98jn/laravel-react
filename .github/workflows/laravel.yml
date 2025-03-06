@@ -20,17 +20,15 @@ jobs:
         with:
           php-version: "8.4"
 
-      - name: Cache composer dependencies
-        uses: actions/cache@v3
+      - name: Cache Vendor
+        id: cache-vendor
+        uses: actions/cache@v4
         with:
-          path: |
-            ./src/vendor
-            ~/.composer/cache
+          path: ./src/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       - name: Install Dependencies
+        if: steps.cache-vendor.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: PHP CS Fixer
@@ -72,17 +70,15 @@ jobs:
           php-version: "8.4"
           extensions: pdo_pgsql
 
-      - name: Cache composer dependencies
-        uses: actions/cache@v3
+      - name: Cache Vendor
+        id: cache-vendor
+        uses: actions/cache@v4
         with:
-          path: |
-            ./src/vendor
-            ~/.composer/cache
+          path: ./src/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       - name: Install Dependencies
+        if: steps.cache-vendor.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env
