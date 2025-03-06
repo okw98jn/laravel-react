@@ -9,7 +9,7 @@ import { routeTree } from './routeTree.gen';
 
 const router = createRouter({ routeTree });
 
-// スピナー非表示aa
+// スピナー非表示
 NProgress.configure({ showSpinner: false });
 
 // ローディングバー
