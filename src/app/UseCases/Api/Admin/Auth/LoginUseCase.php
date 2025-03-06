@@ -15,7 +15,7 @@ final class LoginUseCase
      * @return User
      * @throws ValidationException
      */
-    final public function handle(array $credentials): User
+    public function handle(array $credentials): User
     {
         if (!Auth::attempt($credentials)) {
             throw ValidationException::withMessages([

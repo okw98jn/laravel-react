@@ -13,7 +13,7 @@ final class RegisterUseCase
      * @param  array{name: string, email: string, password: string} $data
      * @return User
      */
-    final public function handle(array $data): User
+    public function handle(array $data): User
     {
         return User::create([
             'name'     => $data['name'],
