@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin\Auth;
+namespace App\Http\Requests\Admin\Auth\RegisteredUser;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class RegisterRequest extends FormRequest
+final class StoreRequest extends FormRequest
 {
     /**
      * リクエストに適用するバリデーションルールを取得

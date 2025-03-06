@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Admin\Auth;
+namespace Tests\Feature\Admin\Auth\RegisteredUser;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+final class StoreTest extends TestCase
 {
     use RefreshDatabase;
 

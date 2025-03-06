@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Auth;
+namespace App\Http\Requests\Admin\Auth\AuthenticatedSession;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+final class StoreRequest extends FormRequest
 {
     /**
      * リクエストに適用するバリデーションルールを取得

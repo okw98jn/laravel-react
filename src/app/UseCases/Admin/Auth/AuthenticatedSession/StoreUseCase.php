@@ -1,12 +1,12 @@
 <?php
 
-namespace App\UseCases\Admin\Auth;
+namespace App\UseCases\Admin\Auth\AuthenticatedSession;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-final class LoginUseCase
+final class StoreUseCase
 {
     /**
      * ユーザーをログインさせる

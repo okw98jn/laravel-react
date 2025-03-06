@@ -1,25 +1,25 @@
 <?php
 
-namespace Tests\Unit\UseCases\Admin\Auth;
+namespace Tests\Unit\UseCases\Admin\Auth\RegisteredUser;
 
 use App\Models\User;
-use App\UseCases\Admin\Auth\RegisterUseCase;
+use App\UseCases\Admin\Auth\RegisteredUser\StoreUseCase;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-class RegisterUseCaseTest extends TestCase
+final class StoreUseCaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    private RegisterUseCase $useCase;
+    private StoreUseCase $useCase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->useCase = new RegisterUseCase();
+        $this->useCase = new StoreUseCase();
     }
 
     /**
@@ -35,7 +35,7 @@ class RegisterUseCaseTest extends TestCase
         ];
 
         // UseCaseの実行
-        $user = $this->useCase->handle($userData);
+        $user = $this->useCase->handle($userData['name'], $userData['email'], $userData['password']);
 
         // データベースに保存されたことを確認
         $this->assertDatabaseHas('users', [
@@ -71,7 +71,7 @@ class RegisterUseCaseTest extends TestCase
 
         // QueryExceptionが発生することを期待
         $this->expectException(QueryException::class);
-        $this->useCase->handle($userData);
+        $this->useCase->handle($userData['name'], $userData['email'], $userData['password']);
     }
 
     /**
@@ -87,7 +87,7 @@ class RegisterUseCaseTest extends TestCase
 
         // エラーが発生することを期待
         $this->expectException(\ErrorException::class);
-        $this->useCase->handle($missingNameData);
+        $this->useCase->handle($missingNameData['name'], $missingNameData['email'], $missingNameData['password']);
     }
 
     /**
@@ -103,7 +103,7 @@ class RegisterUseCaseTest extends TestCase
 
         // エラーが発生することを期待
         $this->expectException(\ErrorException::class);
-        $this->useCase->handle($missingEmailData);
+        $this->useCase->handle($missingEmailData['name'], $missingEmailData['email'], $missingEmailData['password']);
     }
 
     /**
@@ -119,7 +119,7 @@ class RegisterUseCaseTest extends TestCase
 
         // エラーが発生することを期待
         $this->expectException(\ErrorException::class);
-        $this->useCase->handle($missingPasswordData);
+        $this->useCase->handle($missingPasswordData['name'], $missingPasswordData['email'], $missingPasswordData['password']);
     }
 
     /**
@@ -135,7 +135,7 @@ class RegisterUseCaseTest extends TestCase
         ];
 
         // ユーザーが作成されることを確認
-        $user = $this->useCase->handle($emptyNameData);
+        $user = $this->useCase->handle($emptyNameData['name'], $emptyNameData['email'], $emptyNameData['password']);
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('', $user->name);
 
@@ -159,7 +159,7 @@ class RegisterUseCaseTest extends TestCase
         ];
 
         // UseCaseの実行
-        $user = $this->useCase->handle($specialCharsData);
+        $user = $this->useCase->handle($specialCharsData['name'], $specialCharsData['email'], $specialCharsData['password']);
 
         // データが正しく保存されていることを確認
         $this->assertEquals('特殊文字テスト！＠＃＄％', $user->name);
@@ -181,7 +181,7 @@ class RegisterUseCaseTest extends TestCase
         ];
 
         // UseCaseの実行
-        $user = $this->useCase->handle($longData);
+        $user = $this->useCase->handle($longData['name'], $longData['email'], $longData['password']);
 
         // データが正しく保存されていることを確認
         $this->assertEquals($longName, $user->name);

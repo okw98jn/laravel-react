@@ -13,7 +13,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read \Illuminate\Support\Carbon $created_at
  * @property-read \Illuminate\Support\Carbon $updated_at
  */
-class AuthResource extends JsonResource
+final class AuthResource extends JsonResource
 {
     /**
      * リソースを配列に変換
