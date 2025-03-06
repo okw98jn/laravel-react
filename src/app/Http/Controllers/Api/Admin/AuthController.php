@@ -23,6 +23,7 @@ class AuthController extends Controller
         /** @var array{name: string, email: string, password: string} $validated */
         $validated = $request->validated();
 
+
         return new AuthResource($useCase->handle($validated));
     }
 
