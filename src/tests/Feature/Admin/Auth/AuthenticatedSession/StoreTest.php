@@ -11,7 +11,7 @@ final class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const LOGIN_ENDPOINT = '/api/admin/login';
+    private const LOGIN_ROUTE = 'admin.login';
 
     /**
      * 有効な認証情報でログインできることをテスト
@@ -29,7 +29,7 @@ final class StoreTest extends TestCase
             'password' => 'password123',
         ];
 
-        $response = $this->postJson(self::LOGIN_ENDPOINT, $loginData);
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $loginData);
 
         $response
             ->assertStatus(Response::HTTP_OK)
@@ -66,7 +66,7 @@ final class StoreTest extends TestCase
             'password' => 'wrong-password',
         ];
 
-        $response = $this->postJson(self::LOGIN_ENDPOINT, $invalidPasswordData);
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $invalidPasswordData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -83,7 +83,7 @@ final class StoreTest extends TestCase
             'password' => 'password123',
         ];
 
-        $response = $this->postJson(self::LOGIN_ENDPOINT, $nonExistentEmailData);
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $nonExistentEmailData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -99,7 +99,7 @@ final class StoreTest extends TestCase
             'password' => 'password123',
         ];
 
-        $response = $this->postJson(self::LOGIN_ENDPOINT, $missingEmailData);
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $missingEmailData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -115,7 +115,7 @@ final class StoreTest extends TestCase
             'email' => 'test@example.com',
         ];
 
-        $response = $this->postJson(self::LOGIN_ENDPOINT, $missingPasswordData);
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $missingPasswordData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)

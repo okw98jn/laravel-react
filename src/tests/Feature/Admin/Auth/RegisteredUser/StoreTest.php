@@ -11,7 +11,7 @@ final class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const REGISTER_ENDPOINT = '/api/admin/register';
+    private const REGISTER_ROUTE = 'admin.register';
 
     /**
      * 有効なデータでユーザー登録できることをテスト
@@ -25,7 +25,7 @@ final class StoreTest extends TestCase
             'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(self::REGISTER_ENDPOINT, $userData);
+        $response = $this->postJson(route(self::REGISTER_ROUTE), $userData);
 
         $response
             ->assertStatus(Response::HTTP_CREATED)
@@ -59,7 +59,7 @@ final class StoreTest extends TestCase
             'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(self::REGISTER_ENDPOINT, $invalidEmailData);
+        $response = $this->postJson(route(self::REGISTER_ROUTE), $invalidEmailData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -78,7 +78,7 @@ final class StoreTest extends TestCase
             'password_confirmation' => 'different-password',
         ];
 
-        $response = $this->postJson(self::REGISTER_ENDPOINT, $invalidPasswordData);
+        $response = $this->postJson(route(self::REGISTER_ROUTE), $invalidPasswordData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -94,7 +94,7 @@ final class StoreTest extends TestCase
             'name' => 'テストユーザー',
         ];
 
-        $response = $this->postJson(self::REGISTER_ENDPOINT, $missingFieldsData);
+        $response = $this->postJson(route(self::REGISTER_ROUTE), $missingFieldsData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -118,7 +118,7 @@ final class StoreTest extends TestCase
             'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(self::REGISTER_ENDPOINT, $duplicateEmailData);
+        $response = $this->postJson(route(self::REGISTER_ROUTE), $duplicateEmailData);
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
