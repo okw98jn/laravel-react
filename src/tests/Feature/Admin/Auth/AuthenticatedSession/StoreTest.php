@@ -38,6 +38,7 @@ final class StoreTest extends TestCase
                     'id',
                     'name',
                     'email',
+                    'email_verified_at',
                     'created_at',
                     'updated_at',
                 ],
@@ -46,8 +47,12 @@ final class StoreTest extends TestCase
                 'data' => [
                     'id'    => $user->id,
                     'email' => 'login@example.com',
+                    'name'  => $user->name,
                 ],
             ]);
+
+        // セッションにユーザーIDが保存されていることを確認
+        $this->assertAuthenticated();
     }
 
     /**
@@ -73,6 +78,9 @@ final class StoreTest extends TestCase
             ->assertJson([
                 'message' => 'Unauthenticated.',
             ]);
+
+        // 認証されていないことを確認
+        $this->assertGuest();
     }
 
     /**
@@ -92,6 +100,9 @@ final class StoreTest extends TestCase
             ->assertJson([
                 'message' => 'Unauthenticated.',
             ]);
+
+        // 認証されていないことを確認
+        $this->assertGuest();
     }
 
     /**
@@ -108,6 +119,9 @@ final class StoreTest extends TestCase
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrors(['email']);
+
+        // 認証されていないことを確認
+        $this->assertGuest();
     }
 
     /**
@@ -124,5 +138,107 @@ final class StoreTest extends TestCase
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrors(['password']);
+
+        // 認証されていないことを確認
+        $this->assertGuest();
+    }
+
+    /**
+     * 無効なメールアドレス形式でログインできないことをテスト
+     */
+    public function test_cannot_login_with_invalid_email_format(): void
+    {
+        $invalidEmailData = [
+            'email'    => 'invalid-email',
+            'password' => 'password123',
+        ];
+
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $invalidEmailData);
+
+        $response
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrors(['email']);
+
+        // 認証されていないことを確認
+        $this->assertGuest();
+    }
+
+    /**
+     * ログイン後にセッションが再生成されることをテスト
+     */
+    public function test_session_is_regenerated_after_login(): void
+    {
+        // ユーザーを作成
+        User::factory()->create([
+            'email'    => 'login@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $loginData = [
+            'email'    => 'login@example.com',
+            'password' => 'password123',
+        ];
+
+        // セッションIDを取得
+        $sessionId = session()->getId();
+
+        // ログインリクエスト
+        $this->postJson(route(self::LOGIN_ROUTE), $loginData);
+
+        // セッションIDが変更されていることを確認
+        $this->assertNotEquals($sessionId, session()->getId());
+    }
+
+    /**
+     * 連続した失敗ログイン試行のテスト
+     */
+    public function test_consecutive_failed_login_attempts(): void
+    {
+        // ユーザーを作成
+        User::factory()->create([
+            'email'    => 'login@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $invalidPasswordData = [
+            'email'    => 'login@example.com',
+            'password' => 'wrong-password',
+        ];
+
+        // 複数回の失敗ログイン試行
+        for ($i = 0; $i < 3; $i++) {
+            $response = $this->postJson(route(self::LOGIN_ROUTE), $invalidPasswordData);
+            $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        }
+
+        // 正しい認証情報でログイン
+        $validPasswordData = [
+            'email'    => 'login@example.com',
+            'password' => 'password123',
+        ];
+
+        $response = $this->postJson(route(self::LOGIN_ROUTE), $validPasswordData);
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertAuthenticated();
+    }
+
+    /**
+     * ログイン済みユーザーがログインエンドポイントにアクセスできないことをテスト
+     */
+    public function test_authenticated_user_cannot_access_login_endpoint(): void
+    {
+        // ユーザーを作成して認証
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // 認証済みであることを確認
+        $this->assertAuthenticated();
+
+        // ログインエンドポイントにアクセス
+        $response = $this->postJson(route(self::LOGIN_ROUTE), []);
+
+        // リダイレクトされることを確認（ゲストミドルウェアの動作）
+        $response->assertStatus(Response::HTTP_FOUND);
     }
 }
