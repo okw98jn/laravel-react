@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as AdminauthRouteImport } from './routes/admin/(auth)/route'
+import { Route as AdminAuthenticatedIndexImport } from './routes/admin/_authenticated/index'
 import { Route as AdminauthRegisterImport } from './routes/admin/(auth)/register'
 import { Route as AdminauthLoginImport } from './routes/admin/(auth)/login'
 
@@ -38,6 +39,12 @@ const IndexRoute = IndexImport.update({
 
 const AdminauthRouteRoute = AdminauthRouteImport.update({
   id: '/admin/(auth)',
+  getParentRoute: () => AdminRoute,
+} as any)
+
+const AdminAuthenticatedIndexRoute = AdminAuthenticatedIndexImport.update({
+  id: '/_authenticated/',
+  path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -92,6 +99,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminauthRegisterImport
       parentRoute: typeof AdminauthRouteImport
     }
+    '/admin/_authenticated/': {
+      id: '/admin/_authenticated/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminAuthenticatedIndexImport
+      parentRoute: typeof AdminImport
+    }
   }
 }
 
@@ -113,10 +127,12 @@ const AdminauthRouteRouteWithChildren = AdminauthRouteRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminauthRouteRoute: typeof AdminauthRouteRouteWithChildren
+  AdminAuthenticatedIndexRoute: typeof AdminAuthenticatedIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminauthRouteRoute: AdminauthRouteRouteWithChildren,
+  AdminAuthenticatedIndexRoute: AdminAuthenticatedIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -126,11 +142,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminauthRouteRouteWithChildren
   '/admin/login': typeof AdminauthLoginRoute
   '/admin/register': typeof AdminauthRegisterRoute
+  '/admin/': typeof AdminAuthenticatedIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminauthRouteRouteWithChildren
+  '/admin': typeof AdminAuthenticatedIndexRoute
   '/admin/login': typeof AdminauthLoginRoute
   '/admin/register': typeof AdminauthRegisterRoute
 }
@@ -142,11 +159,12 @@ export interface FileRoutesById {
   '/admin/(auth)': typeof AdminauthRouteRouteWithChildren
   '/admin/(auth)/login': typeof AdminauthLoginRoute
   '/admin/(auth)/register': typeof AdminauthRegisterRoute
+  '/admin/_authenticated/': typeof AdminAuthenticatedIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/admin/login' | '/admin/register'
+  fullPaths: '/' | '/admin' | '/admin/login' | '/admin/register' | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/admin' | '/admin/login' | '/admin/register'
   id:
@@ -156,6 +174,7 @@ export interface FileRouteTypes {
     | '/admin/(auth)'
     | '/admin/(auth)/login'
     | '/admin/(auth)/register'
+    | '/admin/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 
@@ -189,7 +208,8 @@ export const routeTree = rootRoute
     "/admin": {
       "filePath": "admin/(auth)",
       "children": [
-        "/admin/(auth)"
+        "/admin/(auth)",
+        "/admin/_authenticated/"
       ]
     },
     "/admin/(auth)": {
@@ -207,6 +227,10 @@ export const routeTree = rootRoute
     "/admin/(auth)/register": {
       "filePath": "admin/(auth)/register.tsx",
       "parent": "/admin/(auth)"
+    },
+    "/admin/_authenticated/": {
+      "filePath": "admin/_authenticated/index.tsx",
+      "parent": "/admin"
     }
   }
 }
