@@ -124,4 +124,24 @@ final class StoreTest extends TestCase
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrors(['email']);
     }
+
+    /**
+     * ログイン済みユーザーが登録エンドポイントにアクセスできないことをテスト
+     */
+    public function test_authenticated_user_cannot_access_register_endpoint(): void
+    {
+        // ログイン
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // 認証済みであることを確認
+        $this->assertAuthenticated();
+
+        // 登録エンドポイントにアクセス
+        $response = $this->postJson(route(self::REGISTER_ROUTE), []);
+
+        // リダイレクトされることを確認（ゲストミドルウェアの動作）
+        $response->assertStatus(Response::HTTP_FOUND);
+    }
 }
