@@ -3,7 +3,6 @@
 namespace App\UseCases\Admin\Auth\RegisteredUser;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 final class StoreUseCase
@@ -23,8 +22,6 @@ final class StoreUseCase
             'email'    => $email,
             'password' => Hash::make($password),
         ]);
-
-        Auth::login($user);
 
         return $user;
     }
