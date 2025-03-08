@@ -1,7 +1,7 @@
 import {
   type LoginSchemaType,
   loginSchema,
-} from '@/features/admin/auth/login/schema';
+} from '@/features/admin/auth/schema/login';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 

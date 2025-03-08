@@ -6,8 +6,8 @@ import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
 import { SocialAuth } from '@/features/admin/auth/components/social-auth';
-import { useRegisterForm } from '@/features/admin/auth/register/hooks/use-register-form';
-import type { RegisterSchemaType } from '@/features/admin/auth/register/schema';
+import { useRegisterForm } from '@/features/admin/auth/hooks/use-register-form';
+import type { RegisterSchemaType } from '@/features/admin/auth/schema/register';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/(auth)/register')({

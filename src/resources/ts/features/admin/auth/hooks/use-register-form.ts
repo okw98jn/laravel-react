@@ -1,7 +1,7 @@
 import {
   type RegisterSchemaType,
   registerSchema,
-} from '@/features/admin/auth/register/schema';
+} from '@/features/admin/auth/schema/register';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 

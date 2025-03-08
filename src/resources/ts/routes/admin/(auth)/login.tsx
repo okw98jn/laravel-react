@@ -6,8 +6,8 @@ import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
 import { SocialAuth } from '@/features/admin/auth/components/social-auth';
-import { useLoginForm } from '@/features/admin/auth/login/hooks/use-login-form';
-import type { LoginSchemaType } from '@/features/admin/auth/login/schema';
+import { useLoginForm } from '@/features/admin/auth/hooks/use-login-form';
+import type { LoginSchemaType } from '@/features/admin/auth/schema/login';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/(auth)/login')({
