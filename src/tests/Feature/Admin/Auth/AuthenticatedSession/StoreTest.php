@@ -69,8 +69,10 @@ final class StoreTest extends TestCase
         $response = $this->postJson(route(self::LOGIN_ROUTE), $invalidPasswordData);
 
         $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email']);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson([
+                'message' => 'Unauthenticated.',
+            ]);
     }
 
     /**
@@ -86,8 +88,10 @@ final class StoreTest extends TestCase
         $response = $this->postJson(route(self::LOGIN_ROUTE), $nonExistentEmailData);
 
         $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email']);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson([
+                'message' => 'Unauthenticated.',
+            ]);
     }
 
     /**
