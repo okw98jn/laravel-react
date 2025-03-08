@@ -1,7 +1,13 @@
+import { Input } from '@/components/form/input';
+import { Password } from '@/components/form/password';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
 import { SocialAuth } from '@/features/admin/auth/components/social-auth';
+import { useRegisterForm } from '@/features/admin/auth/register/hooks/use-register-form';
+import type { RegisterSchemaType } from '@/features/admin/auth/register/schema';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/(auth)/register')({
@@ -9,10 +15,40 @@ export const Route = createFileRoute('/admin/(auth)/register')({
 });
 
 function RouteComponent() {
+  const { form, onSubmit } = useRegisterForm();
+
   return (
     <>
       <Header text="新規登録" />
-      <div className="w-96 mx-auto">
+      <div className="w-96 mx-auto space-y-4">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <Input<RegisterSchemaType>
+              name="name"
+              label="名前"
+              autoComplete="name"
+            />
+            <Input<RegisterSchemaType>
+              name="email"
+              label="メールアドレス"
+              type="email"
+              autoComplete="email"
+            />
+            <Password<RegisterSchemaType>
+              name="password"
+              label="パスワード"
+              autoComplete="current-password"
+            />
+            <Password<RegisterSchemaType>
+              name="password_confirmation"
+              label="パスワード（確認）"
+              autoComplete="new-password"
+            />
+            <Button type="submit" size="full">
+              新規登録
+            </Button>
+          </form>
+        </Form>
         <Separator />
         <SocialAuth />
       </div>

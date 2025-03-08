@@ -1,6 +1,9 @@
+import {
+  type LoginSchemaType,
+  loginSchema,
+} from '@/features/admin/auth/login/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { type LoginSchemaType, loginSchema } from '../schema';
 
 export const useLoginForm = () => {
   const defaultValues: LoginSchemaType = {
