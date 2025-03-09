@@ -2,6 +2,7 @@ import { Input } from '@/components/form/input';
 import { Password } from '@/components/form/password';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useRegister } from '@/features/admin/auth/api/register';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
@@ -15,14 +16,18 @@ export const Route = createFileRoute('/admin/(auth)/register')({
 });
 
 function RouteComponent() {
-  const { form, onSubmit } = useRegisterForm();
+  const { form } = useRegisterForm();
+  const { mutate, isPending } = useRegister();
 
   return (
     <>
       <Header text="新規登録" />
       <div className="w-96 mx-auto space-y-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit((data) => mutate(data))}
+            className="space-y-4"
+          >
             <Input<RegisterSchemaType>
               name="name"
               label="名前"
@@ -44,7 +49,7 @@ function RouteComponent() {
               label="パスワード（確認）"
               autoComplete="new-password"
             />
-            <Button type="submit" size="full">
+            <Button type="submit" size="full" isPending={isPending}>
               新規登録
             </Button>
           </form>

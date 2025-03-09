@@ -18,12 +18,5 @@ export const useRegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterSchemaType) => {
-    console.log(data);
-  };
-
-  return {
-    form,
-    onSubmit,
-  };
+  return { form };
 };
