@@ -2,6 +2,7 @@ import { Input } from '@/components/form/input';
 import { Password } from '@/components/form/password';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useLogin } from '@/features/admin/auth/api/login';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
@@ -15,14 +16,18 @@ export const Route = createFileRoute('/admin/(auth)/login')({
 });
 
 function RouteComponent() {
-  const { form, onSubmit } = useLoginForm();
+  const { form } = useLoginForm();
+  const { mutate, isPending } = useLogin();
 
   return (
     <>
       <Header text="ログイン" />
       <div className="w-96 mx-auto space-y-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit((data) => mutate(data))}
+            className="space-y-4"
+          >
             <Input<LoginSchemaType>
               name="email"
               label="メールアドレス"
@@ -36,7 +41,7 @@ function RouteComponent() {
               autoComplete="current-password"
               placeholder="********"
             />
-            <Button type="submit" size="full">
+            <Button type="submit" size="full" isPending={isPending}>
               ログイン
             </Button>
           </form>

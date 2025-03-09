@@ -16,12 +16,5 @@ export const useLoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginSchemaType) => {
-    console.log(data);
-  };
-
-  return {
-    form,
-    onSubmit,
-  };
+  return { form };
 };
