@@ -15,6 +15,7 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    // 上位のコンポーネントで例外を処理するためここでは何もしない
     return Promise.reject(error);
   },
 );

@@ -1,4 +1,4 @@
-import GeneralError from '@/components/errors/general-error';
+import ErrorHandler from '@/components/errors/error-handler';
 import NotFoundError from '@/components/errors/not-found-error';
 import type { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -18,5 +18,5 @@ export const Route = createRootRouteWithContext<{
     );
   },
   notFoundComponent: NotFoundError,
-  errorComponent: GeneralError,
+  errorComponent: (error) => <ErrorHandler error={error} />,
 });

@@ -5,10 +5,13 @@ import ReactDOM from 'react-dom/client';
 import '../css/app.css';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-
+import { defaultQueryConfig } from '@/lib/tanstack-query';
 import { routeTree } from './routeTree.gen';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: defaultQueryConfig,
+});
+
 const router = createRouter({ routeTree, context: { queryClient } });
 
 // スピナー非表示
