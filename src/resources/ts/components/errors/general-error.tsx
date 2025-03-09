@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { HTTP_STATUS } from '@/constants/http-status';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 
 export default function GeneralError() {
@@ -8,7 +9,9 @@ export default function GeneralError() {
   return (
     <div className="h-svh w-full">
       <div className="m-auto flex h-full w-full flex-col items-center justify-center gap-2">
-        <h1 className="text-[7rem] font-bold leading-tight">500</h1>
+        <h1 className="text-[7rem] font-bold leading-tight">
+          {HTTP_STATUS.INTERNAL_SERVER_ERROR}
+        </h1>
         <span className="font-medium">システムエラーが発生しました</span>
         <p className="text-center text-muted-foreground">
           現在、一時的な障害が発生しております。

@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { HTTP_STATUS } from '@/constants/http-status';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 
 export default function ForbiddenError() {
@@ -8,7 +9,9 @@ export default function ForbiddenError() {
   return (
     <div className="h-svh w-full">
       <div className="m-auto flex h-full w-full flex-col items-center justify-center gap-2">
-        <h1 className="text-[7rem] font-bold leading-tight">403</h1>
+        <h1 className="text-[7rem] font-bold leading-tight">
+          {HTTP_STATUS.FORBIDDEN}
+        </h1>
         <span className="font-medium">アクセスが拒否されました</span>
         <p className="text-center text-muted-foreground">
           このページにアクセスする権限がありません。

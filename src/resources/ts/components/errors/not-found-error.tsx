@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { HTTP_STATUS } from '@/constants/http-status';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 
 export default function NotFoundError() {
@@ -8,7 +9,9 @@ export default function NotFoundError() {
   return (
     <div className="h-svh">
       <div className="m-auto flex h-full w-full flex-col items-center justify-center gap-2">
-        <h1 className="text-[7rem] font-bold leading-tight">404</h1>
+        <h1 className="text-[7rem] font-bold leading-tight">
+          {HTTP_STATUS.NOT_FOUND}
+        </h1>
         <span className="font-medium">ページが見つかりません</span>
         <p className="text-center text-muted-foreground">
           お探しのページは存在しないか、削除された可能性があります。
