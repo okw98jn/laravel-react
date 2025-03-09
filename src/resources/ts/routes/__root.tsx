@@ -18,5 +18,6 @@ export const Route = createRootRouteWithContext<{
     );
   },
   notFoundComponent: NotFoundError,
+  // キャッチされなかった例外はここで処理
   errorComponent: (error) => <ErrorHandler error={error} />,
 });
