@@ -28,11 +28,13 @@ function RouteComponent() {
               label="メールアドレス"
               type="email"
               autoComplete="email"
+              placeholder="example@example.com"
             />
             <Password<LoginSchemaType>
               name="password"
               label="パスワード"
               autoComplete="current-password"
+              placeholder="********"
             />
             <Button type="submit" size="full">
               ログイン

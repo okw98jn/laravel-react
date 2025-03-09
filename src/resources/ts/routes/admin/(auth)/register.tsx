@@ -32,22 +32,26 @@ function RouteComponent() {
               name="name"
               label="名前"
               autoComplete="name"
+              placeholder="山田太郎"
             />
             <Input<RegisterSchemaType>
               name="email"
               label="メールアドレス"
               type="email"
               autoComplete="email"
+              placeholder="example@example.com"
             />
             <Password<RegisterSchemaType>
               name="password"
               label="パスワード"
               autoComplete="current-password"
+              placeholder="********"
             />
             <Password<RegisterSchemaType>
               name="password_confirmation"
               label="パスワード（確認）"
               autoComplete="new-password"
+              placeholder="********"
             />
             <Button type="submit" size="full" isPending={isPending}>
               新規登録
