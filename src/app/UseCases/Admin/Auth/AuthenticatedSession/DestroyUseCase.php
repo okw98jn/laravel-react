@@ -15,7 +15,7 @@ final class DestroyUseCase
      */
     public function handle(Request $request): void
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
