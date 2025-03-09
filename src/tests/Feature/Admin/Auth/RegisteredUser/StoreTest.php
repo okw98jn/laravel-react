@@ -63,7 +63,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'email' => 'メールアドレスには、有効なメールアドレスを指定してください。',
+                ],
+            ]);
     }
 
     /**
@@ -82,7 +87,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['password']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'password' => 'パスワードと、確認フィールドが、一致していません。',
+                ],
+            ]);
     }
 
     /**
@@ -98,7 +108,13 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email', 'password']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'email'    => 'メールアドレスは必ず指定してください。',
+                    'password' => 'パスワードは必ず指定してください。',
+                ],
+            ]);
     }
 
     /**
@@ -122,7 +138,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'email' => 'メールアドレスの値は既に存在しています。',
+                ],
+            ]);
     }
 
     /**
@@ -142,6 +163,6 @@ final class StoreTest extends TestCase
         $response = $this->postJson(route(self::REGISTER_ROUTE), []);
 
         // リダイレクトされることを確認（ゲストミドルウェアの動作）
-        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

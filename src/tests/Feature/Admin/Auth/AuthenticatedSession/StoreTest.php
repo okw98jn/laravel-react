@@ -76,7 +76,8 @@ final class StoreTest extends TestCase
         $response
             ->assertStatus(Response::HTTP_UNAUTHORIZED)
             ->assertJson([
-                'message' => 'Unauthenticated.',
+                'message' => 'Unauthenticated',
+                'body'    => [],
             ]);
 
         // 認証されていないことを確認
@@ -98,7 +99,8 @@ final class StoreTest extends TestCase
         $response
             ->assertStatus(Response::HTTP_UNAUTHORIZED)
             ->assertJson([
-                'message' => 'Unauthenticated.',
+                'message' => 'Unauthenticated',
+                'body'    => [],
             ]);
 
         // 認証されていないことを確認
@@ -118,7 +120,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'email' => 'メールアドレスは必ず指定してください。',
+                ],
+            ]);
 
         // 認証されていないことを確認
         $this->assertGuest();
@@ -137,7 +144,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['password']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'password' => 'パスワードは必ず指定してください。',
+                ],
+            ]);
 
         // 認証されていないことを確認
         $this->assertGuest();
@@ -157,7 +169,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJson([
+                'message' => 'Validation Error',
+                'body'    => [
+                    'email' => 'メールアドレスには、有効なメールアドレスを指定してください。',
+                ],
+            ]);
 
         // 認証されていないことを確認
         $this->assertGuest();
@@ -239,6 +256,6 @@ final class StoreTest extends TestCase
         $response = $this->postJson(route(self::LOGIN_ROUTE), []);
 
         // リダイレクトされることを確認（ゲストミドルウェアの動作）
-        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

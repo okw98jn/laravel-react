@@ -42,6 +42,11 @@ final class DestroyTest extends TestCase
     {
         $response = $this->postJson(route(self::LOGOUT_ROUTE));
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response
+            ->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJson([
+                'message' => 'Unauthenticated',
+                'body'    => [],
+            ]);
     }
 }
