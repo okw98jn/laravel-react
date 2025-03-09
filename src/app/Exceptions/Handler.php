@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ final class Handler
      */
     public function handleExceptions(Exceptions $exceptions): void
     {
-        $exceptions->render(function (UnauthorizedHttpException $e, Request $request) {
+        $exceptions->render(function (UnauthorizedHttpException|AuthenticationException $e, Request $request) {
             return $this->jsonResponse(__('error.401'), [], Response::HTTP_UNAUTHORIZED);
         });
 
