@@ -2,7 +2,7 @@ import github from '@/assets/images/github.png';
 import google from '@/assets/images/google.png';
 import { Button } from '@/components/ui/button';
 
-export function SocialAuth() {
+export function SocialLogin() {
   const providers = [
     { name: 'Google', icon: google },
     { name: 'GitHub', icon: github },

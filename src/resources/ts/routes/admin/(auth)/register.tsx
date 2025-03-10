@@ -6,7 +6,7 @@ import { useRegister } from '@/features/admin/auth/api/register';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
-import { SocialAuth } from '@/features/admin/auth/components/social-auth';
+import { SocialLogin } from '@/features/admin/auth/components/social-login';
 import { useRegisterForm } from '@/features/admin/auth/hooks/use-register-form';
 import type { RegisterSchemaType } from '@/features/admin/auth/schema/register';
 import { createFileRoute } from '@tanstack/react-router';
@@ -59,7 +59,7 @@ function RouteComponent() {
           </form>
         </Form>
         <Separator />
-        <SocialAuth />
+        <SocialLogin />
       </div>
       <Footer text="ログインは" to="/admin/login" />
     </>
