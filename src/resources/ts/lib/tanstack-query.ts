@@ -4,7 +4,4 @@ export const defaultQueryConfig = {
   queries: {
     throwOnError: true,
   },
-  mutations: {
-    throwOnError: true,
-  },
 } satisfies DefaultOptions;
