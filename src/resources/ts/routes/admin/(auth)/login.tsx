@@ -2,9 +2,9 @@ import { Input } from '@/components/form/input';
 import { Password } from '@/components/form/password';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useLogin } from '@/features/admin/auth/api/login';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
+import { LoginFailedMessage } from '@/features/admin/auth/components/login-failed-message';
 import { Separator } from '@/features/admin/auth/components/separator';
 import { SocialLogin } from '@/features/admin/auth/components/social-login';
 import { useLoginForm } from '@/features/admin/auth/hooks/use-login-form';
@@ -16,18 +16,14 @@ export const Route = createFileRoute('/admin/(auth)/login')({
 });
 
 function RouteComponent() {
-  const { form } = useLoginForm();
-  const { mutate, isPending } = useLogin();
+  const { form, errors, isPending, onSubmit } = useLoginForm();
 
   return (
     <>
       <Header text="ログイン" />
       <div className="w-96 mx-auto space-y-4">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((data) => mutate(data))}
-            className="space-y-4"
-          >
+          <form onSubmit={onSubmit} className="space-y-4">
             <Input<LoginSchemaType>
               name="email"
               label="メールアドレス"
@@ -46,6 +42,12 @@ function RouteComponent() {
             </Button>
           </form>
         </Form>
+        {errors.root && (
+          <LoginFailedMessage
+            title="ログイン失敗"
+            message="メールアドレスかパスワードが間違っています。"
+          />
+        )}
         <Separator />
         <SocialLogin />
       </div>
