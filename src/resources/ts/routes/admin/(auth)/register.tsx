@@ -1,5 +1,5 @@
-import { Input } from '@/components/form/input';
-import { Password } from '@/components/form/password';
+import { FormInput } from '@/components/form/form-input';
+import { FormPassword } from '@/components/form/form-password';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useRegister } from '@/features/admin/auth/api/register';
@@ -28,26 +28,26 @@ function RouteComponent() {
             onSubmit={form.handleSubmit((data) => mutate(data))}
             className="space-y-4"
           >
-            <Input<RegisterSchemaType>
+            <FormInput<RegisterSchemaType>
               name="name"
               label="名前"
               autoComplete="name"
               placeholder="山田太郎"
             />
-            <Input<RegisterSchemaType>
+            <FormInput<RegisterSchemaType>
               name="email"
               label="メールアドレス"
               type="email"
               autoComplete="email"
               placeholder="example@example.com"
             />
-            <Password<RegisterSchemaType>
+            <FormPassword<RegisterSchemaType>
               name="password"
               label="パスワード"
               autoComplete="current-password"
               placeholder="********"
             />
-            <Password<RegisterSchemaType>
+            <FormPassword<RegisterSchemaType>
               name="password_confirmation"
               label="パスワード（確認）"
               autoComplete="new-password"

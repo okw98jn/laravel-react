@@ -1,5 +1,5 @@
-import { Input } from '@/components/form/input';
-import { Password } from '@/components/form/password';
+import { FormInput } from '@/components/form/form-input';
+import { FormPassword } from '@/components/form/form-password';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Footer } from '@/features/admin/auth/components/footer';
@@ -24,14 +24,14 @@ function RouteComponent() {
       <div className="w-96 mx-auto space-y-4">
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-4">
-            <Input<LoginSchemaType>
+            <FormInput<LoginSchemaType>
               name="email"
               label="メールアドレス"
               type="email"
               autoComplete="email"
               placeholder="example@example.com"
             />
-            <Password<LoginSchemaType>
+            <FormPassword<LoginSchemaType>
               name="password"
               label="パスワード"
               autoComplete="current-password"

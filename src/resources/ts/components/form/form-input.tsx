@@ -14,7 +14,7 @@ interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export function Input<S>({ name, label, ...props }: Props<S>) {
+export function FormInput<S>({ name, label, ...props }: Props<S>) {
   const form = useFormContext();
 
   return (

@@ -16,7 +16,7 @@ interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export function Password<S>({ name, label, ...props }: Props<S>) {
+export function FormPassword<S>({ name, label, ...props }: Props<S>) {
   const form = useFormContext();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
