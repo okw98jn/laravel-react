@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { HTTP_STATUS } from '@/constants/http-status';
+import axios, { type AxiosError } from 'axios';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -15,7 +16,33 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    // 上位のコンポーネントで例外を処理するためここでは何もしない
+    // APIの使用側でエラーを処理するためここでは何もしない
     return Promise.reject(error);
   },
 );
+
+/**
+ * 認証エラーかどうかを判定する
+ *
+ * @param error - エラー
+ * @returns 認証エラーかどうか
+ */
+export const isUnauthorizedError = (error: unknown): error is AxiosError => {
+  return (
+    axios.isAxiosError(error) &&
+    error.response?.status === HTTP_STATUS.UNAUTHORIZED
+  );
+};
+
+/**
+ * バリデーションエラーかどうかを判定する
+ *
+ * @param error - エラー
+ * @returns バリデーションエラーかどうか
+ */
+export const isValidationError = (error: unknown): error is AxiosError => {
+  return (
+    axios.isAxiosError(error) &&
+    error.response?.status === HTTP_STATUS.UNPROCESSABLE_ENTITY
+  );
+};
