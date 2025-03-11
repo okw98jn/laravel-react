@@ -2,7 +2,6 @@ import { FormInput } from '@/components/form/form-input';
 import { FormPassword } from '@/components/form/form-password';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useRegister } from '@/features/admin/auth/api/register';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
 import { Separator } from '@/features/admin/auth/components/separator';
@@ -16,18 +15,14 @@ export const Route = createFileRoute('/admin/(auth)/register')({
 });
 
 function RouteComponent() {
-  const { form } = useRegisterForm();
-  const { mutate, isPending } = useRegister();
+  const { form, isPending, onSubmit } = useRegisterForm();
 
   return (
     <>
       <Header text="新規登録" />
       <div className="w-96 mx-auto space-y-4">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((data) => mutate(data))}
-            className="space-y-4"
-          >
+          <form onSubmit={onSubmit} className="space-y-4">
             <FormInput<RegisterSchemaType>
               name="name"
               label="名前"

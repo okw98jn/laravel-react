@@ -1,11 +1,19 @@
+import { useRegister } from '@/features/admin/auth/api/register';
 import {
   type RegisterSchemaType,
   registerSchema,
 } from '@/features/admin/auth/schema/register';
+import { isValidationError } from '@/lib/api-client';
+import { setApiValidationError } from '@/lib/form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export const useRegisterForm = () => {
+  const navigate = useNavigate();
+  const { mutate, isPending } = useRegister();
+
   const defaultValues: RegisterSchemaType = {
     name: '',
     email: '',
@@ -18,5 +26,25 @@ export const useRegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  return { form };
+  const handleSuccess = () => {
+    navigate({ to: '/admin' });
+    toast.success('新規登録が完了しました。');
+  };
+
+  const handleError = (error: Error) => {
+    if (isValidationError(error)) {
+      setApiValidationError<RegisterSchemaType>(error, form.setError);
+      return;
+    }
+    toast.error('新規登録に失敗しました。');
+  };
+
+  const onSubmit = form.handleSubmit((data) => {
+    mutate(data, {
+      onSuccess: handleSuccess,
+      onError: handleError,
+    });
+  });
+
+  return { form, isPending, onSubmit };
 };
