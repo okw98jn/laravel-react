@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export const useLoginForm = () => {
+  const navigate = useNavigate();
   const { mutate, isPending } = useLogin();
 
   const defaultValues: LoginSchemaType = {
@@ -26,7 +27,6 @@ export const useLoginForm = () => {
   const { errors } = form.formState;
 
   const handleSuccess = () => {
-    const navigate = useNavigate();
     navigate({ to: '/admin' });
     toast.success('ログインしました。');
   };
