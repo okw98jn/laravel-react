@@ -1,13 +1,11 @@
 import ErrorHandler from '@/components/errors/error-handler';
 import NotFoundError from '@/components/errors/not-found-error';
-import type { QueryClient } from '@tanstack/react-query';
+import type { RouterContext } from '@/lib/router';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => {
     return (
       <>
