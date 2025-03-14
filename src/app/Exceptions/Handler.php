@@ -4,9 +4,9 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,15 +24,15 @@ final class Handler
     public function handleExceptions(Exceptions $exceptions): void
     {
         $exceptions->render(function (UnauthorizedHttpException|AuthenticationException $e, Request $request) {
-            return $this->jsonResponse(__('error.401'), [], Response::HTTP_UNAUTHORIZED);
+            return Response::error(__('error.401'), [], HttpResponse::HTTP_UNAUTHORIZED);
         });
 
         $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
-            return $this->jsonResponse(__('error.403'), [], Response::HTTP_FORBIDDEN);
+            return Response::error(__('error.403'), [], HttpResponse::HTTP_FORBIDDEN);
         });
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
-            return $this->jsonResponse(__('error.404'), [], Response::HTTP_NOT_FOUND);
+            return Response::error(__('error.404'), [], HttpResponse::HTTP_NOT_FOUND);
         });
 
         $exceptions->render(function (ValidationException $e, Request $request) {
@@ -44,32 +44,15 @@ final class Handler
                 $errors[$field] = $messages[0];
             }
 
-            return $this->jsonResponse(__('error.422'), $errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return Response::error(__('error.422'), $errors, HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
         });
 
         $exceptions->render(function (Throwable $e, Request $request) {
-            return $this->jsonResponse(
+            return Response::error(
                 __('error.500'),
                 [config('app.debug') ? $e->getMessage() : ''],
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                HttpResponse::HTTP_INTERNAL_SERVER_ERROR
             );
         });
-    }
-
-    /**
-     * エラーレスポンスを共通化
-     *
-     * @param  string       $message
-     * @param  array<mixed> $error
-     * @param  int          $status
-     * @return JsonResponse
-     */
-    protected function jsonResponse(string $message, array $error, int $status): JsonResponse
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $message,
-            'error'   => $error,
-        ], $status);
     }
 }
