@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Auth\AuthUserController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Middleware\GuestApi;
 use Illuminate\Support\Facades\Route;
@@ -16,5 +17,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/auth-user', [AuthUserController::class, 'show'])->name('auth-user.show');
     });
 });
