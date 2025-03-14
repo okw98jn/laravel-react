@@ -7,6 +7,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { Toaster } from '@/components/ui/sonner';
 import { defaultQueryConfig } from '@/lib/tanstack-query';
+import type { AxiosError } from 'axios';
 import { routeTree } from './routeTree.gen';
 
 const queryClient = new QueryClient({
@@ -29,6 +30,13 @@ router.subscribe('onResolved', () => NProgress.done());
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
+  }
+}
+
+declare module '@tanstack/react-query' {
+  interface Register {
+    // デフォルトのエラー型をAxiosErrorに変更
+    defaultError: AxiosError;
   }
 }
 
