@@ -5,13 +5,17 @@ import { router } from '@/lib/router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 
-export function App() {
+function Router() {
   const auth = useAuth();
 
+  return <RouterProvider router={router} context={{ auth }} />;
+}
+
+export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster richColors closeButton theme="light" />
-      <RouterProvider router={router} context={{ auth }} />
+      <Router />
     </QueryClientProvider>
   );
 }
