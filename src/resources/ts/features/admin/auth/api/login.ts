@@ -9,16 +9,15 @@ export interface LoginResponseData {
   user: User;
 }
 
-const login = async (
+async function login(
   formData: LoginSchemaType,
-): Promise<ApiSuccessResponse<LoginResponseData>> => {
+): Promise<ApiSuccessResponse<LoginResponseData>> {
   await getCsrfCookie();
-
   return api.post('/admin/login', formData);
-};
+}
 
-export const useLogin = () => {
+export function useLogin() {
   return useMutation({
     mutationFn: (formData: LoginSchemaType) => login(formData),
   });
-};
+}

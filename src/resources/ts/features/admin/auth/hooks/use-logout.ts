@@ -3,12 +3,12 @@ import { useAuthStore } from '@/features/admin/store/auth';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
-export const useLogoutHandler = () => {
+export function useLogoutHandler() {
   const navigate = useNavigate();
   const { mutate, isPending } = useLogout();
   const { logout } = useAuthStore();
 
-  const handleLogout = () => {
+  function handleLogout() {
     mutate(undefined, {
       onSuccess: () => {
         logout();
@@ -19,7 +19,7 @@ export const useLogoutHandler = () => {
         toast.error('ログアウトに失敗しました。');
       },
     });
-  };
+  }
 
   return { handleLogout, isPending };
-};
+}

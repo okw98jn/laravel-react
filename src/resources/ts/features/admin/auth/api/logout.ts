@@ -4,12 +4,12 @@ import { useMutation } from '@tanstack/react-query';
 
 export interface LogoutResponse extends ApiSuccessResponse<void> {}
 
-const logout = async (): Promise<LogoutResponse> => {
+async function logout(): Promise<LogoutResponse> {
   return api.post('/admin/logout');
-};
+}
 
-export const useLogout = () => {
+export function useLogout() {
   return useMutation({
     mutationFn: () => logout(),
   });
-};
+}

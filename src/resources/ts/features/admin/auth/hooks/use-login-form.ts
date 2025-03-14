@@ -15,7 +15,7 @@ import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-export const useLoginForm = () => {
+export function useLoginForm() {
   const navigate = useNavigate();
   const { mutate, isPending } = useLogin();
   const { login } = useAuthStore();
@@ -32,13 +32,13 @@ export const useLoginForm = () => {
 
   const { errors } = form.formState;
 
-  const handleSuccess = (data: LoginResponseData) => {
+  function handleSuccess(data: LoginResponseData) {
     login(data.user);
     navigate({ to: '/admin' });
     toast.success('ログインしました。');
-  };
+  }
 
-  const handleError = (error: AxiosError) => {
+  function handleError(error: AxiosError) {
     if (isUnauthorizedError(error)) {
       form.setError('root', { type: 'manual' });
       return;
@@ -50,7 +50,7 @@ export const useLoginForm = () => {
     }
 
     toast.error('ログインに失敗しました。');
-  };
+  }
 
   const onSubmit = form.handleSubmit((formData) => {
     mutate(formData, {
@@ -60,4 +60,4 @@ export const useLoginForm = () => {
   });
 
   return { form, errors, isPending, onSubmit };
-};
+}

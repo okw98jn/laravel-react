@@ -11,7 +11,7 @@ import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-export const useRegisterForm = () => {
+export function useRegisterForm() {
   const navigate = useNavigate();
   const { mutate, isPending } = useRegister();
 
@@ -27,18 +27,18 @@ export const useRegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const handleSuccess = () => {
+  function handleSuccess() {
     navigate({ to: '/admin' });
     toast.success('新規登録が完了しました。');
-  };
+  }
 
-  const handleError = (error: AxiosError) => {
+  function handleError(error: AxiosError) {
     if (isValidationError(error)) {
       setApiValidationError<RegisterSchemaType>(error, form.setError);
       return;
     }
     toast.error('新規登録に失敗しました。');
-  };
+  }
 
   const onSubmit = form.handleSubmit((data) => {
     mutate(data, {
@@ -48,4 +48,4 @@ export const useRegisterForm = () => {
   });
 
   return { form, isPending, onSubmit };
-};
+}

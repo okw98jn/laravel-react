@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-export const getCsrfCookie = async () => {
+export async function getCsrfCookie() {
   await axios.get('/sanctum/csrf-cookie');
-};
+}
