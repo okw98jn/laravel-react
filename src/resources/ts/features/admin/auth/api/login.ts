@@ -5,9 +5,13 @@ import { api } from '@/lib/api-client';
 import type { ApiSuccessResponse } from '@/types/api';
 import { useMutation } from '@tanstack/react-query';
 
-export interface LoginResponse extends ApiSuccessResponse<User> {}
+export interface LoginResponseData {
+  user: User;
+}
 
-const login = async (formData: LoginSchemaType): Promise<LoginResponse> => {
+const login = async (
+  formData: LoginSchemaType,
+): Promise<ApiSuccessResponse<LoginResponseData>> => {
   await getCsrfCookie();
 
   return api.post('/admin/login', formData);

@@ -1,4 +1,7 @@
-import { type LoginResponse, useLogin } from '@/features/admin/auth/api/login';
+import {
+  type LoginResponseData,
+  useLogin,
+} from '@/features/admin/auth/api/login';
 import {
   type LoginSchemaType,
   loginSchema,
@@ -29,8 +32,8 @@ export const useLoginForm = () => {
 
   const { errors } = form.formState;
 
-  const handleSuccess = (data: LoginResponse) => {
-    login(data.data);
+  const handleSuccess = (data: LoginResponseData) => {
+    login(data.user);
     navigate({ to: '/admin' });
     toast.success('ログインしました。');
   };
@@ -51,7 +54,7 @@ export const useLoginForm = () => {
 
   const onSubmit = form.handleSubmit((formData) => {
     mutate(formData, {
-      onSuccess: (data) => handleSuccess(data),
+      onSuccess: (data) => handleSuccess(data.data),
       onError: (error) => handleError(error),
     });
   });
