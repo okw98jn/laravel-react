@@ -48,9 +48,11 @@ final class Handler
         });
 
         $exceptions->render(function (Throwable $e, Request $request) {
-            return $this->jsonResponse(__('error.500'), [
-                'error' => config('app.debug') ? $e->getMessage() : '',
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->jsonResponse(
+                __('error.500'),
+                [config('app.debug') ? $e->getMessage() : ''],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         });
     }
 
@@ -58,15 +60,16 @@ final class Handler
      * エラーレスポンスを共通化
      *
      * @param  string       $message
-     * @param  mixed        $body
+     * @param  array<mixed> $error
      * @param  int          $status
      * @return JsonResponse
      */
-    protected function jsonResponse(string $message, $body, int $status): JsonResponse
+    protected function jsonResponse(string $message, array $error, int $status): JsonResponse
     {
         return response()->json([
+            'success' => false,
             'message' => $message,
-            'body'    => $body,
+            'error'   => $error,
         ], $status);
     }
 }
