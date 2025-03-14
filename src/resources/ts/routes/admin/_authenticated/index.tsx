@@ -1,29 +1,22 @@
 import { Button } from '@/components/ui/button';
-import { api } from '@/lib/api-client';
-import { useMutation } from '@tanstack/react-query';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { toast } from 'sonner';
+import { useLogoutHandler } from '@/features/admin/auth/hooks/use-logout';
+import { useAuthStore } from '@/features/admin/store/auth';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/admin/_authenticated/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const navigate = useNavigate();
-
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      return api.post('/admin/logout');
-    },
-    onSuccess: () => {
-      navigate({ to: '/admin/login' });
-      toast.success('ログアウトしました。');
-    },
-  });
+  const { handleLogout, isPending } = useLogoutHandler();
+  const { user } = useAuthStore();
 
   return (
     <div>
-      <Button onClick={() => mutate()}>Logout</Button>
+      <Button onClick={handleLogout} isPending={isPending}>
+        Logout
+      </Button>
+      <p>{user?.name}</p>
     </div>
   );
 }

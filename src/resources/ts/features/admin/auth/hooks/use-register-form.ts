@@ -7,6 +7,7 @@ import { isValidationError } from '@/lib/api-client';
 import { setApiValidationError } from '@/lib/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
+import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -31,7 +32,7 @@ export const useRegisterForm = () => {
     toast.success('新規登録が完了しました。');
   };
 
-  const handleError = (error: Error) => {
+  const handleError = (error: AxiosError) => {
     if (isValidationError(error)) {
       setApiValidationError<RegisterSchemaType>(error, form.setError);
       return;
@@ -42,7 +43,7 @@ export const useRegisterForm = () => {
   const onSubmit = form.handleSubmit((data) => {
     mutate(data, {
       onSuccess: handleSuccess,
-      onError: handleError,
+      onError: (error) => handleError(error),
     });
   });
 

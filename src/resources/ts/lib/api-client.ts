@@ -27,11 +27,8 @@ api.interceptors.response.use(
  * @param error - エラー
  * @returns 認証エラーかどうか
  */
-export const isUnauthorizedError = (error: unknown): error is AxiosError => {
-  return (
-    axios.isAxiosError(error) &&
-    error.response?.status === HTTP_STATUS.UNAUTHORIZED
-  );
+export const isUnauthorizedError = (error: AxiosError): boolean => {
+  return error.response?.status === HTTP_STATUS.UNAUTHORIZED;
 };
 
 /**
@@ -40,9 +37,6 @@ export const isUnauthorizedError = (error: unknown): error is AxiosError => {
  * @param error - エラー
  * @returns バリデーションエラーかどうか
  */
-export const isValidationError = (error: unknown): error is AxiosError => {
-  return (
-    axios.isAxiosError(error) &&
-    error.response?.status === HTTP_STATUS.UNPROCESSABLE_ENTITY
-  );
+export const isValidationError = (error: AxiosError): boolean => {
+  return error.response?.status === HTTP_STATUS.UNPROCESSABLE_ENTITY;
 };
