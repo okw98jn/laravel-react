@@ -16,7 +16,7 @@ use App\Facades\ApiResponse;
 final class Handler
 {
     /**
-     * エラーレスポンスを共通化
+     * エラーハンドラー
      *
      * @param  Exceptions $exceptions
      * @return void
@@ -47,6 +47,8 @@ final class Handler
             return ApiResponse::error(__('error.422'), $errors, HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
         });
 
+        // 取りこぼしたくないのでThrowable
+        // 静的解析の時点でエラーになりここまで来ないはずですが一応
         $exceptions->render(function (Throwable $e, Request $request) {
             return ApiResponse::error(
                 __('error.500'),
