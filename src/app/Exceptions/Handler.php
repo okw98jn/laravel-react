@@ -6,12 +6,12 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
+use App\Facades\ApiResponse;
 
 final class Handler
 {
@@ -24,15 +24,15 @@ final class Handler
     public function handleExceptions(Exceptions $exceptions): void
     {
         $exceptions->render(function (UnauthorizedHttpException|AuthenticationException $e, Request $request) {
-            return Response::error(__('error.401'), [], HttpResponse::HTTP_UNAUTHORIZED);
+            return ApiResponse::error(__('error.401'), [], HttpResponse::HTTP_UNAUTHORIZED);
         });
 
         $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
-            return Response::error(__('error.403'), [], HttpResponse::HTTP_FORBIDDEN);
+            return ApiResponse::error(__('error.403'), [], HttpResponse::HTTP_FORBIDDEN);
         });
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
-            return Response::error(__('error.404'), [], HttpResponse::HTTP_NOT_FOUND);
+            return ApiResponse::error(__('error.404'), [], HttpResponse::HTTP_NOT_FOUND);
         });
 
         $exceptions->render(function (ValidationException $e, Request $request) {
@@ -44,11 +44,11 @@ final class Handler
                 $errors[$field] = $messages[0];
             }
 
-            return Response::error(__('error.422'), $errors, HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return ApiResponse::error(__('error.422'), $errors, HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
         });
 
         $exceptions->render(function (Throwable $e, Request $request) {
-            return Response::error(
+            return ApiResponse::error(
                 __('error.500'),
                 [config('app.debug') ? $e->getMessage() : ''],
                 HttpResponse::HTTP_INTERNAL_SERVER_ERROR
