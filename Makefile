@@ -38,3 +38,14 @@ stan:
 
 fixer:
 	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/php-cs-fixer fix --config=src/.php-cs-fixer.dist.php
+
+setup:
+	docker-compose -f docker/docker-compose.yml build --no-cache
+	docker-compose -f docker/docker-compose.yml up -d
+	docker-compose -f docker/docker-compose.yml exec laravel-app composer install
+	docker-compose -f docker/docker-compose.yml exec laravel-app npm install
+	docker-compose -f docker/docker-compose.yml exec laravel-app cp -n src/.env.example src/.env || true
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan key:generate
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan migrate
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan db:seed
+	docker-compose -f docker/docker-compose.yml exec laravel-app npm run build
