@@ -1,3 +1,5 @@
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/features/admin/components/sidebar/app-sidebar';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
@@ -31,5 +33,12 @@ export const Route = createFileRoute('/admin/_authenticated')({
 });
 
 function RouteComponent() {
-  return <Outlet />;
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <div className="w-full">
+        <Outlet />
+      </div>
+    </SidebarProvider>
+  );
 }
