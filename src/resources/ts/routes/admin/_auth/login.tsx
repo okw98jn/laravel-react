@@ -11,7 +11,7 @@ import { useLoginForm } from '@/features/admin/auth/hooks/use-login-form';
 import type { LoginSchemaType } from '@/features/admin/auth/schema/login';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/admin/(auth)/login')({
+export const Route = createFileRoute('/admin/_auth/login')({
   component: RouteComponent,
 });
 

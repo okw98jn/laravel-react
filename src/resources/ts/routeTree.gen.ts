@@ -15,10 +15,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as AdminAuthenticatedRouteImport } from './routes/admin/_authenticated/route'
-import { Route as AdminauthRouteImport } from './routes/admin/(auth)/route'
+import { Route as AdminAuthRouteImport } from './routes/admin/_auth/route'
 import { Route as AdminAuthenticatedIndexImport } from './routes/admin/_authenticated/index'
-import { Route as AdminauthRegisterImport } from './routes/admin/(auth)/register'
-import { Route as AdminauthLoginImport } from './routes/admin/(auth)/login'
+import { Route as AdminAuthRegisterImport } from './routes/admin/_auth/register'
+import { Route as AdminAuthLoginImport } from './routes/admin/_auth/login'
 
 // Create Virtual Routes
 
@@ -43,8 +43,8 @@ const AdminAuthenticatedRouteRoute = AdminAuthenticatedRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
-const AdminauthRouteRoute = AdminauthRouteImport.update({
-  id: '/admin/(auth)',
+const AdminAuthRouteRoute = AdminAuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -54,16 +54,16 @@ const AdminAuthenticatedIndexRoute = AdminAuthenticatedIndexImport.update({
   getParentRoute: () => AdminAuthenticatedRouteRoute,
 } as any)
 
-const AdminauthRegisterRoute = AdminauthRegisterImport.update({
+const AdminAuthRegisterRoute = AdminAuthRegisterImport.update({
   id: '/register',
   path: '/register',
-  getParentRoute: () => AdminauthRouteRoute,
+  getParentRoute: () => AdminAuthRouteRoute,
 } as any)
 
-const AdminauthLoginRoute = AdminauthLoginImport.update({
+const AdminAuthLoginRoute = AdminAuthLoginImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => AdminauthRouteRoute,
+  getParentRoute: () => AdminAuthRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -84,11 +84,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminImport
       parentRoute: typeof rootRoute
     }
-    '/admin/(auth)': {
-      id: '/admin/(auth)'
+    '/admin/_auth': {
+      id: '/admin/_auth'
       path: '/admin'
       fullPath: '/admin'
-      preLoaderRoute: typeof AdminauthRouteImport
+      preLoaderRoute: typeof AdminAuthRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/_authenticated': {
@@ -98,19 +98,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthenticatedRouteImport
       parentRoute: typeof AdminImport
     }
-    '/admin/(auth)/login': {
-      id: '/admin/(auth)/login'
+    '/admin/_auth/login': {
+      id: '/admin/_auth/login'
       path: '/login'
       fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminauthLoginImport
-      parentRoute: typeof AdminauthRouteImport
+      preLoaderRoute: typeof AdminAuthLoginImport
+      parentRoute: typeof AdminAuthRouteImport
     }
-    '/admin/(auth)/register': {
-      id: '/admin/(auth)/register'
+    '/admin/_auth/register': {
+      id: '/admin/_auth/register'
       path: '/register'
       fullPath: '/admin/register'
-      preLoaderRoute: typeof AdminauthRegisterImport
-      parentRoute: typeof AdminauthRouteImport
+      preLoaderRoute: typeof AdminAuthRegisterImport
+      parentRoute: typeof AdminAuthRouteImport
     }
     '/admin/_authenticated/': {
       id: '/admin/_authenticated/'
@@ -124,18 +124,18 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface AdminauthRouteRouteChildren {
-  AdminauthLoginRoute: typeof AdminauthLoginRoute
-  AdminauthRegisterRoute: typeof AdminauthRegisterRoute
+interface AdminAuthRouteRouteChildren {
+  AdminAuthLoginRoute: typeof AdminAuthLoginRoute
+  AdminAuthRegisterRoute: typeof AdminAuthRegisterRoute
 }
 
-const AdminauthRouteRouteChildren: AdminauthRouteRouteChildren = {
-  AdminauthLoginRoute: AdminauthLoginRoute,
-  AdminauthRegisterRoute: AdminauthRegisterRoute,
+const AdminAuthRouteRouteChildren: AdminAuthRouteRouteChildren = {
+  AdminAuthLoginRoute: AdminAuthLoginRoute,
+  AdminAuthRegisterRoute: AdminAuthRegisterRoute,
 }
 
-const AdminauthRouteRouteWithChildren = AdminauthRouteRoute._addFileChildren(
-  AdminauthRouteRouteChildren,
+const AdminAuthRouteRouteWithChildren = AdminAuthRouteRoute._addFileChildren(
+  AdminAuthRouteRouteChildren,
 )
 
 interface AdminAuthenticatedRouteRouteChildren {
@@ -153,12 +153,12 @@ const AdminAuthenticatedRouteRouteWithChildren =
   )
 
 interface AdminRouteChildren {
-  AdminauthRouteRoute: typeof AdminauthRouteRouteWithChildren
+  AdminAuthRouteRoute: typeof AdminAuthRouteRouteWithChildren
   AdminAuthenticatedRouteRoute: typeof AdminAuthenticatedRouteRouteWithChildren
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminauthRouteRoute: AdminauthRouteRouteWithChildren,
+  AdminAuthRouteRoute: AdminAuthRouteRouteWithChildren,
   AdminAuthenticatedRouteRoute: AdminAuthenticatedRouteRouteWithChildren,
 }
 
@@ -167,26 +167,26 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminAuthenticatedRouteRouteWithChildren
-  '/admin/login': typeof AdminauthLoginRoute
-  '/admin/register': typeof AdminauthRegisterRoute
+  '/admin/login': typeof AdminAuthLoginRoute
+  '/admin/register': typeof AdminAuthRegisterRoute
   '/admin/': typeof AdminAuthenticatedIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminAuthenticatedIndexRoute
-  '/admin/login': typeof AdminauthLoginRoute
-  '/admin/register': typeof AdminauthRegisterRoute
+  '/admin/login': typeof AdminAuthLoginRoute
+  '/admin/register': typeof AdminAuthRegisterRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/(auth)': typeof AdminauthRouteRouteWithChildren
+  '/admin/_auth': typeof AdminAuthRouteRouteWithChildren
   '/admin/_authenticated': typeof AdminAuthenticatedRouteRouteWithChildren
-  '/admin/(auth)/login': typeof AdminauthLoginRoute
-  '/admin/(auth)/register': typeof AdminauthRegisterRoute
+  '/admin/_auth/login': typeof AdminAuthLoginRoute
+  '/admin/_auth/register': typeof AdminAuthRegisterRoute
   '/admin/_authenticated/': typeof AdminAuthenticatedIndexRoute
 }
 
@@ -199,10 +199,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
-    | '/admin/(auth)'
+    | '/admin/_auth'
     | '/admin/_authenticated'
-    | '/admin/(auth)/login'
-    | '/admin/(auth)/register'
+    | '/admin/_auth/login'
+    | '/admin/_auth/register'
     | '/admin/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -235,18 +235,18 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/admin": {
-      "filePath": "admin/(auth)",
+      "filePath": "admin/_auth",
       "children": [
-        "/admin/(auth)",
+        "/admin/_auth",
         "/admin/_authenticated"
       ]
     },
-    "/admin/(auth)": {
-      "filePath": "admin/(auth)/route.tsx",
+    "/admin/_auth": {
+      "filePath": "admin/_auth/route.tsx",
       "parent": "/admin",
       "children": [
-        "/admin/(auth)/login",
-        "/admin/(auth)/register"
+        "/admin/_auth/login",
+        "/admin/_auth/register"
       ]
     },
     "/admin/_authenticated": {
@@ -256,13 +256,13 @@ export const routeTree = rootRoute
         "/admin/_authenticated/"
       ]
     },
-    "/admin/(auth)/login": {
-      "filePath": "admin/(auth)/login.tsx",
-      "parent": "/admin/(auth)"
+    "/admin/_auth/login": {
+      "filePath": "admin/_auth/login.tsx",
+      "parent": "/admin/_auth"
     },
-    "/admin/(auth)/register": {
-      "filePath": "admin/(auth)/register.tsx",
-      "parent": "/admin/(auth)"
+    "/admin/_auth/register": {
+      "filePath": "admin/_auth/register.tsx",
+      "parent": "/admin/_auth"
     },
     "/admin/_authenticated/": {
       "filePath": "admin/_authenticated/index.tsx",

@@ -10,7 +10,7 @@ import { useRegisterForm } from '@/features/admin/auth/hooks/use-register-form';
 import type { RegisterSchemaType } from '@/features/admin/auth/schema/register';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/admin/(auth)/register')({
+export const Route = createFileRoute('/admin/_auth/register')({
   component: RouteComponent,
 });
 
