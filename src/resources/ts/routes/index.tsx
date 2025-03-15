@@ -1,15 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
+  beforeLoad: async () => {
+    throw redirect({ to: '/admin/login' });
+  },
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      Hello "/"!
-      <Button>Button</Button>
-    </div>
-  );
+  return null;
 }
