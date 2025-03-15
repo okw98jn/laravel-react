@@ -19,8 +19,11 @@ export const router = createRouter({
 
 // プログレスバー
 NProgress.configure({ showSpinner: false }); // スピナー非表示
-router.subscribe('onBeforeLoad', () => NProgress.start()); // ローディング開始
-router.subscribe('onResolved', () => NProgress.done()); // ローディング終了
+router.subscribe(
+  'onBeforeLoad',
+  ({ pathChanged }) => pathChanged && NProgress.start(),
+);
+router.subscribe('onResolved', () => NProgress.done());
 
 declare module '@tanstack/react-router' {
   interface Register {
