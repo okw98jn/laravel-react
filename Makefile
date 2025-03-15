@@ -22,19 +22,19 @@ redis-shell:
 	docker-compose -f docker/docker-compose.yml exec laravel-redis sh
 
 migrate:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php artisan migrate
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan migrate
 
 fresh:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php artisan migrate:fresh
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan migrate:fresh
 
 seed:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php artisan db:seed
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan db:seed
 
 tinker:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php artisan tinker
+	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan tinker
 
 stan:
-	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/phpstan analyse --memory-limit=2G
+	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/phpstan analyse src/app --memory-limit=2G -c src/phpstan.neon
 
 fixer:
 	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/php-cs-fixer fix --config=src/.php-cs-fixer.dist.php
