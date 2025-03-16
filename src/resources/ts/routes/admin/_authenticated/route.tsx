@@ -1,4 +1,4 @@
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/features/admin/components/sidebar/app-sidebar';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { toast } from 'sonner';
@@ -33,8 +33,12 @@ export const Route = createFileRoute('/admin/_authenticated')({
 });
 
 function RouteComponent() {
+  const isSidebarOpen = document.cookie
+    .split(';')
+    .some((cookie) => cookie.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=true`));
+
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={isSidebarOpen}>
       <AppSidebar />
       <div className="w-full">
         <Outlet />
