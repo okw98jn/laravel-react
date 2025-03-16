@@ -14,11 +14,11 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as AdminGuestRouteImport } from './routes/admin/_guest/route'
 import { Route as AdminAuthenticatedRouteImport } from './routes/admin/_authenticated/route'
-import { Route as AdminAuthRouteImport } from './routes/admin/_auth/route'
 import { Route as AdminAuthenticatedIndexImport } from './routes/admin/_authenticated/index'
-import { Route as AdminAuthRegisterImport } from './routes/admin/_auth/register'
-import { Route as AdminAuthLoginImport } from './routes/admin/_auth/login'
+import { Route as AdminGuestRegisterImport } from './routes/admin/_guest/register'
+import { Route as AdminGuestLoginImport } from './routes/admin/_guest/login'
 
 // Create Virtual Routes
 
@@ -38,13 +38,13 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AdminAuthenticatedRouteRoute = AdminAuthenticatedRouteImport.update({
-  id: '/_authenticated',
+const AdminGuestRouteRoute = AdminGuestRouteImport.update({
+  id: '/_guest',
   getParentRoute: () => AdminRoute,
 } as any)
 
-const AdminAuthRouteRoute = AdminAuthRouteImport.update({
-  id: '/_auth',
+const AdminAuthenticatedRouteRoute = AdminAuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -54,16 +54,16 @@ const AdminAuthenticatedIndexRoute = AdminAuthenticatedIndexImport.update({
   getParentRoute: () => AdminAuthenticatedRouteRoute,
 } as any)
 
-const AdminAuthRegisterRoute = AdminAuthRegisterImport.update({
+const AdminGuestRegisterRoute = AdminGuestRegisterImport.update({
   id: '/register',
   path: '/register',
-  getParentRoute: () => AdminAuthRouteRoute,
+  getParentRoute: () => AdminGuestRouteRoute,
 } as any)
 
-const AdminAuthLoginRoute = AdminAuthLoginImport.update({
+const AdminGuestLoginRoute = AdminGuestLoginImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => AdminAuthRouteRoute,
+  getParentRoute: () => AdminGuestRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -84,33 +84,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminImport
       parentRoute: typeof rootRoute
     }
-    '/admin/_auth': {
-      id: '/admin/_auth'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminAuthRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/_authenticated': {
       id: '/admin/_authenticated'
-      path: ''
+      path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminAuthenticatedRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/_guest': {
+      id: '/admin/_guest'
+      path: ''
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminGuestRouteImport
       parentRoute: typeof AdminImport
     }
-    '/admin/_auth/login': {
-      id: '/admin/_auth/login'
+    '/admin/_guest/login': {
+      id: '/admin/_guest/login'
       path: '/login'
       fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminAuthLoginImport
-      parentRoute: typeof AdminAuthRouteImport
+      preLoaderRoute: typeof AdminGuestLoginImport
+      parentRoute: typeof AdminGuestRouteImport
     }
-    '/admin/_auth/register': {
-      id: '/admin/_auth/register'
+    '/admin/_guest/register': {
+      id: '/admin/_guest/register'
       path: '/register'
       fullPath: '/admin/register'
-      preLoaderRoute: typeof AdminAuthRegisterImport
-      parentRoute: typeof AdminAuthRouteImport
+      preLoaderRoute: typeof AdminGuestRegisterImport
+      parentRoute: typeof AdminGuestRouteImport
     }
     '/admin/_authenticated/': {
       id: '/admin/_authenticated/'
@@ -123,20 +123,6 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
-
-interface AdminAuthRouteRouteChildren {
-  AdminAuthLoginRoute: typeof AdminAuthLoginRoute
-  AdminAuthRegisterRoute: typeof AdminAuthRegisterRoute
-}
-
-const AdminAuthRouteRouteChildren: AdminAuthRouteRouteChildren = {
-  AdminAuthLoginRoute: AdminAuthLoginRoute,
-  AdminAuthRegisterRoute: AdminAuthRegisterRoute,
-}
-
-const AdminAuthRouteRouteWithChildren = AdminAuthRouteRoute._addFileChildren(
-  AdminAuthRouteRouteChildren,
-)
 
 interface AdminAuthenticatedRouteRouteChildren {
   AdminAuthenticatedIndexRoute: typeof AdminAuthenticatedIndexRoute
@@ -152,41 +138,55 @@ const AdminAuthenticatedRouteRouteWithChildren =
     AdminAuthenticatedRouteRouteChildren,
   )
 
+interface AdminGuestRouteRouteChildren {
+  AdminGuestLoginRoute: typeof AdminGuestLoginRoute
+  AdminGuestRegisterRoute: typeof AdminGuestRegisterRoute
+}
+
+const AdminGuestRouteRouteChildren: AdminGuestRouteRouteChildren = {
+  AdminGuestLoginRoute: AdminGuestLoginRoute,
+  AdminGuestRegisterRoute: AdminGuestRegisterRoute,
+}
+
+const AdminGuestRouteRouteWithChildren = AdminGuestRouteRoute._addFileChildren(
+  AdminGuestRouteRouteChildren,
+)
+
 interface AdminRouteChildren {
-  AdminAuthRouteRoute: typeof AdminAuthRouteRouteWithChildren
   AdminAuthenticatedRouteRoute: typeof AdminAuthenticatedRouteRouteWithChildren
+  AdminGuestRouteRoute: typeof AdminGuestRouteRouteWithChildren
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminAuthRouteRoute: AdminAuthRouteRouteWithChildren,
   AdminAuthenticatedRouteRoute: AdminAuthenticatedRouteRouteWithChildren,
+  AdminGuestRouteRoute: AdminGuestRouteRouteWithChildren,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminAuthenticatedRouteRouteWithChildren
-  '/admin/login': typeof AdminAuthLoginRoute
-  '/admin/register': typeof AdminAuthRegisterRoute
+  '/admin': typeof AdminGuestRouteRouteWithChildren
+  '/admin/login': typeof AdminGuestLoginRoute
+  '/admin/register': typeof AdminGuestRegisterRoute
   '/admin/': typeof AdminAuthenticatedIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminAuthenticatedIndexRoute
-  '/admin/login': typeof AdminAuthLoginRoute
-  '/admin/register': typeof AdminAuthRegisterRoute
+  '/admin/login': typeof AdminGuestLoginRoute
+  '/admin/register': typeof AdminGuestRegisterRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/_auth': typeof AdminAuthRouteRouteWithChildren
   '/admin/_authenticated': typeof AdminAuthenticatedRouteRouteWithChildren
-  '/admin/_auth/login': typeof AdminAuthLoginRoute
-  '/admin/_auth/register': typeof AdminAuthRegisterRoute
+  '/admin/_guest': typeof AdminGuestRouteRouteWithChildren
+  '/admin/_guest/login': typeof AdminGuestLoginRoute
+  '/admin/_guest/register': typeof AdminGuestRegisterRoute
   '/admin/_authenticated/': typeof AdminAuthenticatedIndexRoute
 }
 
@@ -199,10 +199,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
-    | '/admin/_auth'
     | '/admin/_authenticated'
-    | '/admin/_auth/login'
-    | '/admin/_auth/register'
+    | '/admin/_guest'
+    | '/admin/_guest/login'
+    | '/admin/_guest/register'
     | '/admin/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -235,18 +235,10 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/admin": {
-      "filePath": "admin/_auth",
+      "filePath": "admin/_authenticated",
       "children": [
-        "/admin/_auth",
-        "/admin/_authenticated"
-      ]
-    },
-    "/admin/_auth": {
-      "filePath": "admin/_auth/route.tsx",
-      "parent": "/admin",
-      "children": [
-        "/admin/_auth/login",
-        "/admin/_auth/register"
+        "/admin/_authenticated",
+        "/admin/_guest"
       ]
     },
     "/admin/_authenticated": {
@@ -256,13 +248,21 @@ export const routeTree = rootRoute
         "/admin/_authenticated/"
       ]
     },
-    "/admin/_auth/login": {
-      "filePath": "admin/_auth/login.tsx",
-      "parent": "/admin/_auth"
+    "/admin/_guest": {
+      "filePath": "admin/_guest/route.tsx",
+      "parent": "/admin",
+      "children": [
+        "/admin/_guest/login",
+        "/admin/_guest/register"
+      ]
     },
-    "/admin/_auth/register": {
-      "filePath": "admin/_auth/register.tsx",
-      "parent": "/admin/_auth"
+    "/admin/_guest/login": {
+      "filePath": "admin/_guest/login.tsx",
+      "parent": "/admin/_guest"
+    },
+    "/admin/_guest/register": {
+      "filePath": "admin/_guest/register.tsx",
+      "parent": "/admin/_guest"
     },
     "/admin/_authenticated/": {
       "filePath": "admin/_authenticated/index.tsx",

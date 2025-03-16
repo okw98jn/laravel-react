@@ -4,59 +4,54 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Footer } from '@/features/admin/auth/components/footer';
 import { Header } from '@/features/admin/auth/components/header';
+import { LoginFailedMessage } from '@/features/admin/auth/components/login-failed-message';
 import { Separator } from '@/features/admin/auth/components/separator';
 import { SocialLogin } from '@/features/admin/auth/components/social-login';
-import { useRegisterForm } from '@/features/admin/auth/hooks/use-register-form';
-import type { RegisterSchemaType } from '@/features/admin/auth/schema/register';
+import { useLoginForm } from '@/features/admin/auth/hooks/use-login-form';
+import type { LoginSchemaType } from '@/features/admin/auth/schema/login';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/admin/_auth/register')({
+export const Route = createFileRoute('/admin/_guest/login')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { form, isPending, onSubmit } = useRegisterForm();
+  const { form, errors, isPending, onSubmit } = useLoginForm();
 
   return (
     <>
-      <Header text="新規登録" />
+      <Header text="ログイン" />
       <div className="w-96 mx-auto space-y-4">
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-4">
-            <FormInput<RegisterSchemaType>
-              name="name"
-              label="名前"
-              autoComplete="name"
-              placeholder="山田太郎"
-            />
-            <FormInput<RegisterSchemaType>
+            <FormInput<LoginSchemaType>
               name="email"
               label="メールアドレス"
               type="email"
               autoComplete="email"
               placeholder="example@example.com"
             />
-            <FormPassword<RegisterSchemaType>
+            <FormPassword<LoginSchemaType>
               name="password"
               label="パスワード"
               autoComplete="current-password"
               placeholder="********"
             />
-            <FormPassword<RegisterSchemaType>
-              name="password_confirmation"
-              label="パスワード（確認）"
-              autoComplete="new-password"
-              placeholder="********"
-            />
             <Button type="submit" size="full" isPending={isPending}>
-              新規登録
+              ログイン
             </Button>
           </form>
         </Form>
+        {errors.root && (
+          <LoginFailedMessage
+            title="ログイン失敗"
+            message="メールアドレスかパスワードが間違っています。"
+          />
+        )}
         <Separator />
         <SocialLogin />
       </div>
-      <Footer text="ログインは" to="/admin/login" />
+      <Footer text="新規登録は" to="/admin/register" />
     </>
   );
 }

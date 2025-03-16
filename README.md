@@ -31,7 +31,7 @@
       - `_authenticated/` - 認証済みユーザー用のルート
         - `route.tsx` - 認証チェックとレイアウト設定
         - `index.tsx` - 管理画面トップページ
-      - `_auth/` - 未認証のルート
+      - `_guest/` - 未認証のルート
         - `route.tsx` - 認証ページ共通の設定（未ログインチェックなど）
         - `login.tsx` - ログインページ
         - `register.tsx` - 登録ページ
@@ -98,7 +98,7 @@
 
 1. **認証状態に基づくリダイレクト**:
    - `/admin/_authenticated/route.tsx`: 認証済みユーザーのみアクセス可能なルート
-   - `/admin/_auth/route.tsx`: 未認証ユーザーのみアクセス可能なルート（ログイン・登録ページなど）
+   - `/admin/_guest/route.tsx`: 未認証ユーザーのみアクセス可能なルート（ログイン・登録ページなど）
 
 2. **認証コンテキスト**:
    - `lib/router.ts` で定義された `RouterContext` を通じて、認証状態をルート間で共有
