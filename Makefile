@@ -1,51 +1,53 @@
+DOCKER_COMPOSE := docker-compose -f docker/docker-compose.yml
+
 .PHONY: build up down restart logs ps shell db-shell redis-shell migrate fresh seed
 
 build:
-	docker-compose -f docker/docker-compose.yml build --no-cache
+	$(DOCKER_COMPOSE) build --no-cache
 
 up:
-	docker-compose -f docker/docker-compose.yml up -d
+	$(DOCKER_COMPOSE) up -d
 
 down:
-	docker-compose -f docker/docker-compose.yml down
+	$(DOCKER_COMPOSE) down
 
 logs:
-	docker-compose -f docker/docker-compose.yml logs -f
+	$(DOCKER_COMPOSE) logs -f
 
 shell:
-	docker-compose -f docker/docker-compose.yml exec laravel-app bash
+	$(DOCKER_COMPOSE) exec laravel-app bash
 
 db-shell:
-	docker-compose -f docker/docker-compose.yml exec laravel-db bash
+	$(DOCKER_COMPOSE) exec laravel-db bash
 
 redis-shell:
-	docker-compose -f docker/docker-compose.yml exec laravel-redis sh
+	$(DOCKER_COMPOSE) exec laravel-redis sh
 
 migrate:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan migrate
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan migrate
 
 fresh:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan migrate:fresh
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan migrate:fresh
 
 seed:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan db:seed
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan db:seed
 
 tinker:
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan tinker
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan tinker
 
 stan:
-	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/phpstan analyse src/app --memory-limit=2G -c src/phpstan.neon
+	$(DOCKER_COMPOSE) exec laravel-app src/vendor/bin/phpstan analyse src/app --memory-limit=2G -c src/phpstan.neon
 
 fixer:
-	docker-compose -f docker/docker-compose.yml exec laravel-app src/vendor/bin/php-cs-fixer fix --config=src/.php-cs-fixer.dist.php
+	$(DOCKER_COMPOSE) exec laravel-app src/vendor/bin/php-cs-fixer fix --config=src/.php-cs-fixer.dist.php
 
 setup:
-	docker-compose -f docker/docker-compose.yml build --no-cache
-	docker-compose -f docker/docker-compose.yml up -d
-	docker-compose -f docker/docker-compose.yml exec laravel-app composer install
-	docker-compose -f docker/docker-compose.yml exec laravel-app npm install
-	docker-compose -f docker/docker-compose.yml exec laravel-app cp -n src/.env.example src/.env || true
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan key:generate
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan migrate
-	docker-compose -f docker/docker-compose.yml exec laravel-app php src/artisan db:seed
-	docker-compose -f docker/docker-compose.yml exec laravel-app npm run build
+	$(DOCKER_COMPOSE) build --no-cache
+	$(DOCKER_COMPOSE) up -d
+	$(DOCKER_COMPOSE) exec laravel-app composer install
+	$(DOCKER_COMPOSE) exec laravel-app npm install
+	$(DOCKER_COMPOSE) exec laravel-app cp src/.env.example src/.env
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan key:generate
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan migrate
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan db:seed
+	$(DOCKER_COMPOSE) exec laravel-app npm run build
