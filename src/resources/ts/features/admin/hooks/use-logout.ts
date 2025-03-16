@@ -1,4 +1,4 @@
-import { useLogout } from '@/features/admin/auth/api/logout';
+import { useLogout } from '@/features/admin/api/logout';
 import { useAuthStore } from '@/features/admin/store/auth';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
