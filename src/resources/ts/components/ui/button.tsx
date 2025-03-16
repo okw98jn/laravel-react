@@ -42,12 +42,14 @@ function Button({
   size,
   asChild = false,
   isPending = false,
+  type = 'button',
   children,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     isPending?: boolean;
+    type?: 'button' | 'submit';
   }) {
   const Comp = asChild ? Slot : 'button';
 
@@ -56,6 +58,7 @@ function Button({
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       disabled={isPending || props.disabled}
+      type={type}
       {...props}
     >
       {isPending ? <Loader2 className="animate-spin h-6 w-6" /> : children}
