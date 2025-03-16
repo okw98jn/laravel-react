@@ -1,4 +1,18 @@
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import type { Table } from '@tanstack/react-table';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from 'lucide-react';
 
 interface Props<TData> {
   table: Table<TData>;
@@ -7,64 +21,55 @@ interface Props<TData> {
 export function Pagination<TData>({ table }: Props<TData>) {
   return (
     <div className="flex items-center justify-center gap-2 mb-2">
-      <button
-        className="border rounded p-1 disabled:text-gray-500 disabled:cursor-not-allowed"
+      <Button
+        variant="outline"
+        className="hidden h-8 w-8 p-0 lg:flex"
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
       >
-        {'<<'}
-      </button>
-      <button
-        className="border rounded p-1 disabled:text-gray-500 disabled:cursor-not-allowed"
+        <ChevronsLeft />
+      </Button>
+      <Button
+        variant="outline"
+        className="h-8 w-8 p-0"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
-        {'<'}
-      </button>
-      <button
-        className="border rounded p-1 disabled:text-gray-500 disabled:cursor-not-allowed"
+        <ChevronLeft />
+      </Button>
+      <Button
+        variant="outline"
+        className="h-8 w-8 p-0"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
-        {'>'}
-      </button>
-      <button
-        className="border rounded p-1 disabled:text-gray-500 disabled:cursor-not-allowed"
+        <ChevronRight />
+      </Button>
+      <Button
+        variant="outline"
+        className="hidden h-8 w-8 p-0 lg:flex"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
       >
-        {'>>'}
-      </button>
-      <span className="flex items-center gap-1">
-        <div>Page</div>
-        <strong>
-          {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-        </strong>
-      </span>
-      <span className="flex items-center gap-1">
-        | Go to page:
-        <input
-          type="number"
-          value={table.getState().pagination.pageIndex + 1}
-          onChange={(e) => {
-            const page = e.target.value ? Number(e.target.value) - 1 : 0;
-            table.setPageIndex(page);
-          }}
-          className="border p-1 rounded w-16"
-        />
-      </span>
-      <select
-        value={table.getState().pagination.pageSize}
-        onChange={(e) => {
-          table.setPageSize(Number(e.target.value));
+        <ChevronsRight />
+      </Button>
+      <Select
+        value={table.getState().pagination.pageSize.toString()}
+        onValueChange={(value) => {
+          table.setPageSize(Number(value));
         }}
       >
-        {[10, 20, 30, 40, 50].map((pageSize) => (
-          <option key={pageSize} value={pageSize}>
-            Show {pageSize}
-          </option>
-        ))}
-      </select>
+        <SelectTrigger className="h-8 w-20">
+          <SelectValue placeholder={table.getState().pagination.pageSize} />
+        </SelectTrigger>
+        <SelectContent>
+          {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((pageSize) => (
+            <SelectItem key={pageSize} value={pageSize.toString()}>
+              {pageSize}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
