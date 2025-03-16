@@ -1,4 +1,5 @@
 import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/sidebar';
+import { Header } from '@/features/admin/components/header';
 import { AppSidebar } from '@/features/admin/components/sidebar/app-sidebar';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { toast } from 'sonner';
@@ -41,6 +42,7 @@ function RouteComponent() {
     <SidebarProvider defaultOpen={isSidebarOpen}>
       <AppSidebar />
       <div className="w-full">
+        <Header />
         <Outlet />
       </div>
     </SidebarProvider>
