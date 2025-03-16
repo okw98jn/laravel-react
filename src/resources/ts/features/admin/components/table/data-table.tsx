@@ -14,23 +14,30 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { PendingBody } from '@/features/admin/components/table/pending-body';
+import { TableError } from '@/features/admin/components/table/table-error';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isPending: boolean;
+  isError: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   isPending = false,
+  isError = false,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  if (isError) {
+    return <TableError />;
+  }
 
   return (
     <div className="rounded-md border">

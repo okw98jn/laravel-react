@@ -12,10 +12,6 @@ export const Route = createFileRoute('/admin/_authenticated/user/')({
 function RouteComponent() {
   const { data, isPending, isError } = useUsers();
 
-  if (isError) {
-    return <div>エラーが発生しました。</div>;
-  }
-
   return (
     <Main>
       <PageTitle title="ユーザー" />
@@ -23,6 +19,7 @@ function RouteComponent() {
         columns={columns}
         data={data?.data.users ?? []}
         isPending={isPending}
+        isError={isError}
       />
     </Main>
   );
