@@ -19,6 +19,7 @@ import { Route as AdminAuthenticatedRouteImport } from './routes/admin/_authenti
 import { Route as AdminAuthenticatedIndexImport } from './routes/admin/_authenticated/index'
 import { Route as AdminGuestRegisterImport } from './routes/admin/_guest/register'
 import { Route as AdminGuestLoginImport } from './routes/admin/_guest/login'
+import { Route as AdminAuthenticatedUserIndexImport } from './routes/admin/_authenticated/user/index'
 
 // Create Virtual Routes
 
@@ -65,6 +66,13 @@ const AdminGuestLoginRoute = AdminGuestLoginImport.update({
   path: '/login',
   getParentRoute: () => AdminGuestRouteRoute,
 } as any)
+
+const AdminAuthenticatedUserIndexRoute =
+  AdminAuthenticatedUserIndexImport.update({
+    id: '/user/',
+    path: '/user/',
+    getParentRoute: () => AdminAuthenticatedRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -119,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthenticatedIndexImport
       parentRoute: typeof AdminAuthenticatedRouteImport
     }
+    '/admin/_authenticated/user/': {
+      id: '/admin/_authenticated/user/'
+      path: '/user'
+      fullPath: '/admin/user'
+      preLoaderRoute: typeof AdminAuthenticatedUserIndexImport
+      parentRoute: typeof AdminAuthenticatedRouteImport
+    }
   }
 }
 
@@ -126,11 +141,13 @@ declare module '@tanstack/react-router' {
 
 interface AdminAuthenticatedRouteRouteChildren {
   AdminAuthenticatedIndexRoute: typeof AdminAuthenticatedIndexRoute
+  AdminAuthenticatedUserIndexRoute: typeof AdminAuthenticatedUserIndexRoute
 }
 
 const AdminAuthenticatedRouteRouteChildren: AdminAuthenticatedRouteRouteChildren =
   {
     AdminAuthenticatedIndexRoute: AdminAuthenticatedIndexRoute,
+    AdminAuthenticatedUserIndexRoute: AdminAuthenticatedUserIndexRoute,
   }
 
 const AdminAuthenticatedRouteRouteWithChildren =
@@ -170,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminGuestLoginRoute
   '/admin/register': typeof AdminGuestRegisterRoute
   '/admin/': typeof AdminAuthenticatedIndexRoute
+  '/admin/user': typeof AdminAuthenticatedUserIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -177,6 +195,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminAuthenticatedIndexRoute
   '/admin/login': typeof AdminGuestLoginRoute
   '/admin/register': typeof AdminGuestRegisterRoute
+  '/admin/user': typeof AdminAuthenticatedUserIndexRoute
 }
 
 export interface FileRoutesById {
@@ -188,13 +207,20 @@ export interface FileRoutesById {
   '/admin/_guest/login': typeof AdminGuestLoginRoute
   '/admin/_guest/register': typeof AdminGuestRegisterRoute
   '/admin/_authenticated/': typeof AdminAuthenticatedIndexRoute
+  '/admin/_authenticated/user/': typeof AdminAuthenticatedUserIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/admin/login' | '/admin/register' | '/admin/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin/login'
+    | '/admin/register'
+    | '/admin/'
+    | '/admin/user'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/admin/login' | '/admin/register'
+  to: '/' | '/admin' | '/admin/login' | '/admin/register' | '/admin/user'
   id:
     | '__root__'
     | '/'
@@ -204,6 +230,7 @@ export interface FileRouteTypes {
     | '/admin/_guest/login'
     | '/admin/_guest/register'
     | '/admin/_authenticated/'
+    | '/admin/_authenticated/user/'
   fileRoutesById: FileRoutesById
 }
 
@@ -245,7 +272,8 @@ export const routeTree = rootRoute
       "filePath": "admin/_authenticated/route.tsx",
       "parent": "/admin",
       "children": [
-        "/admin/_authenticated/"
+        "/admin/_authenticated/",
+        "/admin/_authenticated/user/"
       ]
     },
     "/admin/_guest": {
@@ -266,6 +294,10 @@ export const routeTree = rootRoute
     },
     "/admin/_authenticated/": {
       "filePath": "admin/_authenticated/index.tsx",
+      "parent": "/admin/_authenticated"
+    },
+    "/admin/_authenticated/user/": {
+      "filePath": "admin/_authenticated/user/index.tsx",
       "parent": "/admin/_authenticated"
     }
   }

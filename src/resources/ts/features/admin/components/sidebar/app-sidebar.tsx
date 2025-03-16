@@ -9,7 +9,7 @@ import { NavGroup } from '@/features/admin/components/sidebar/nav-group';
 import { NavHeader } from '@/features/admin/components/sidebar/nav-header';
 import { NavUser } from '@/features/admin/components/sidebar/nav-user';
 import type { NavGroup as NavGroupType } from '@/features/admin/types/sidebar';
-import { Home } from 'lucide-react';
+import { Home, User } from 'lucide-react';
 
 const sidebarItems: NavGroupType[] = [
   {
@@ -19,6 +19,11 @@ const sidebarItems: NavGroupType[] = [
         title: 'ダッシュボード',
         url: '/admin',
         icon: Home,
+      },
+      {
+        title: 'ユーザー',
+        url: '/admin/user',
+        icon: User,
       },
     ],
   },
