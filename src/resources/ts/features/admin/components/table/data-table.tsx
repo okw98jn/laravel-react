@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { EmptyRow } from '@/features/admin/components/table/empty-row';
 import { PendingBody } from '@/features/admin/components/table/pending-body';
 import { TableError } from '@/features/admin/components/table/table-error';
 
@@ -33,6 +34,7 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
   });
 
   if (isError) {
@@ -81,14 +83,7 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))
             ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  データがありません。
-                </TableCell>
-              </TableRow>
+              <EmptyRow columnLength={columns.length} />
             )}
           </TableBody>
         )}
