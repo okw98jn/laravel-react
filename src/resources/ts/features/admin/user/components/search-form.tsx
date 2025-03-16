@@ -18,7 +18,7 @@ export function SearchForm() {
             <FormInput<SearchSchemaType>
               name="email"
               label="メールアドレス"
-              type="email"
+              type="text"
             />
           </div>
           <ButtonGroup handleClear={handleClear} />
