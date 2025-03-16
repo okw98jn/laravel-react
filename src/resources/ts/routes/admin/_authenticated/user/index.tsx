@@ -15,8 +15,13 @@ export const Route = createFileRoute('/admin/_authenticated/user/')({
 });
 
 function RouteComponent() {
-  const { filters } = useFilter('/admin/_authenticated/user/');
+  const { filters, setFilters } = useFilter(Route.id);
   const { data, isPending, isError } = useUsers(filters);
+
+  const paginationState = {
+    pageIndex: filters.pageIndex,
+    pageSize: filters.pageSize,
+  };
 
   return (
     <Main>
@@ -27,6 +32,18 @@ function RouteComponent() {
         data={data?.data.users ?? []}
         isPending={isPending}
         isError={isError}
+        pagination={paginationState}
+        paginationOptions={{
+          onPaginationChange: (pagination) => {
+            setFilters(
+              // 関数の場合とオブジェクトの場合がある
+              typeof pagination === 'function'
+                ? pagination(paginationState)
+                : pagination,
+            );
+          },
+          rowCount: data?.data.rowCount,
+        }}
       />
     </Main>
   );

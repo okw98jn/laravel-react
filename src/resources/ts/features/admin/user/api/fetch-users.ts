@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export interface UsersResponseData {
   users: User[];
+  rowCount: number;
 }
 
 async function fetchUsers(
@@ -16,6 +17,8 @@ async function fetchUsers(
       id: filters.id,
       name: filters.name,
       email: filters.email,
+      pageIndex: filters.pageIndex,
+      pageSize: filters.pageSize,
     },
   });
 }
