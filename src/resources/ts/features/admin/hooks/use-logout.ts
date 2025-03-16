@@ -3,12 +3,15 @@ import { useAuthStore } from '@/features/admin/store/auth';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
-export function useLogoutHandler() {
+export function useLogoutHandler(): {
+  isPending: boolean;
+  handleLogout: () => void;
+} {
   const navigate = useNavigate();
   const { mutate, isPending } = useLogout();
   const { logout } = useAuthStore();
 
-  function handleLogout() {
+  function handleLogout(): void {
     mutate(undefined, {
       onSuccess: () => {
         logout();
@@ -21,5 +24,5 @@ export function useLogoutHandler() {
     });
   }
 
-  return { handleLogout, isPending };
+  return { isPending, handleLogout };
 }

@@ -12,11 +12,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useLogoutHandler } from '@/features/admin/hooks/use-logout';
 import { useAuthStore } from '@/features/admin/store/auth';
 import { ChevronsUpDown, LogOut } from 'lucide-react';
 
 export function NavUser() {
   const { user } = useAuthStore();
+  const { isPending, handleLogout } = useLogoutHandler();
 
   return (
     <SidebarMenu>
@@ -54,7 +56,7 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} disabled={isPending}>
               <LogOut />
               ログアウト
             </DropdownMenuItem>
