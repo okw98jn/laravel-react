@@ -5,6 +5,7 @@
   "workspaceFolder": "/var/www/html",
   "customizations": {
     "vscode": {
+      // 拡張機能
       "extensions": [
         "bmewburn.vscode-intelephense-client",
         "SanderRonde.phpstan-vscode",
