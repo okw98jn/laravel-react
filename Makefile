@@ -20,9 +20,6 @@ shell:
 db-shell:
 	$(DOCKER_COMPOSE) exec laravel-db bash
 
-redis-shell:
-	$(DOCKER_COMPOSE) exec laravel-redis sh
-
 migrate:
 	$(DOCKER_COMPOSE) exec laravel-app php src/artisan migrate
 
@@ -41,13 +38,19 @@ stan:
 fixer:
 	$(DOCKER_COMPOSE) exec laravel-app src/vendor/bin/php-cs-fixer fix --config=src/.php-cs-fixer.dist.php
 
+ide:
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan ide-helper:generate src/_ide_helper.php
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan ide-helper:models --nowrite
+	$(DOCKER_COMPOSE) exec laravel-app mv _ide_helper_models.php src/_ide_helper_models.php
+
 setup:
 	$(DOCKER_COMPOSE) build --no-cache
 	$(DOCKER_COMPOSE) up -d
 	$(DOCKER_COMPOSE) exec laravel-app composer install
-	$(DOCKER_COMPOSE) exec laravel-app npm install
 	$(DOCKER_COMPOSE) exec laravel-app cp src/.env.example src/.env
 	$(DOCKER_COMPOSE) exec laravel-app php src/artisan key:generate
-	$(DOCKER_COMPOSE) exec laravel-app php src/artisan migrate
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan migrate:fresh
 	$(DOCKER_COMPOSE) exec laravel-app php src/artisan db:seed
-	$(DOCKER_COMPOSE) exec laravel-app npm run build
+	$(DOCKER_COMPOSE) exec laravel-app php src/artisan ide-helper:generate
+	$(DOCKER_COMPOSE) exec laravel-app npm install
+	$(DOCKER_COMPOSE) exec laravel-app npm run dev
