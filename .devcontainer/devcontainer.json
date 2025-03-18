@@ -29,8 +29,6 @@
         "ryannaddy.laravel-artisan"
       ],
       "settings": {
-        // 自動フォーマットを適用
-        "editor.formatOnSave": true,
         // PHP CS Fixerのパスを指定
         "php-cs-fixer.executablePath": "${workspaceFolder}/src/vendor/bin/php-cs-fixer",
         // PHP CS Fixerの設定ファイルを指定
@@ -38,6 +36,12 @@
         // PHP CS Fixerの設定を変更
         "php-cs-fixer.allowRisky": false,
         "php-cs-fixer.pathMode": "override",
+        // PHPStanのパスを指定
+        "phpstan.binPath": "src/vendor/bin/phpstan",
+        // PHPStanの設定ファイルを指定
+        "phpstan.configFile": "src/phpstan.neon,phpstan.neon.dist,phpstan.dist.neon",
+        // 自動フォーマットを適用
+        "editor.formatOnSave": true,
         // PHPのフォーマッターを指定
         "[php]": {
           "editor.defaultFormatter": "junstyle.php-cs-fixer"
