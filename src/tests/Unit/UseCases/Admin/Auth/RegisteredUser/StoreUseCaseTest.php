@@ -31,7 +31,7 @@ final class StoreUseCaseTest extends TestCase
         $userData = [
             'name'     => 'テストユーザー',
             'email'    => 'test@example.com',
-            'password' => 'password123'
+            'password' => 'password123',
         ];
 
         // UseCaseの実行
@@ -66,7 +66,7 @@ final class StoreUseCaseTest extends TestCase
         $userData = [
             'name'     => '重複ユーザー',
             'email'    => 'duplicate@example.com',
-            'password' => 'password123'
+            'password' => 'password123',
         ];
 
         // QueryExceptionが発生することを期待
@@ -82,7 +82,7 @@ final class StoreUseCaseTest extends TestCase
         // 名前が欠けているデータ
         $missingNameData = [
             'email'    => 'missing@example.com',
-            'password' => 'password123'
+            'password' => 'password123',
         ];
 
         // エラーが発生することを期待
@@ -98,7 +98,7 @@ final class StoreUseCaseTest extends TestCase
         // メールが欠けているデータ
         $missingEmailData = [
             'name'     => '不完全ユーザー',
-            'password' => 'password123'
+            'password' => 'password123',
         ];
 
         // エラーが発生することを期待
@@ -131,7 +131,7 @@ final class StoreUseCaseTest extends TestCase
         $emptyNameData = [
             'name'     => '',
             'email'    => 'empty-name@example.com',
-            'password' => 'password123'
+            'password' => 'password123',
         ];
 
         // ユーザーが作成されることを確認
@@ -155,7 +155,7 @@ final class StoreUseCaseTest extends TestCase
         $specialCharsData = [
             'name'     => '特殊文字テスト！＠＃＄％',
             'email'    => 'special+chars@example.com',
-            'password' => 'p@$$w0rd!!'
+            'password' => 'p@$$w0rd!!',
         ];
 
         // UseCaseの実行
@@ -177,7 +177,7 @@ final class StoreUseCaseTest extends TestCase
         $longData = [
             'name'     => $longName,
             'email'    => 'long@example.com',
-            'password' => str_repeat('a', 50)
+            'password' => str_repeat('a', 50),
         ];
 
         // UseCaseの実行

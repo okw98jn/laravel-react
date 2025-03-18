@@ -27,7 +27,7 @@ class RegisteredUserController extends Controller
         $user = $useCase->handle($validated['name'], $validated['email'], $validated['password']);
 
         return ApiResponse::success([
-            'user'  => new UserResource($user),
+            'user' => new UserResource($user),
         ], Response::HTTP_CREATED);
     }
 }

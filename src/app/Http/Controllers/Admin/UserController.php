@@ -38,7 +38,7 @@ class UserController extends Controller
         }
 
         // ページネーションの設定
-        $pageSize = $request->input('pageSize', 10);
+        $pageSize  = $request->input('pageSize', 10);
         $pageIndex = $request->input('pageIndex', 0);
 
         // 総件数を取得
@@ -46,8 +46,8 @@ class UserController extends Controller
 
         // ページネーションを適用
         $users = $query->skip($pageIndex * $pageSize)
-                       ->take($pageSize)
-                       ->get();
+            ->take($pageSize)
+            ->get();
 
         return ApiResponse::success([
             'users'    => UserResource::collection($users),

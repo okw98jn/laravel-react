@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Facades\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Request;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
-use App\Facades\ApiResponse;
 
 final class Handler
 {
