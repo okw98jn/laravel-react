@@ -33,7 +33,7 @@ export function FormModal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription />
         </DialogHeader>
-        <div className="grid gap-4 px-6 max-h-[70vh] overflow-y-auto">
+        <div className="grid gap-4 py-1 px-6 max-h-[70vh] overflow-y-auto">
           {children}
         </div>
         <DialogFooter className="px-6">

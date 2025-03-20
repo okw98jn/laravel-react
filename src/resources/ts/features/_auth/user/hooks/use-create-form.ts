@@ -9,6 +9,7 @@ export function useCreateForm() {
   const defaultValues: CreateSchemaType = {
     name: '',
     email: '',
+    memo: '',
   };
 
   const form = useForm<CreateSchemaType>({

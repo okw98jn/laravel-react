@@ -1,4 +1,5 @@
 import { FormInput } from '@/components/form/form-input';
+import { FormTextarea } from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { FormModal } from '@/features/_auth/components/modal/form-modal';
@@ -42,6 +43,7 @@ export function CreateUser() {
               label="メールアドレス"
               type="text"
             />
+            <FormTextarea<CreateSchemaType> name="memo" label="メモ" />
           </div>
         </form>
       </Form>
