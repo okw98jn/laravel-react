@@ -8,240 +8,181 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as AdminGuestRouteImport } from './routes/admin/_guest/route'
-import { Route as AdminAuthenticatedRouteImport } from './routes/admin/_authenticated/route'
-import { Route as AdminAuthenticatedIndexImport } from './routes/admin/_authenticated/index'
-import { Route as AdminGuestRegisterImport } from './routes/admin/_guest/register'
-import { Route as AdminGuestLoginImport } from './routes/admin/_guest/login'
-import { Route as AdminAuthenticatedUserIndexImport } from './routes/admin/_authenticated/user/index'
-
-// Create Virtual Routes
-
-const AdminImport = createFileRoute('/admin')()
+import { Route as GuestRouteImport } from './routes/_guest/route'
+import { Route as AuthRouteImport } from './routes/_auth/route'
+import { Route as AuthIndexImport } from './routes/_auth/index'
+import { Route as GuestRegisterImport } from './routes/_guest/register'
+import { Route as GuestLoginImport } from './routes/_guest/login'
+import { Route as AuthUserIndexImport } from './routes/_auth/user/index'
 
 // Create/Update Routes
 
-const AdminRoute = AdminImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AdminGuestRouteRoute = AdminGuestRouteImport.update({
+const GuestRouteRoute = GuestRouteImport.update({
   id: '/_guest',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => rootRoute,
 } as any)
 
-const AdminAuthenticatedRouteRoute = AdminAuthenticatedRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => AdminRoute,
+const AuthRouteRoute = AuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
 } as any)
 
-const AdminAuthenticatedIndexRoute = AdminAuthenticatedIndexImport.update({
+const AuthIndexRoute = AuthIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AdminAuthenticatedRouteRoute,
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
-const AdminGuestRegisterRoute = AdminGuestRegisterImport.update({
+const GuestRegisterRoute = GuestRegisterImport.update({
   id: '/register',
   path: '/register',
-  getParentRoute: () => AdminGuestRouteRoute,
+  getParentRoute: () => GuestRouteRoute,
 } as any)
 
-const AdminGuestLoginRoute = AdminGuestLoginImport.update({
+const GuestLoginRoute = GuestLoginImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => AdminGuestRouteRoute,
+  getParentRoute: () => GuestRouteRoute,
 } as any)
 
-const AdminAuthenticatedUserIndexRoute =
-  AdminAuthenticatedUserIndexImport.update({
-    id: '/user/',
-    path: '/user/',
-    getParentRoute: () => AdminAuthenticatedRouteRoute,
-  } as any)
+const AuthUserIndexRoute = AuthUserIndexImport.update({
+  id: '/user/',
+  path: '/user/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_guest': {
+      id: '/_guest'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof GuestRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_guest/login': {
+      id: '/_guest/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof GuestLoginImport
+      parentRoute: typeof GuestRouteImport
+    }
+    '/_guest/register': {
+      id: '/_guest/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof GuestRegisterImport
+      parentRoute: typeof GuestRouteImport
+    }
+    '/_auth/': {
+      id: '/_auth/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthIndexImport
+      parentRoute: typeof AuthRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin/_authenticated': {
-      id: '/admin/_authenticated'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminAuthenticatedRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/_guest': {
-      id: '/admin/_guest'
-      path: ''
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminGuestRouteImport
-      parentRoute: typeof AdminImport
-    }
-    '/admin/_guest/login': {
-      id: '/admin/_guest/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminGuestLoginImport
-      parentRoute: typeof AdminGuestRouteImport
-    }
-    '/admin/_guest/register': {
-      id: '/admin/_guest/register'
-      path: '/register'
-      fullPath: '/admin/register'
-      preLoaderRoute: typeof AdminGuestRegisterImport
-      parentRoute: typeof AdminGuestRouteImport
-    }
-    '/admin/_authenticated/': {
-      id: '/admin/_authenticated/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminAuthenticatedIndexImport
-      parentRoute: typeof AdminAuthenticatedRouteImport
-    }
-    '/admin/_authenticated/user/': {
-      id: '/admin/_authenticated/user/'
+    '/_auth/user/': {
+      id: '/_auth/user/'
       path: '/user'
-      fullPath: '/admin/user'
-      preLoaderRoute: typeof AdminAuthenticatedUserIndexImport
-      parentRoute: typeof AdminAuthenticatedRouteImport
+      fullPath: '/user'
+      preLoaderRoute: typeof AuthUserIndexImport
+      parentRoute: typeof AuthRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AdminAuthenticatedRouteRouteChildren {
-  AdminAuthenticatedIndexRoute: typeof AdminAuthenticatedIndexRoute
-  AdminAuthenticatedUserIndexRoute: typeof AdminAuthenticatedUserIndexRoute
+interface AuthRouteRouteChildren {
+  AuthIndexRoute: typeof AuthIndexRoute
+  AuthUserIndexRoute: typeof AuthUserIndexRoute
 }
 
-const AdminAuthenticatedRouteRouteChildren: AdminAuthenticatedRouteRouteChildren =
-  {
-    AdminAuthenticatedIndexRoute: AdminAuthenticatedIndexRoute,
-    AdminAuthenticatedUserIndexRoute: AdminAuthenticatedUserIndexRoute,
-  }
-
-const AdminAuthenticatedRouteRouteWithChildren =
-  AdminAuthenticatedRouteRoute._addFileChildren(
-    AdminAuthenticatedRouteRouteChildren,
-  )
-
-interface AdminGuestRouteRouteChildren {
-  AdminGuestLoginRoute: typeof AdminGuestLoginRoute
-  AdminGuestRegisterRoute: typeof AdminGuestRegisterRoute
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthIndexRoute: AuthIndexRoute,
+  AuthUserIndexRoute: AuthUserIndexRoute,
 }
 
-const AdminGuestRouteRouteChildren: AdminGuestRouteRouteChildren = {
-  AdminGuestLoginRoute: AdminGuestLoginRoute,
-  AdminGuestRegisterRoute: AdminGuestRegisterRoute,
-}
-
-const AdminGuestRouteRouteWithChildren = AdminGuestRouteRoute._addFileChildren(
-  AdminGuestRouteRouteChildren,
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
 )
 
-interface AdminRouteChildren {
-  AdminAuthenticatedRouteRoute: typeof AdminAuthenticatedRouteRouteWithChildren
-  AdminGuestRouteRoute: typeof AdminGuestRouteRouteWithChildren
+interface GuestRouteRouteChildren {
+  GuestLoginRoute: typeof GuestLoginRoute
+  GuestRegisterRoute: typeof GuestRegisterRoute
 }
 
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminAuthenticatedRouteRoute: AdminAuthenticatedRouteRouteWithChildren,
-  AdminGuestRouteRoute: AdminGuestRouteRouteWithChildren,
+const GuestRouteRouteChildren: GuestRouteRouteChildren = {
+  GuestLoginRoute: GuestLoginRoute,
+  GuestRegisterRoute: GuestRegisterRoute,
 }
 
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+const GuestRouteRouteWithChildren = GuestRouteRoute._addFileChildren(
+  GuestRouteRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/admin': typeof AdminGuestRouteRouteWithChildren
-  '/admin/login': typeof AdminGuestLoginRoute
-  '/admin/register': typeof AdminGuestRegisterRoute
-  '/admin/': typeof AdminAuthenticatedIndexRoute
-  '/admin/user': typeof AdminAuthenticatedUserIndexRoute
+  '': typeof GuestRouteRouteWithChildren
+  '/login': typeof GuestLoginRoute
+  '/register': typeof GuestRegisterRoute
+  '/': typeof AuthIndexRoute
+  '/user': typeof AuthUserIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/admin': typeof AdminAuthenticatedIndexRoute
-  '/admin/login': typeof AdminGuestLoginRoute
-  '/admin/register': typeof AdminGuestRegisterRoute
-  '/admin/user': typeof AdminAuthenticatedUserIndexRoute
+  '': typeof GuestRouteRouteWithChildren
+  '/login': typeof GuestLoginRoute
+  '/register': typeof GuestRegisterRoute
+  '/': typeof AuthIndexRoute
+  '/user': typeof AuthUserIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
-  '/admin/_authenticated': typeof AdminAuthenticatedRouteRouteWithChildren
-  '/admin/_guest': typeof AdminGuestRouteRouteWithChildren
-  '/admin/_guest/login': typeof AdminGuestLoginRoute
-  '/admin/_guest/register': typeof AdminGuestRegisterRoute
-  '/admin/_authenticated/': typeof AdminAuthenticatedIndexRoute
-  '/admin/_authenticated/user/': typeof AdminAuthenticatedUserIndexRoute
+  '/_auth': typeof AuthRouteRouteWithChildren
+  '/_guest': typeof GuestRouteRouteWithChildren
+  '/_guest/login': typeof GuestLoginRoute
+  '/_guest/register': typeof GuestRegisterRoute
+  '/_auth/': typeof AuthIndexRoute
+  '/_auth/user/': typeof AuthUserIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/admin'
-    | '/admin/login'
-    | '/admin/register'
-    | '/admin/'
-    | '/admin/user'
+  fullPaths: '' | '/login' | '/register' | '/' | '/user'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/admin/login' | '/admin/register' | '/admin/user'
+  to: '' | '/login' | '/register' | '/' | '/user'
   id:
     | '__root__'
-    | '/'
-    | '/admin'
-    | '/admin/_authenticated'
-    | '/admin/_guest'
-    | '/admin/_guest/login'
-    | '/admin/_guest/register'
-    | '/admin/_authenticated/'
-    | '/admin/_authenticated/user/'
+    | '/_auth'
+    | '/_guest'
+    | '/_guest/login'
+    | '/_guest/register'
+    | '/_auth/'
+    | '/_auth/user/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  GuestRouteRoute: typeof GuestRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
+  GuestRouteRoute: GuestRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -254,51 +195,39 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/admin"
+        "/_auth",
+        "/_guest"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/admin": {
-      "filePath": "admin/_authenticated",
+    "/_auth": {
+      "filePath": "_auth/route.tsx",
       "children": [
-        "/admin/_authenticated",
-        "/admin/_guest"
+        "/_auth/",
+        "/_auth/user/"
       ]
     },
-    "/admin/_authenticated": {
-      "filePath": "admin/_authenticated/route.tsx",
-      "parent": "/admin",
+    "/_guest": {
+      "filePath": "_guest/route.tsx",
       "children": [
-        "/admin/_authenticated/",
-        "/admin/_authenticated/user/"
+        "/_guest/login",
+        "/_guest/register"
       ]
     },
-    "/admin/_guest": {
-      "filePath": "admin/_guest/route.tsx",
-      "parent": "/admin",
-      "children": [
-        "/admin/_guest/login",
-        "/admin/_guest/register"
-      ]
+    "/_guest/login": {
+      "filePath": "_guest/login.tsx",
+      "parent": "/_guest"
     },
-    "/admin/_guest/login": {
-      "filePath": "admin/_guest/login.tsx",
-      "parent": "/admin/_guest"
+    "/_guest/register": {
+      "filePath": "_guest/register.tsx",
+      "parent": "/_guest"
     },
-    "/admin/_guest/register": {
-      "filePath": "admin/_guest/register.tsx",
-      "parent": "/admin/_guest"
+    "/_auth/": {
+      "filePath": "_auth/index.tsx",
+      "parent": "/_auth"
     },
-    "/admin/_authenticated/": {
-      "filePath": "admin/_authenticated/index.tsx",
-      "parent": "/admin/_authenticated"
-    },
-    "/admin/_authenticated/user/": {
-      "filePath": "admin/_authenticated/user/index.tsx",
-      "parent": "/admin/_authenticated"
+    "/_auth/user/": {
+      "filePath": "_auth/user/index.tsx",
+      "parent": "/_auth"
     }
   }
 }

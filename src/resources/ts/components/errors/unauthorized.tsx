@@ -6,7 +6,7 @@ export default function Unauthorized() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate({ to: '/admin/login' });
+    navigate({ to: '/login' });
     toast.error('ログインしてください。');
   }, [navigate]);
 

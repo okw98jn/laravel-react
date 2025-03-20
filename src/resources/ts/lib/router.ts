@@ -1,4 +1,4 @@
-import type { AuthData } from '@/features/admin/hooks/use-auth';
+import type { AuthData } from '@/hooks/use-auth';
 import { queryClient } from '@/lib/query';
 import { routeTree } from '@/routeTree.gen';
 import type { QueryClient } from '@tanstack/react-query';
