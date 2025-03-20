@@ -1,5 +1,6 @@
 import { FormInput } from '@/components/form/form-input';
 import { Form } from '@/components/ui/form';
+import { SelectSuggest } from '@/components/ui/select-suggest';
 import { ButtonGroup } from '@/features/_auth/components/search/button-group';
 import { Card } from '@/features/_auth/components/search/card';
 import { useSearchForm } from '@/features/_auth/user/hooks/use-search-form';
@@ -20,6 +21,7 @@ export function SearchForm() {
               label="メールアドレス"
               type="text"
             />
+            <SelectSuggest />
           </div>
           <ButtonGroup handleClear={handleClear} />
         </form>
