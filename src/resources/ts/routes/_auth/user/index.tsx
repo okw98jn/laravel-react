@@ -1,3 +1,4 @@
+import { ListButtonContainer } from '@/features/_auth/components/list-button-container';
 import { Main } from '@/features/_auth/components/main';
 import { PageTitle } from '@/features/_auth/components/page-title';
 import { DataTable } from '@/features/_auth/components/table/data-table';
@@ -28,9 +29,9 @@ function RouteComponent() {
     <Main>
       <PageTitle title="ユーザー" />
       <SearchForm />
-      <div className="flex justify-end items-center gap-4">
+      <ListButtonContainer>
         <CreateUser />
-      </div>
+      </ListButtonContainer>
       <DataTable
         columns={columns}
         data={data?.data.users ?? []}
