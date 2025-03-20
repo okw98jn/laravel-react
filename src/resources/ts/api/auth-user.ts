@@ -10,7 +10,7 @@ export interface AuthUserResponseData {
 async function fetchAuthUser(): Promise<
   ApiSuccessResponse<AuthUserResponseData>
 > {
-  return api.get('/admin/auth-user');
+  return api.get('/auth-user');
 }
 
 export function authQueryOptions() {
