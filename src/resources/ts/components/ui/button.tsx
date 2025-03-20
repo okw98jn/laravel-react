@@ -61,7 +61,15 @@ function Button({
       type={type}
       {...props}
     >
-      {isPending ? <Loader2 className="animate-spin h-6 w-6" /> : children}
+      {isPending ? (
+        // 元のボタン幅をキープしつつ、ローディングを表示
+        <span className="relative">
+          <span className="invisible inline-flex items-center">{children}</span>
+          <Loader2 className="animate-spin h-6 w-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        </span>
+      ) : (
+        children
+      )}
     </Comp>
   );
 }
