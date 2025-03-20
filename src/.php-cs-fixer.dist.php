@@ -75,18 +75,13 @@ return $config
         // ステートメントの前に空行を追加
         'blank_line_before_statement' => [
             'statements' => [
-                'continue',
-                'return',
-            ],
-        ],
-        // ステートメントの前に空行を追加
-        'blank_line_before_statement' => [
-            'statements' => [
                 'for',
                 'foreach',
                 'if',
                 'switch',
                 'try',
+                'continue',
+                'return',
             ],
         ],
     ])
