@@ -74,11 +74,11 @@
 #### ファイルベースルーティングの仕組み
 
 1. **ファイル構造とURL**: `routes` ディレクトリ内のファイル構造がそのままURLパスに変換されます
-   - 例: `routes/admin/dashboard.tsx` → `/admin/dashboard`
+   - 例: `routes/dashboard.tsx` → `/dashboard`
 
 2. **特殊なファイル名規則**:
    - `__root.tsx`: アプリケーション全体のルートレイアウトを定義
-   - `index.tsx`: ディレクトリのインデックスルート（例: `/admin/index.tsx` → `/admin`）
+   - `index.tsx`: ディレクトリのインデックスルート（例: `/index.tsx` → `/`）
    - `_authenticated/`: アンダースコアで始まるディレクトリは「レイアウトルート」として機能し、URLパスには含まれない
 
 3. **ルートファイルの構造**:
@@ -97,8 +97,8 @@
 このプロジェクトでは、ルーティングと認証を組み合わせて以下のような機能を実現しています：
 
 1. **認証状態に基づくリダイレクト**:
-   - `/admin/_authenticated/route.tsx`: 認証済みユーザーのみアクセス可能なルート
-   - `/admin/_guest/route.tsx`: 未認証ユーザーのみアクセス可能なルート（ログイン・登録ページなど）
+   - `/_authenticated/route.tsx`: 認証済みユーザーのみアクセス可能なルート
+   - `/_guest/route.tsx`: 未認証ユーザーのみアクセス可能なルート（ログイン・登録ページなど）
 
 2. **認証コンテキスト**:
    - `lib/router.ts` で定義された `RouterContext` を通じて、認証状態をルート間で共有
