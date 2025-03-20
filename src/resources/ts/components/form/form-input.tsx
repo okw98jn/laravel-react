@@ -5,7 +5,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input as InputComponent } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import type { InputHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -25,7 +25,7 @@ export function FormInput<S>({ name, label, ...props }: Props<S>) {
         <FormItem>
           {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
           <FormControl>
-            <InputComponent id={name} {...field} {...props} />
+            <Input id={name} {...field} {...props} />
           </FormControl>
           <FormMessage />
         </FormItem>
