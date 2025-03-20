@@ -3,6 +3,7 @@ import { PageTitle } from '@/features/_auth/components/page-title';
 import { DataTable } from '@/features/_auth/components/table/data-table';
 import { useFilter } from '@/features/_auth/hooks/use-filter';
 import { useUsers } from '@/features/_auth/user/api/fetch-users';
+import { CreateUser } from '@/features/_auth/user/components/create-user';
 import { SearchForm } from '@/features/_auth/user/components/search-form';
 import { columns } from '@/features/_auth/user/components/table-columns';
 import { searchSchema } from '@/features/_auth/user/schema/search';
@@ -27,6 +28,9 @@ function RouteComponent() {
     <Main>
       <PageTitle title="ユーザー" />
       <SearchForm />
+      <div className="flex justify-end items-center gap-4">
+        <CreateUser />
+      </div>
       <DataTable
         columns={columns}
         data={data?.data.users ?? []}
