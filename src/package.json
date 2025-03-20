@@ -5,7 +5,7 @@
     "build": "vite build",
     "dev": "vite --host",
     "lint": "biome check",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

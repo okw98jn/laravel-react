@@ -7,12 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 export function useSearchForm() {
-  const { setFilters, resetFilters } = useFilter('/admin/_authenticated/user/');
+  const { setFilters, resetFilters } = useFilter('/_auth/user/');
 
   const defaultValues: SearchSchemaType = {
     id: '',
     name: '',
     email: '',
+    pageIndex: 1,
+    pageSize: 10,
   };
 
   const form = useForm<SearchSchemaType>({
