@@ -10,6 +10,7 @@ export function useCreateForm() {
     name: '',
     email: '',
     memo: '',
+    // status: '0',
   };
 
   const form = useForm<CreateSchemaType>({

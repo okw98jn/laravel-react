@@ -1,4 +1,5 @@
 import { FormInput } from '@/components/form/form-input';
+import { FormSelect } from '@/components/form/form-select';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
@@ -42,6 +43,20 @@ export function CreateUser() {
               name="email"
               label="メールアドレス"
               type="text"
+            />
+            <FormSelect<CreateSchemaType>
+              name="status"
+              label="ステータス"
+              options={[
+                {
+                  label: '有効',
+                  value: '2',
+                },
+                {
+                  label: '無効',
+                  value: '1',
+                },
+              ]}
             />
             <FormTextarea<CreateSchemaType> name="memo" label="メモ" />
           </div>
