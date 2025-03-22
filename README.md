@@ -9,6 +9,7 @@
 5. [テストデータの準備](#テストデータの準備)
 6. [アサーション](#アサーション)
 7. [テストの実行方法](#テストの実行方法)
+8. [CI/CDとの統合](#cicdとの統合)
 
 ## 基本構成
 
@@ -16,51 +17,62 @@
 
 ```
 tests/
-├── Feature/            # 機能テスト（APIエンドポイントやミドルウェアなど）
-├── Unit/               # ユニットテスト（個別のクラスや関数）
-│   ├── Requests/       # フォームリクエストのバリデーションテスト
-│   └── UseCases/       # ユースケースのテスト
-└── TestCase.php        # すべてのテストの基底クラス
+├── Feature/                  # 機能テスト（APIエンドポイントやミドルウェアなど）
+│   ├── Auth/                 # 認証関連の機能テスト
+│   │   ├── Login/            # ログイン機能テスト
+│   │   └── Register/         # 登録機能テスト
+│   ├── Api/                  # API関連の機能テスト
+│   │   ├── v1/               # APIバージョン1のテスト
+│   │   └── v2/               # APIバージョン2のテスト
+│   └── Http/                 # HTTPリクエスト関連のテスト
+│       ├── Controllers/      # コントローラーのテスト
+│       └── Middleware/       # ミドルウェアのテスト
+├── Unit/                     # ユニットテスト（個別のクラスや関数）
+│   ├── Models/               # モデルのテスト
+│   ├── Repositories/         # リポジトリのテスト
+│   ├── Requests/             # フォームリクエストのバリデーションテスト
+│   ├── Services/             # サービスクラスのテスト
+│   └── UseCases/             # ユースケースのテスト
+│       ├── Auth/             # 認証関連のユースケーステスト
+│       └── User/             # ユーザー関連のユースケーステスト
+├── Integration/              # 統合テスト（複数のコンポーネントの連携テスト）
+│   ├── Database/             # データベース連携のテスト
+│   └── Services/             # 複数サービス間の連携テスト
+├── Support/                  # テストサポートクラス
+│   ├── Factories/            # テスト用ファクトリ
+│   ├── Helpers/              # テスト用ヘルパー関数
+│   └── Traits/               # テスト用トレイト
+├── TestCase.php              # すべてのテストの基底クラス
+└── CreatesApplication.php    # アプリケーション生成トレイト
 ```
 
-## テストの種類
+### テストの役割と責任
 
-### ユニットテスト（Unit Tests）
+各テストディレクトリは以下の責任を持ちます：
 
-- 個別のクラスや関数の振る舞いをテストします
-- 依存関係はモックまたはスタブを使用して分離します
-- ディレクトリ構造はアプリケーションコードと同じ構造に従います
-- 例：`tests/Unit/UseCases/Auth/AuthUser/ShowUseCaseTest.php`
+#### Feature Tests
+- アプリケーションの実際の機能や動作をエンドツーエンドでテストします
+- HTTPリクエスト/レスポンスのフルスタックテストを行います
+- ルート、コントローラー、ミドルウェア、レスポンスなど一連の流れをテストします
 
-### 機能テスト（Feature Tests）
+#### Unit Tests
+- 単一のクラスや関数の振る舞いを分離してテストします
+- モデル、リポジトリ、サービス、ユースケースなどの個別コンポーネントをテストします
+- 依存関係はモックやスタブを用いて分離します
 
-- APIエンドポイント、ミドルウェア、例外ハンドラーなどの統合的な機能をテストします
-- 実際のHTTPリクエスト/レスポンスをシミュレートします
-- フロントエンドからのリクエストを模倣してシステムの統合をテストします
-- 例：`tests/Feature/Auth/RegisteredUser/StoreTest.php`
+#### Integration Tests
+- 複数のコンポーネントが連携して動作することをテストします
+- 実際のデータベース接続やキャッシュを使用します
+- 例：`tests/Integration/Services/Payment/PaymentServiceTest.php`
 
-## テストの命名規則
+**実装のポイント：**
+- 実環境に近い状態でのテストを心がける
+- 外部サービスとの連携はモックを使用してシミュレート
+- トランザクションを適切に使用してテスト間の影響を排除
 
-### テストクラス
-
-- テスト対象クラスの名前 + `Test` サフィックスを使用します
-- 例：`ShowUseCase` → `ShowUseCaseTest`
-
-### テストメソッド
-
-テストメソッドの命名には以下のパターンを使用します：
-
-1. **標準パターン**：`test_[テスト対象の動作]_[期待される結果]`
-   - 例：`test_can_register_with_valid_data()`
-   - 例：`test_cannot_register_with_duplicate_email()`
-
-2. **日本語コメント付きパターン**（PHPDocにテストの目的を日本語で記述）：
-   ```php
-   /**
-    * ログインユーザーが取得できることをテスト
-    */
-   public function handle_returns_authenticated_user(): void
-   ```
+#### Support
+- テスト実行をサポートするヘルパークラスやトレイトを提供します
+- テストデータの生成や共通のテストロジックを実装します
 
 ## テストの実装ルール
 
@@ -70,6 +82,7 @@ tests/
 2. テストは副作用を残さないこと（テスト実行後にデータベースがクリーンアップされること）
 3. テストは可能な限り高速であること
 4. 各テストは明確に1つの機能や条件をテストすること
+5. テストケースは「準備（Arrange）」「実行（Act）」「検証（Assert）」の3ステップで構成すること
 
 ### ユースケーステスト
 
@@ -78,76 +91,12 @@ tests/
 3. 各テストメソッドは特定の条件と結果をテスト
 4. 正常系と異常系の両方をテスト
 
-```php
-class ShowUseCaseTest extends TestCase
-{
-    use RefreshDatabase;
-
-    private ShowUseCase $useCase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->useCase = new ShowUseCase();
-    }
-
-    // テストメソッド
-}
-```
-
 ### リクエストバリデーションテスト
 
-1. 共通のテストロジックは `AbstractRequest` クラスに実装
-2. 各リクエストクラスは `validationFailureDataProvider` メソッドでテストケースを提供
-3. すべてのバリデーションルールに対するテストを実装
-
-## テストデータの準備
-
-### ファクトリの活用
-
-- テストデータの作成には Laravel のファクトリを使用
-- 例：`User::factory()->create()`
-
-### テストケースのバリエーション
-
-データプロバイダーを活用して複数のテストケースを実行：
-
-```php
-#[DataProvider('validationFailureDataProvider')]
-public function test_validation_should_fail(array $requestParams, string $expectedField, string $expectedMessage): void
-{
-    // テスト実装
-}
-
-public static function validationFailureDataProvider(): array
-{
-    return [
-        '空のメールアドレス' => [
-            [], // リクエストパラメータ
-            'email', // バリデーション失敗フィールド
-            'メールアドレスは必ず指定してください。', // バリデーション失敗メッセージ
-        ],
-        // 他のテストケース
-    ];
-}
-```
-
-## アサーション
-
-### データベースアサーション
-
-- `assertDatabaseHas()` - レコードが存在することを確認
-- `assertDatabaseMissing()` - レコードが存在しないことを確認
-
-### レスポンスアサーション
-
-- `assertStatus()` - HTTPステータスコードを確認
-- `assertJson()` - JSONレスポンスの内容を確認
-- `assertJsonPath()` - JSONの特定のパスの値を確認
-
-### 例外アサーション
-
-- `expectException()` - 特定の例外が発生することを期待
+1. 共通のテストロジックは `AbstractRequestTest` クラスに実装
+2. 各リクエストクラスは `validationRules` メソッドと `validationMessages` メソッドを実装
+3. バリデーションの成功ケースと失敗ケースを網羅的にテスト
+4. データプロバイダーを使用して複数のケースを効率的にテスト
 
 ## テストの実行方法
 
@@ -167,6 +116,7 @@ php artisan test tests/Unit/UseCases/Auth/AuthUser/ShowUseCaseTest.php
 # 特定のテストグループの実行
 php artisan test --testsuite=Unit
 php artisan test --testsuite=Feature
+php artisan test --testsuite=Integration
 ```
 
 ### フィルタリング
@@ -174,4 +124,22 @@ php artisan test --testsuite=Feature
 ```bash
 # 特定の名前を含むテストのみ実行
 php artisan test --filter=test_can_register
+
+# 特定のグループのテストのみ実行（アノテーション使用時）
+php artisan test --group=auth
+
+# 並列実行（PHP 8.0以降）
+php artisan test --parallel
+
+# カバレッジレポートの生成（XDebug必須）
+XDEBUG_MODE=coverage php artisan test --coverage
 ```
+
+### テストカバレッジの監視
+
+テストカバレッジを監視するために、Codecovを使用しています。プルリクエスト時にカバレッジレポートが生成され、カバレッジが一定の閾値を下回る場合は警告が表示されます。
+
+#### カバレッジ目標
+- 機能（Feature）テスト: 最低80%
+- ユニット（Unit）テスト: 最低90%
+- 全体: 最低85%
