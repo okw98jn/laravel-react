@@ -13,11 +13,13 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\UseCases\User\DeleteUseCase;
+use App\UseCases\User\DownloadUseCase;
 use App\UseCases\User\IndexUseCase;
 use App\UseCases\User\StoreUseCase;
 use App\UseCases\User\UpdateUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class UserController extends Controller
 {
@@ -90,5 +92,21 @@ class UserController extends Controller
         $useCase->handle($dto);
 
         return ApiResponse::success([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * CSVファイルをダウンロード
+     *
+     * @param  DownloadUseCase  $useCase
+     * @return StreamedResponse
+     */
+    public function download(DownloadUseCase $useCase): StreamedResponse
+    {
+        $result = $useCase->handle();
+
+        return ApiResponse::csvDownload(
+            $result['fileName'],
+            $result['callback']
+        );
     }
 }
