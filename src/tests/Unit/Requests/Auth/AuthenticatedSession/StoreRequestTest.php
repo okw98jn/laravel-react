@@ -21,22 +21,28 @@ final class StoreRequestTest extends AbstractRequest
                 'メールアドレスは必ず指定してください。',
             ],
             '無効なメールアドレス' => [
-                ['email' => 'invalid-email'],
+                [
+                    'email' => 'invalid-email',
+                ],
                 'email',
                 'メールアドレスには、有効なメールアドレスを指定してください。',
             ],
             'メールアドレスが文字列でない' => [
-                ['email' => 123],
+                [
+                    'email' => 123,
+                ],
                 'email',
                 'メールアドレスは文字列を指定してください。',
             ],
             '空のパスワード' => [
-                ['email' => 'test@example.com'],
+                [],
                 'password',
                 'パスワードは必ず指定してください。',
             ],
             'パスワードが文字列でない' => [
-                ['email' => 'test@example.com', 'password' => 123],
+                [
+                    'password' => 123,
+                ],
                 'password',
                 'パスワードは文字列を指定してください。',
             ],

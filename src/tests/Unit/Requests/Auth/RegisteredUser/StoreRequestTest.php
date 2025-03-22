@@ -17,65 +17,44 @@ final class StoreRequestTest extends AbstractRequest
         return [
             '空の名前' => [
                 [
-                    'email'                 => 'test@example.com',
-                    'password'              => 'password123',
-                    'password_confirmation' => 'password123',
+                    'email' => 'test@example.com',
                 ],
                 'name',
                 '名前は必ず指定してください。',
             ],
             '名前が長すぎる' => [
                 [
-                    'name'                  => str_repeat('a', 256),
-                    'email'                 => 'test@example.com',
-                    'password'              => 'password123',
-                    'password_confirmation' => 'password123',
+                    'name' => str_repeat('a', 256),
                 ],
                 'name',
                 '名前は、255文字以下で指定してください。',
             ],
             '空のメールアドレス' => [
-                [
-                    'name'                  => 'テストユーザー',
-                    'password'              => 'password123',
-                    'password_confirmation' => 'password123',
-                ],
+                [],
                 'email',
                 'メールアドレスは必ず指定してください。',
             ],
             '無効なメールアドレス' => [
                 [
-                    'name'                  => 'テストユーザー',
-                    'email'                 => 'invalid-email',
-                    'password'              => 'password123',
-                    'password_confirmation' => 'password123',
+                    'email' => 'invalid-email',
                 ],
                 'email',
                 'メールアドレスには、有効なメールアドレスを指定してください。',
             ],
             '空のパスワード' => [
-                [
-                    'name'                  => 'テストユーザー',
-                    'email'                 => 'test@example.com',
-                    'password_confirmation' => 'password123',
-                ],
+                [],
                 'password',
                 'パスワードは必ず指定してください。',
             ],
             'パスワードが短すぎる' => [
                 [
-                    'name'                  => 'テストユーザー',
-                    'email'                 => 'test@example.com',
-                    'password'              => 'pass',
-                    'password_confirmation' => 'pass',
+                    'password' => 'pass',
                 ],
                 'password',
                 'パスワードは、8文字以上で指定してください。',
             ],
             'パスワード確認が一致しない' => [
                 [
-                    'name'                  => 'テストユーザー',
-                    'email'                 => 'test@example.com',
                     'password'              => 'password123',
                     'password_confirmation' => 'different',
                 ],
