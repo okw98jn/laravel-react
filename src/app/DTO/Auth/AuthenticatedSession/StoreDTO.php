@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Auth\AuthenticatedSession;
+namespace App\Dto\Auth\AuthenticatedSession;
 
 /**
  * ログイン認証情報DTO

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\User;
+namespace App\Dto\User;
 
 /**
  * ユーザー削除DTO

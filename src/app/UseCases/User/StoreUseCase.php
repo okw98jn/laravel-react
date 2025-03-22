@@ -2,7 +2,7 @@
 
 namespace App\UseCases\User;
 
-use App\DTO\User\StoreDTO;
+use App\Dto\User\StoreDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 

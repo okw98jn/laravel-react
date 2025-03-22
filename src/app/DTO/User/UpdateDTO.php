@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\User;
+namespace App\Dto\User;
 
 use App\Enums\User\Gender;
 use App\Enums\User\Status;

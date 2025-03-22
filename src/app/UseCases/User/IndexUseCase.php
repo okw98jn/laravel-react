@@ -2,7 +2,7 @@
 
 namespace App\UseCases\User;
 
-use App\DTO\User\IndexDTO;
+use App\Dto\User\IndexDTO;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 

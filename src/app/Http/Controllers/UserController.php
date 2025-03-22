@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\User\DeleteDTO;
-use App\DTO\User\IndexDTO;
-use App\DTO\User\StoreDTO;
-use App\DTO\User\UpdateDTO;
+use App\Dto\User\DeleteDTO;
+use App\Dto\User\IndexDTO;
+use App\Dto\User\StoreDTO;
+use App\Dto\User\UpdateDTO;
 use App\Facades\ApiResponse;
 use App\Http\Requests\User\DeleteRequest;
 use App\Http\Requests\User\IndexRequest;

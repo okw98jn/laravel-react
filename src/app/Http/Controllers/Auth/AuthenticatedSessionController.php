@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\DTO\Auth\AuthenticatedSession\StoreDTO;
+use App\Dto\Auth\AuthenticatedSession\StoreDTO;
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthenticatedSession\StoreRequest;

@@ -2,7 +2,7 @@
 
 namespace App\UseCases\Auth\RegisteredUser;
 
-use App\DTO\Auth\RegisteredUser\StoreDTO;
+use App\Dto\Auth\RegisteredUser\StoreDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

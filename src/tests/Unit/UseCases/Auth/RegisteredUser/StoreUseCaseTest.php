@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCases\Auth\RegisteredUser;
 
-use App\DTO\Auth\RegisteredUser\StoreDTO;
+use App\Dto\Auth\RegisteredUser\StoreDTO;
 use App\Models\User;
 use App\UseCases\Auth\RegisteredUser\StoreUseCase;
 use Illuminate\Database\QueryException;

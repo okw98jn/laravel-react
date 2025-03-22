@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Auth\RegisteredUser;
+namespace App\Dto\Auth\RegisteredUser;
 
 /**
  * ユーザー登録DTO

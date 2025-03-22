@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCases\User;
 
-use App\DTO\User\StoreDTO;
+use App\Dto\User\StoreDTO;
 use App\Enums\User\Gender;
 use App\Enums\User\Status;
 use App\Models\User;

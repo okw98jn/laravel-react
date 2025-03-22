@@ -2,7 +2,7 @@
 
 namespace App\UseCases\Auth\AuthenticatedSession;
 
-use App\DTO\Auth\AuthenticatedSession\StoreDTO;
+use App\Dto\Auth\AuthenticatedSession\StoreDTO;
 use App\Http\Requests\Auth\AuthenticatedSession\StoreRequest;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;

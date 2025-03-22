@@ -2,7 +2,7 @@
 
 namespace App\UseCases\User;
 
-use App\DTO\User\DeleteDTO;
+use App\Dto\User\DeleteDTO;
 use App\Models\User;
 
 final class DeleteUseCase
