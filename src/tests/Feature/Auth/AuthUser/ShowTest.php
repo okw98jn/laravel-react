@@ -30,12 +30,12 @@ class ShowTest extends TestCase
         $response->assertExactJson([
             'data' => [
                 'user' => [
-                    'id'                => $user->id,
-                    'name'              => $user->name,
-                    'email'             => $user->email,
-                    'email_verified_at' => $user->email_verified_at,
-                    'created_at'        => $user->created_at,
-                    'updated_at'        => $user->updated_at,
+                    'id'     => $user->id,
+                    'name'   => $user->name,
+                    'email'  => $user->email,
+                    'gender' => $user->gender,
+                    'status' => $user->status,
+                    'memo'   => $user->memo,
                 ],
             ],
             'success' => true,
