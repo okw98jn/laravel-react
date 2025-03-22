@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\User\Gender;
 use App\Enums\User\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,6 +20,7 @@ return new class () extends Migration {
             $table->string('password');
             $table->text('memo')->nullable();
             $table->tinyInteger('status')->default(Status::TEMPORARY->value);
+            $table->tinyInteger('gender')->default(Gender::MALE->value);
             $table->rememberToken();
             $table->timestamps();
         });

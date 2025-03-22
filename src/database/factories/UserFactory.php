@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\User\Gender;
 use App\Enums\User\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -31,6 +32,7 @@ class UserFactory extends Factory
             'password'          => static::$password ??= Hash::make('password'),
             'memo'              => fake()->text(),
             'status'            => fake()->randomElement(Status::cases())->value,
+            'gender'            => fake()->randomElement(Gender::cases())->value,
             'remember_token'    => Str::random(10),
         ];
     }
