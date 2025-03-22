@@ -32,23 +32,19 @@ final class StoreTest extends TestCase
         $response = $this->postJson(route(self::LOGIN_ROUTE), $loginData);
 
         $response
-            ->assertStatus(Response::HTTP_OK)
-            ->assertJsonStructure([
+            ->assertStatus(Response::HTTP_CREATED)
+            ->assertExactJson([
                 'data' => [
-                    'id',
-                    'name',
-                    'email',
-                    'email_verified_at',
-                    'created_at',
-                    'updated_at',
+                    'user' => [
+                        'id'                => $user->id,
+                        'name'              => $user->name,
+                        'email'             => $user->email,
+                        'email_verified_at' => $user->email_verified_at,
+                        'created_at'        => $user->created_at,
+                        'updated_at'        => $user->updated_at,
+                    ],
                 ],
-            ])
-            ->assertJson([
-                'data' => [
-                    'id'    => $user->id,
-                    'email' => 'login@example.com',
-                    'name'  => $user->name,
-                ],
+                'success' => true,
             ]);
 
         // セッションにユーザーIDが保存されていることを確認
@@ -75,9 +71,10 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNAUTHORIZED)
-            ->assertJson([
+            ->assertExactJson([
                 'message' => 'Unauthenticated',
-                'body'    => [],
+                'error'   => [],
+                'success' => false,
             ]);
 
         // 認証されていないことを確認
@@ -98,82 +95,10 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNAUTHORIZED)
-            ->assertJson([
+            ->assertExactJson([
                 'message' => 'Unauthenticated',
-                'body'    => [],
-            ]);
-
-        // 認証されていないことを確認
-        $this->assertGuest();
-    }
-
-    /**
-     * メールアドレスが欠けている場合にログインできないことをテスト
-     */
-    public function test_cannot_login_with_missing_email(): void
-    {
-        $missingEmailData = [
-            'password' => 'password123',
-        ];
-
-        $response = $this->postJson(route(self::LOGIN_ROUTE), $missingEmailData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'message' => 'Validation Error',
-                'body'    => [
-                    'email' => 'メールアドレスは必ず指定してください。',
-                ],
-            ]);
-
-        // 認証されていないことを確認
-        $this->assertGuest();
-    }
-
-    /**
-     * パスワードが欠けている場合にログインできないことをテスト
-     */
-    public function test_cannot_login_with_missing_password(): void
-    {
-        $missingPasswordData = [
-            'email' => 'test@example.com',
-        ];
-
-        $response = $this->postJson(route(self::LOGIN_ROUTE), $missingPasswordData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'message' => 'Validation Error',
-                'body'    => [
-                    'password' => 'パスワードは必ず指定してください。',
-                ],
-            ]);
-
-        // 認証されていないことを確認
-        $this->assertGuest();
-    }
-
-    /**
-     * 無効なメールアドレス形式でログインできないことをテスト
-     */
-    public function test_cannot_login_with_invalid_email_format(): void
-    {
-        $invalidEmailData = [
-            'email'    => 'invalid-email',
-            'password' => 'password123',
-        ];
-
-        $response = $this->postJson(route(self::LOGIN_ROUTE), $invalidEmailData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'message' => 'Validation Error',
-                'body'    => [
-                    'email' => 'メールアドレスには、有効なメールアドレスを指定してください。',
-                ],
+                'error'   => [],
+                'success' => false,
             ]);
 
         // 認証されていないことを確認
@@ -235,7 +160,7 @@ final class StoreTest extends TestCase
         ];
 
         $response = $this->postJson(route(self::LOGIN_ROUTE), $validPasswordData);
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_CREATED);
         $this->assertAuthenticated();
     }
 

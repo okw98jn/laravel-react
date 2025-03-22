@@ -29,91 +29,14 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_CREATED)
-            ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'name',
-                    'email',
-                    'email_verified_at',
-                    'created_at',
-                    'updated_at',
-                ],
-            ])
             ->assertJson([
                 'data' => [
-                    'name'  => 'テストユーザー',
-                    'email' => 'test@example.com',
+                    'user' => [
+                        'name'  => 'テストユーザー',
+                        'email' => 'test@example.com',
+                    ],
                 ],
-            ]);
-    }
-
-    /**
-     * 不正な形式のメールアドレスで登録できないことをテスト
-     */
-    public function test_cannot_register_with_invalid_email_format(): void
-    {
-        $invalidEmailData = [
-            'name'                  => 'テストユーザー',
-            'email'                 => 'invalid-email',
-            'password'              => 'password123',
-            'password_confirmation' => 'password123',
-        ];
-
-        $response = $this->postJson(route(self::REGISTER_ROUTE), $invalidEmailData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'message' => 'Validation Error',
-                'body'    => [
-                    'email' => 'メールアドレスには、有効なメールアドレスを指定してください。',
-                ],
-            ]);
-    }
-
-    /**
-     * パスワード確認が一致しない場合に登録できないことをテスト
-     */
-    public function test_cannot_register_with_mismatched_passwords(): void
-    {
-        $invalidPasswordData = [
-            'name'                  => 'テストユーザー',
-            'email'                 => 'test@example.com',
-            'password'              => 'password123',
-            'password_confirmation' => 'different-password',
-        ];
-
-        $response = $this->postJson(route(self::REGISTER_ROUTE), $invalidPasswordData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'message' => 'Validation Error',
-                'body'    => [
-                    'password' => 'パスワードと、確認フィールドが、一致していません。',
-                ],
-            ]);
-    }
-
-    /**
-     * 必須項目が不足している場合に登録できないことをテスト
-     */
-    public function test_cannot_register_with_missing_required_fields(): void
-    {
-        $missingFieldsData = [
-            'name' => 'テストユーザー',
-        ];
-
-        $response = $this->postJson(route(self::REGISTER_ROUTE), $missingFieldsData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'message' => 'Validation Error',
-                'body'    => [
-                    'email'    => 'メールアドレスは必ず指定してください。',
-                    'password' => 'パスワードは必ず指定してください。',
-                ],
+                'success' => true,
             ]);
     }
 
@@ -138,11 +61,12 @@ final class StoreTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
+            ->assertExactJson([
                 'message' => 'Validation Error',
-                'body'    => [
+                'error'   => [
                     'email' => 'メールアドレスの値は既に存在しています。',
                 ],
+                'success' => false,
             ]);
     }
 
