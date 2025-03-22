@@ -11,7 +11,7 @@ export interface RegisterResponseData {
 async function register(
   formData: RegisterSchemaType,
 ): Promise<ApiSuccessResponse<RegisterResponseData>> {
-  return api.post('/register', formData);
+  return api.post('/register', formData).then((res) => res.data);
 }
 
 export function useRegister() {

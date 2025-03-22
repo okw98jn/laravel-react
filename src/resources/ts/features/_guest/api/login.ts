@@ -13,7 +13,7 @@ async function login(
   formData: LoginSchemaType,
 ): Promise<ApiSuccessResponse<LoginResponseData>> {
   await getCsrfCookie();
-  return api.post('/login', formData);
+  return api.post('/login', formData).then((res) => res.data);
 }
 
 export function useLogin() {

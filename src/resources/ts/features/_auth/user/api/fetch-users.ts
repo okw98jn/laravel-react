@@ -12,15 +12,17 @@ export interface UsersResponseData {
 async function fetchUsers(
   filters: SearchSchemaType,
 ): Promise<ApiSuccessResponse<UsersResponseData>> {
-  return api.get('/users', {
-    params: {
-      id: filters.id,
-      name: filters.name,
-      email: filters.email,
-      pageIndex: filters.pageIndex,
-      pageSize: filters.pageSize,
-    },
-  });
+  return api
+    .get('/users', {
+      params: {
+        id: filters.id,
+        name: filters.name,
+        email: filters.email,
+        pageIndex: filters.pageIndex,
+        pageSize: filters.pageSize,
+      },
+    })
+    .then((res) => res.data);
 }
 
 export function useUsers(filters: SearchSchemaType) {
