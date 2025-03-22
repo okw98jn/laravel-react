@@ -9,9 +9,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read int $id
  * @property-read string $name
  * @property-read string $email
- * @property-read \Illuminate\Support\Carbon|null $email_verified_at
- * @property-read \Illuminate\Support\Carbon $created_at
- * @property-read \Illuminate\Support\Carbon $updated_at
+ * @property-read string $gender
+ * @property-read string $status
+ * @property-read string $memo
  */
 final class UserResource extends JsonResource
 {
@@ -23,12 +23,12 @@ final class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'                => $this->id,
-            'name'              => $this->name,
-            'email'             => $this->email,
-            'email_verified_at' => $this->email_verified_at,
-            'created_at'        => $this->created_at,
-            'updated_at'        => $this->updated_at,
+            'id'     => $this->id,
+            'name'   => $this->name,
+            'email'  => $this->email,
+            'gender' => $this->gender,
+            'status' => $this->status,
+            'memo'   => $this->memo,
         ];
     }
 }
