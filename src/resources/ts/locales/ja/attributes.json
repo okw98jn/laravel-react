@@ -3,5 +3,6 @@
   "email": "メールアドレス",
   "password": "パスワード",
   "password_confirmation": "パスワード（確認）",
-  "memo": "メモ"
+  "memo": "メモ",
+  "status": "ステータス"
 }

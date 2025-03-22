@@ -1,8 +1,8 @@
 {
   "errors": {
     "invalid_type": "{{expected}}の形式で入力してください。（現在の入力: {{received}}）",
-    "invalid_type_received_undefined": "この項目は必須です。",
-    "invalid_type_received_null": "この項目は必須です。",
+    "invalid_type_received_undefined": "{{path}}は必ず入力してください。",
+    "invalid_type_received_null": "{{path}}は必ず入力してください。",
     "invalid_literal": "正しい値を入力してください。（期待される値: {{expected}}）",
     "unrecognized_keys": "次のキーは認識できません: {{- keys}}。",
     "invalid_union": "入力の形式が正しくありません。",
