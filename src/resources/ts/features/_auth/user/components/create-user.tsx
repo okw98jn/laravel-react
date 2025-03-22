@@ -23,7 +23,7 @@ export function CreateUser() {
     <FormModal
       isOpen={isOpen}
       onClose={handleClose}
-      title="新規作成"
+      title="ユーザー新規作成"
       trigger={
         <Button onClick={() => setIsOpen(true)}>
           <Plus />

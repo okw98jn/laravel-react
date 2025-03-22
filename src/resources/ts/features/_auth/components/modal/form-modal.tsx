@@ -10,6 +10,7 @@ import {
 
 interface Props {
   title: string;
+  description?: string;
   isOpen: boolean;
   onClose: () => void;
   trigger: React.ReactElement;
@@ -21,6 +22,7 @@ export function FormModal({
   isOpen,
   onClose,
   title,
+  description,
   trigger,
   submitButton,
   children,
@@ -31,7 +33,7 @@ export function FormModal({
       <DialogContent className="sm:max-w-[500px] px-0">
         <DialogHeader className="px-6">
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription />
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-1 px-6 max-h-[70vh] overflow-y-auto">
           {children}
