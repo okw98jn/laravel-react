@@ -5,10 +5,14 @@ namespace Tests\Unit\Requests\User;
 use App\Enums\User\Gender;
 use App\Enums\User\Status;
 use App\Http\Requests\User\StoreRequest;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Unit\Requests\AbstractRequest;
 
 final class StoreRequestTest extends AbstractRequest
 {
+    use RefreshDatabase;
+
     /**
      * バリデーション失敗のテストデータを提供する
      *
@@ -80,6 +84,27 @@ final class StoreRequestTest extends AbstractRequest
                 'メモは、1000文字以下で指定してください。',
             ],
         ];
+    }
+
+    /**
+     * メールアドレスの重複バリデーションをテストする
+     *
+     * @return void
+     */
+    public function test_email_unique(): void
+    {
+        // テスト用ユーザーを作成
+        $existingUser = User::factory()->create([
+            'email' => 'duplicate@example.com',
+        ]);
+
+        $validator = $this->createValidator([
+            'email' => $existingUser->email,
+        ]);
+
+        $actualMessages = $validator->messages()->get('email');
+
+        $this->assertValidationMessageEquals($actualMessages, 'メールアドレスの値は既に存在しています。');
     }
 
     /**

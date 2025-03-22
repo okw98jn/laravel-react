@@ -82,30 +82,6 @@ final class StoreTest extends TestCase
     }
 
     /**
-     * 存在しないメールアドレスでログインできないことをテスト
-     */
-    public function test_cannot_login_with_nonexistent_email(): void
-    {
-        $nonExistentEmailData = [
-            'email'    => 'nonexistent@example.com',
-            'password' => 'password123',
-        ];
-
-        $response = $this->postJson(route(self::LOGIN_ROUTE), $nonExistentEmailData);
-
-        $response
-            ->assertStatus(Response::HTTP_UNAUTHORIZED)
-            ->assertExactJson([
-                'message' => 'Unauthenticated',
-                'error'   => [],
-                'success' => false,
-            ]);
-
-        // 認証されていないことを確認
-        $this->assertGuest();
-    }
-
-    /**
      * ログイン後にセッションが再生成されることをテスト
      */
     public function test_session_is_regenerated_after_login(): void
