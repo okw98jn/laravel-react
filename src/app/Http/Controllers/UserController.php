@@ -66,7 +66,8 @@ class UserController extends Controller
      */
     public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
     {
-        $dto  = StoreDTO::fromRequest($request->validated());
+        $dto = StoreDTO::fromArray($request->validated());
+
         $user = $useCase->handle($dto);
 
         return ApiResponse::success([

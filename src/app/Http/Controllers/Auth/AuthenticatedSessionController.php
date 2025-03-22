@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Auth\AuthenticatedSession\StoreDTO;
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthenticatedSession\StoreRequest;
@@ -23,10 +24,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
     {
-        /** @var array{email: string, password: string} $credentials */
-        $credentials = $request->validated();
+        $dto = StoreDTO::fromArray($request->validated());
 
-        $user = $useCase->handle($request, $credentials);
+        $user = $useCase->handle($request, $dto);
 
         return ApiResponse::success([
             'user' => new UserResource($user),

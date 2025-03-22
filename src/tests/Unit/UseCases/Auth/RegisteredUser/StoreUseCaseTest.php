@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\UseCases\Auth\RegisteredUser;
 
+use App\DTO\Auth\RegisteredUser\StoreDTO;
 use App\Models\User;
 use App\UseCases\Auth\RegisteredUser\StoreUseCase;
 use Illuminate\Database\QueryException;
@@ -35,8 +36,11 @@ final class StoreUseCaseTest extends TestCase
             'password' => 'password123',
         ];
 
+        // DTOを作成
+        $dto = StoreDTO::fromArray($userData);
+
         // UseCaseの実行
-        $user = $this->useCase->handle($userData['name'], $userData['email'], $userData['password']);
+        $user = $this->useCase->handle($dto);
 
         // データベースに保存されたことを確認
         $this->assertDatabaseHas('users', [
@@ -74,9 +78,12 @@ final class StoreUseCaseTest extends TestCase
             'password' => 'password123',
         ];
 
+        // DTOを作成
+        $dto = StoreDTO::fromArray($userData);
+
         // QueryExceptionが発生することを期待
         $this->expectException(QueryException::class);
-        $this->useCase->handle($userData['name'], $userData['email'], $userData['password']);
+        $this->useCase->handle($dto);
     }
 
     /**
@@ -92,7 +99,7 @@ final class StoreUseCaseTest extends TestCase
 
         // エラーが発生することを期待
         $this->expectException(\ErrorException::class);
-        $this->useCase->handle($missingNameData['name'], $missingNameData['email'], $missingNameData['password']);
+        $this->useCase->handle(StoreDTO::fromArray($missingNameData));
     }
 
     /**
@@ -108,7 +115,7 @@ final class StoreUseCaseTest extends TestCase
 
         // エラーが発生することを期待
         $this->expectException(\ErrorException::class);
-        $this->useCase->handle($missingEmailData['name'], $missingEmailData['email'], $missingEmailData['password']);
+        $this->useCase->handle(StoreDTO::fromArray($missingEmailData));
     }
 
     /**
@@ -124,7 +131,7 @@ final class StoreUseCaseTest extends TestCase
 
         // エラーが発生することを期待
         $this->expectException(\ErrorException::class);
-        $this->useCase->handle($missingPasswordData['name'], $missingPasswordData['email'], $missingPasswordData['password']);
+        $this->useCase->handle(StoreDTO::fromArray($missingPasswordData));
     }
 
     /**
@@ -139,8 +146,11 @@ final class StoreUseCaseTest extends TestCase
             'password' => 'password123',
         ];
 
+        // DTOを作成
+        $dto = StoreDTO::fromArray($emptyNameData);
+
         // ユーザーが作成されることを確認
-        $user = $this->useCase->handle($emptyNameData['name'], $emptyNameData['email'], $emptyNameData['password']);
+        $user = $this->useCase->handle($dto);
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('', $user->name);
 
@@ -167,8 +177,11 @@ final class StoreUseCaseTest extends TestCase
             'password' => 'p@$$w0rd!!',
         ];
 
+        // DTOを作成
+        $dto = StoreDTO::fromArray($specialCharsData);
+
         // UseCaseの実行
-        $user = $this->useCase->handle($specialCharsData['name'], $specialCharsData['email'], $specialCharsData['password']);
+        $user = $this->useCase->handle($dto);
 
         // データが正しく保存されていることを確認
         $this->assertEquals('特殊文字テスト！＠＃＄％', $user->name);
@@ -193,8 +206,11 @@ final class StoreUseCaseTest extends TestCase
             'password' => str_repeat('a', 50),
         ];
 
+        // DTOを作成
+        $dto = StoreDTO::fromArray($longData);
+
         // UseCaseの実行
-        $user = $this->useCase->handle($longData['name'], $longData['email'], $longData['password']);
+        $user = $this->useCase->handle($dto);
 
         // データが正しく保存されていることを確認
         $this->assertEquals($longName, $user->name);
@@ -221,8 +237,11 @@ final class StoreUseCaseTest extends TestCase
             'password' => 'password123',
         ];
 
+        // DTOを作成
+        $dto = StoreDTO::fromArray($userData);
+
         // UseCaseの実行
-        $user = $this->useCase->handle($userData['name'], $userData['email'], $userData['password']);
+        $user = $this->useCase->handle($dto);
 
         // ユーザーがログイン状態になっていることを確認
         $this->assertTrue(Auth::check());

@@ -1,21 +1,14 @@
 <?php
 
-namespace App\DTO\User;
-
-use App\Enums\User\Gender;
-use App\Enums\User\Status;
+namespace App\DTO\Auth\AuthenticatedSession;
 
 /**
- * ユーザー作成DTO
+ * ログイン認証情報DTO
  */
 final readonly class StoreDTO
 {
     public function __construct(
-        public string $name,
         public string $email,
-        public Gender $gender,
-        public Status $status,
-        public ?string $memo,
         public string $password,
     ) {
     }
@@ -29,11 +22,7 @@ final readonly class StoreDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            name: $data['name'],
             email: $data['email'],
-            gender: Gender::from($data['gender']),
-            status: Status::from($data['status']),
-            memo: $data['memo'],
             password: $data['password'],
         );
     }

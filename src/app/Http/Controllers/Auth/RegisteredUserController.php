@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Auth\RegisteredUser\StoreDTO;
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisteredUser\StoreRequest;
@@ -21,10 +22,9 @@ class RegisteredUserController extends Controller
      */
     public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
     {
-        /** @var array{name: string, email: string, password: string} $validated */
-        $validated = $request->validated();
+        $dto = StoreDTO::fromArray($request->validated());
 
-        $user = $useCase->handle($validated['name'], $validated['email'], $validated['password']);
+        $user = $useCase->handle($dto);
 
         return ApiResponse::success([
             'user' => new UserResource($user),
