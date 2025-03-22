@@ -12,15 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import type { SelectOption } from '@/utils/select';
 import { useFormContext } from 'react-hook-form';
 
 interface Props<S> {
   name: keyof S & string;
   label?: string;
-  options: {
-    label: string;
-    value: string;
-  }[];
+  options: SelectOption[];
   placeholder?: string;
 }
 

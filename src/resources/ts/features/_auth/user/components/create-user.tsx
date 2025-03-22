@@ -4,6 +4,7 @@ import { FormTextarea } from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { FormModal } from '@/features/_auth/components/modal/form-modal';
+import { statusOptions } from '@/features/_auth/user/constants/status';
 import { useCreateForm } from '@/features/_auth/user/hooks/use-create-form';
 import type { CreateSchemaType } from '@/features/_auth/user/schema/create';
 import { Plus } from 'lucide-react';
@@ -47,16 +48,7 @@ export function CreateUser() {
             <FormSelect<CreateSchemaType>
               name="status"
               label="ステータス"
-              options={[
-                {
-                  label: '有効',
-                  value: '2',
-                },
-                {
-                  label: '無効',
-                  value: '1',
-                },
-              ]}
+              options={statusOptions}
             />
             <FormTextarea<CreateSchemaType> name="memo" label="メモ" />
           </div>
