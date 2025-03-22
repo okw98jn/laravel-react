@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { EyeIcon, EyeOff } from 'lucide-react';
-import { type InputHTMLAttributes, useState } from 'react';
+import { type InputHTMLAttributes, useId, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
@@ -19,6 +19,8 @@ interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
 export function FormPassword<S>({ name, label, ...props }: Props<S>) {
   const form = useFormContext();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const uniqueId = useId();
+  const passwordId = `${name}-${uniqueId}`;
 
   return (
     <FormField
@@ -26,10 +28,10 @@ export function FormPassword<S>({ name, label, ...props }: Props<S>) {
       name={name}
       render={({ field }) => (
         <FormItem className="relative">
-          {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+          {label && <FormLabel htmlFor={passwordId}>{label}</FormLabel>}
           <FormControl>
             <Input
-              id={name}
+              id={passwordId}
               type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
               {...field}
