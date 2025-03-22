@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\User\StoreDTO;
 use App\Facades\ApiResponse;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\UserResource;
@@ -65,9 +66,8 @@ class UserController extends Controller
      */
     public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
     {
-        $request->validated();
-
-        $user = $useCase->handle($request);
+        $dto  = StoreDTO::fromRequest($request->validated());
+        $user = $useCase->handle($dto);
 
         return ApiResponse::success([
             'user' => new UserResource($user),

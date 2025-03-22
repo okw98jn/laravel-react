@@ -6,6 +6,7 @@ use App\Enums\User\Gender;
 use App\Enums\User\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 final class StoreRequest extends FormRequest
 {
@@ -31,18 +32,20 @@ final class StoreRequest extends FormRequest
             ],
             'gender' => [
                 'required',
-                'string',
                 Rule::enum(Gender::class),
             ],
             'status' => [
                 'required',
-                'string',
                 Rule::enum(Status::class),
             ],
             'memo' => [
                 'nullable',
                 'string',
                 'max:1000',
+            ],
+            'password' => [
+                'required',
+                Password::defaults(),
             ],
         ];
     }
