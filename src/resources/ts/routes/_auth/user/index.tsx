@@ -5,6 +5,7 @@ import { DataTable } from '@/features/_auth/components/table/data-table';
 import { useFilter } from '@/features/_auth/hooks/use-filter';
 import { useUsers } from '@/features/_auth/user/api/fetch-users';
 import { CreateUser } from '@/features/_auth/user/components/create-user';
+import { CsvDownload } from '@/features/_auth/user/components/csv-download';
 import { SearchForm } from '@/features/_auth/user/components/search-form';
 import { columns } from '@/features/_auth/user/components/table-columns';
 import { searchSchema } from '@/features/_auth/user/schema/search';
@@ -30,6 +31,7 @@ function RouteComponent() {
       <PageTitle title="ユーザー" />
       <SearchForm />
       <ListButtonContainer>
+        <CsvDownload />
         <CreateUser />
       </ListButtonContainer>
       <DataTable
