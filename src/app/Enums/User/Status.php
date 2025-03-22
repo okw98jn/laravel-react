@@ -4,6 +4,7 @@ namespace App\Enums\User;
 
 enum Status: int
 {
-    case INVALID = 1;
-    case VALID   = 2;
+    case TEMPORARY = 1;
+    case ACTIVE    = 2;
+    case WITHDRAWN = 3;
 }

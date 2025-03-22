@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('memo')->nullable();
-            $table->tinyInteger('status')->default(Status::INVALID->value);
+            $table->tinyInteger('status')->default(Status::TEMPORARY->value);
             $table->rememberToken();
             $table->timestamps();
         });

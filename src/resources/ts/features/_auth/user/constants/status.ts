@@ -1,13 +1,17 @@
 import { toSelectOptions } from '@/utils/select';
 
 export const status = {
-  invalid: {
+  temporary: {
     value: 1,
-    label: '無効',
+    label: '仮登録',
   },
-  valid: {
+  active: {
     value: 2,
-    label: '有効',
+    label: '本登録',
+  },
+  withdrawn: {
+    value: 3,
+    label: '退会',
   },
 } as const;
 
