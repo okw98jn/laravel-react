@@ -3,11 +3,9 @@
 namespace Tests\Unit\Requests\Auth\AuthenticatedSession;
 
 use App\Http\Requests\Auth\AuthenticatedSession\StoreRequest;
-use Illuminate\Support\Facades\Validator;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use Tests\Unit\Requests\AbstractRequest;
 
-final class StoreRequestTest extends TestCase
+final class StoreRequestTest extends AbstractRequest
 {
     /**
      * バリデーション失敗のテストデータを提供する
@@ -40,40 +38,29 @@ final class StoreRequestTest extends TestCase
             'パスワードが文字列でない' => [
                 ['email' => 'test@example.com', 'password' => 123],
                 'password',
-                'パスワードは文字列を指定してくださaい。',
+                'パスワードは文字列を指定してください。',
             ],
         ];
     }
 
-    #[DataProvider('validationFailureDataProvider')]
-    public function test_validation_should_fail(array $requestParams, string $expectedField, string $expectedMessage): void
+    /**
+     * テスト対象のRequestクラスを返す
+     */
+    protected function getRequestClass(): string
     {
-        $request   = new StoreRequest();
-        $rules     = $request->rules();
-        $validator = Validator::make($requestParams, $rules, [], $request->attributes());
-
-        $actualMessages = $validator->messages()->get($expectedField);
-
-        $this->assertSame(
-            $expectedMessage,
-            $actualMessages[array_search($expectedMessage, $actualMessages, true)]
-        );
+        return StoreRequest::class;
     }
 
     /**
-     * 有効なデータでバリデーションが通過することをテスト
+     * 有効なリクエストデータを返す
+     *
+     * @return array<string, mixed>
      */
-    public function test_validation_should_pass_with_valid_data(): void
+    protected function getValidData(): array
     {
-        $requestParams = [
+        return [
             'email'    => 'test@example.com',
             'password' => 'password',
         ];
-
-        $request   = new StoreRequest();
-        $rules     = $request->rules();
-        $validator = Validator::make($requestParams, $rules, [], $request->attributes());
-
-        $this->assertTrue($validator->passes());
     }
 }
