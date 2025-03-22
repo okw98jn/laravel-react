@@ -13,7 +13,7 @@ api.interceptors.request.use();
 
 api.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response;
   },
   (error) => {
     // APIの使用側でエラーを処理するためここでは何もしない
