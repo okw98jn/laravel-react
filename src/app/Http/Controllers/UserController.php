@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Facades\ApiResponse;
+use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\UseCases\User\StoreUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -52,5 +54,23 @@ class UserController extends Controller
             'users'    => UserResource::collection($users),
             'rowCount' => $rowCount,
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * ユーザーを作成
+     *
+     * @param  StoreRequest $request
+     * @param  StoreUseCase $useCase
+     * @return JsonResponse
+     */
+    public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
+    {
+        $request->validated();
+
+        $user = $useCase->handle($request);
+
+        return ApiResponse::success([
+            'user' => new UserResource($user),
+        ], Response::HTTP_CREATED);
     }
 }
