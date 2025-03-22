@@ -5,6 +5,7 @@ import {
 } from '@/features/_auth/user/schema/create';
 import { isValidationError } from '@/lib/api-client';
 import { setApiValidationError } from '@/lib/form';
+import { queryClient } from '@/lib/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { AxiosError } from 'axios';
 import { useState } from 'react';
@@ -31,6 +32,8 @@ export function useCreateForm() {
   const { reset } = form;
 
   function handleSuccess() {
+    // ユーザー一覧を再取得
+    queryClient.invalidateQueries({ queryKey: ['users'] });
     toast.success('ユーザーを作成しました。');
     reset();
     setIsOpen(false);
