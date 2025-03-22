@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -68,7 +68,7 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->getJson('api/test-unauthorized');
 
         // レスポンスを検証
-        $response->assertStatus(HttpResponse::HTTP_UNAUTHORIZED)
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
             ->assertJson([
                 'success' => false,
                 'message' => __('error.401'),
@@ -87,7 +87,7 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->getJson('api/test-authentication');
 
         // レスポンスを検証
-        $response->assertStatus(HttpResponse::HTTP_UNAUTHORIZED)
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
             ->assertJson([
                 'success' => false,
                 'message' => __('error.401'),
@@ -106,7 +106,7 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->getJson('api/test-forbidden');
 
         // レスポンスを検証
-        $response->assertStatus(HttpResponse::HTTP_FORBIDDEN)
+        $response->assertStatus(Response::HTTP_FORBIDDEN)
             ->assertJson([
                 'success' => false,
                 'message' => __('error.403'),
@@ -125,7 +125,7 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->getJson('api/test-not-found');
 
         // レスポンスを検証
-        $response->assertStatus(HttpResponse::HTTP_NOT_FOUND)
+        $response->assertStatus(Response::HTTP_NOT_FOUND)
             ->assertJson([
                 'success' => false,
                 'message' => __('error.404'),
@@ -144,7 +144,7 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->getJson('api/test-validation');
 
         // レスポンスを検証
-        $response->assertStatus(HttpResponse::HTTP_UNPROCESSABLE_ENTITY)
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJson([
                 'success' => false,
                 'message' => __('error.422'),
@@ -166,7 +166,7 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->getJson('api/test-internal-error');
 
         // レスポンスを検証
-        $response->assertStatus(HttpResponse::HTTP_INTERNAL_SERVER_ERROR)
+        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR)
             ->assertJson([
                 'success' => false,
                 'message' => __('error.500'),
