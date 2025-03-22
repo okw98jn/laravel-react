@@ -6,6 +6,7 @@ use App\Models\User;
 use App\UseCases\Auth\RegisteredUser\StoreUseCase;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -50,6 +51,10 @@ final class StoreUseCaseTest extends TestCase
 
         // パスワードがハッシュ化されていることを確認
         $this->assertTrue(Hash::check('password123', $user->password));
+
+        // ユーザーがログイン状態になっていることを確認
+        $this->assertTrue(Auth::check());
+        $this->assertEquals($user->id, Auth::id());
     }
 
     /**
@@ -144,6 +149,10 @@ final class StoreUseCaseTest extends TestCase
             'name'  => '',
             'email' => 'empty-name@example.com',
         ]);
+
+        // ユーザーがログイン状態になっていることを確認
+        $this->assertTrue(Auth::check());
+        $this->assertEquals($user->id, Auth::id());
     }
 
     /**
@@ -165,6 +174,10 @@ final class StoreUseCaseTest extends TestCase
         $this->assertEquals('特殊文字テスト！＠＃＄％', $user->name);
         $this->assertEquals('special+chars@example.com', $user->email);
         $this->assertTrue(Hash::check('p@$$w0rd!!', $user->password));
+
+        // ユーザーがログイン状態になっていることを確認
+        $this->assertTrue(Auth::check());
+        $this->assertEquals($user->id, Auth::id());
     }
 
     /**
@@ -187,5 +200,32 @@ final class StoreUseCaseTest extends TestCase
         $this->assertEquals($longName, $user->name);
         $this->assertEquals('long@example.com', $user->email);
         $this->assertTrue(Hash::check(str_repeat('a', 50), $user->password));
+
+        // ユーザーがログイン状態になっていることを確認
+        $this->assertTrue(Auth::check());
+        $this->assertEquals($user->id, Auth::id());
+    }
+
+    /**
+     * ユーザー登録後にログアウト状態からログイン状態に変わることをテスト
+     */
+    public function test_user_is_logged_in_after_registration(): void
+    {
+        // 事前にログアウト状態であることを確認
+        $this->assertFalse(Auth::check());
+
+        // テスト用データの準備
+        $userData = [
+            'name'     => 'ログインテストユーザー',
+            'email'    => 'login-test@example.com',
+            'password' => 'password123',
+        ];
+
+        // UseCaseの実行
+        $user = $this->useCase->handle($userData['name'], $userData['email'], $userData['password']);
+
+        // ユーザーがログイン状態になっていることを確認
+        $this->assertTrue(Auth::check());
+        $this->assertEquals($user->id, Auth::id());
     }
 }
