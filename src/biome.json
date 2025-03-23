@@ -32,7 +32,8 @@
     "indentStyle": "space"
   },
   "organizeImports": {
-    "enabled": true
+    "enabled": true,
+    "ignore": ["vite.config.ts"]
   },
   "linter": {
     "enabled": true,
