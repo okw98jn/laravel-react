@@ -26,7 +26,8 @@
         "oderwat.indent-rainbow",
         "christian-kohler.path-intellisense",
         "Gruntfuggly.todo-tree",
-        "ryannaddy.laravel-artisan"
+        "ryannaddy.laravel-artisan",
+        "ms-playwright.playwright"
       ],
       "settings": {
         // PHP CS Fixerのパスを指定
