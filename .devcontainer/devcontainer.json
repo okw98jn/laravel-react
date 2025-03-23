@@ -43,6 +43,9 @@
         "phpstan.configFile": "src/phpstan.neon,phpstan.neon.dist,phpstan.dist.neon",
         // 自動フォーマットを適用
         "editor.formatOnSave": true,
+        // Biome設定
+        "biome.lspBin": "./src/node_modules/.bin/biome",
+        "biome.searchInPath": false,
         // PHPのフォーマッターを指定
         "[php]": {
           "editor.defaultFormatter": "junstyle.php-cs-fixer"
