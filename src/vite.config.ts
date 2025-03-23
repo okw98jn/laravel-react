@@ -19,7 +19,9 @@ export default defineConfig({
     }),
   ],
   test: {
-    include: ['./resources/ts/**/*.test.ts'],
+    globals: true,
+    environment: 'jsdom',
+    include: ['./resources/ts/**/*.test.ts', './resources/ts/**/*.test.tsx'],
   },
   resolve: {
     alias: {
