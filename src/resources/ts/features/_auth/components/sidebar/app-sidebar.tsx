@@ -27,6 +27,25 @@ const sidebarItems: NavGroupType[] = [
       },
     ],
   },
+  {
+    title: 'Auth',
+    items: [
+      {
+        title: '大カテゴリー',
+        icon: Home,
+        items: [
+          {
+            title: 'ユーザー',
+            url: '/user',
+          },
+          {
+            title: 'ダッシュボード',
+            url: '/',
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export function AppSidebar() {
@@ -36,8 +55,8 @@ export function AppSidebar() {
         <NavHeader />
       </SidebarHeader>
       <SidebarContent>
-        {sidebarItems.map((item) => (
-          <NavGroup key={item.title} title={item.title} items={item.items} />
+        {sidebarItems.map((props) => (
+          <NavGroup key={props.title} {...props} />
         ))}
       </SidebarContent>
       <SidebarFooter>

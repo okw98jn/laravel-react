@@ -1,10 +1,21 @@
 import type { LinkProps } from '@tanstack/react-router';
 
-export interface NavItem {
+interface BaseNavItem {
   title: string;
-  url: LinkProps['to'];
   icon?: React.ElementType;
 }
+
+export interface NavLink extends BaseNavItem {
+  url: LinkProps['to'];
+  items?: never;
+}
+
+export interface NavCollapsible extends BaseNavItem {
+  items: (BaseNavItem & { url: LinkProps['to'] })[];
+  url?: never;
+}
+
+export type NavItem = NavLink | NavCollapsible;
 
 export interface NavGroup {
   title: string;
