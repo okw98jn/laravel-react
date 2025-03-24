@@ -1,18 +1,18 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('h1にログインテキストが含まれているか確認', async ({ page }) => {
+  await page.goto('http://laravel-web/login');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+  // h1要素の中に「ログイン」テキストがあるか確認
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'ログイン' }),
+  ).toBeVisible();
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  // await page.getByPlaceholder('メールアドレス').fill('test@example.com');
+  // await page.getByPlaceholder('').fill('password');
+  await page.getByRole('button', { name: 'ログイン' }).click();
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  await expect(
+    page.getByText('パスワードは1文字以上で入力してください。'),
+  ).toBeVisible();
 });
