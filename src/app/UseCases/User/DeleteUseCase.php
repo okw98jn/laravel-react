@@ -15,8 +15,6 @@ final class DeleteUseCase
      */
     public function handle(DeleteDTO $dto): void
     {
-        $user = User::findOrFail($dto->id);
-
-        $user->delete();
+        User::whereIn('id', $dto->ids)->delete();
     }
 }

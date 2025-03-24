@@ -14,8 +14,11 @@ final class DeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => [
+            'ids' => [
                 'required',
+                'array',
+            ],
+            'ids.*' => [
                 'integer',
                 'exists:users,id',
             ],
@@ -30,7 +33,7 @@ final class DeleteRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'id' => 'ID',
+            'ids' => 'ID',
         ];
     }
 }

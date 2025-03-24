@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::put('/{user}', 'update')->name('update');
-        Route::delete('/{user}', 'destroy')->name('destroy');
+        Route::delete('/', 'delete')->name('delete');
         Route::get('/download', 'download')->name('download');
     });
 });
