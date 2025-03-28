@@ -11,13 +11,8 @@ import { SearchForm } from '@/features/_auth/user/components/search-form';
 import { columns } from '@/features/_auth/user/components/table-columns';
 import { searchSchema } from '@/features/_auth/user/schema/search';
 import { createFileRoute } from '@tanstack/react-router';
-import {
-  type RowSelectionState,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
-import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/user/')({
   component: RouteComponent,
@@ -27,23 +22,24 @@ export const Route = createFileRoute('/_auth/user/')({
 function RouteComponent() {
   const { filters, setFilters } = useFilter(Route.id);
   const { data, isPending, isError } = useUsers(filters);
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
     data: data?.data.users ?? [],
     columns,
-    state: { rowSelection },
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    onRowSelectionChange: setRowSelection,
   });
+
+  const selectedIds = table
+    .getSelectedRowModel()
+    .rows.map((row) => row.original.id);
 
   return (
     <Main>
       <PageTitle title="ユーザー" />
       <SearchForm />
       <ListButtonContainer>
-        <DeleteUsers ids={[]} isAll />
+        <DeleteUsers ids={selectedIds} />
         <CsvDownload />
         <CreateUser />
       </ListButtonContainer>

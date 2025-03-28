@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { AllCheckbox } from '@/features/_auth/components/table/all-checkbox';
 import { RowCheckbox } from '@/features/_auth/components/table/row-checkbox';
 import type { User } from '@/features/_auth/types/user';
-import { DeleteUsers } from '@/features/_auth/user/components/delete-users';
+import { DeleteUser } from '@/features/_auth/user/components/delete-user';
 import { createColumnHelper } from '@tanstack/react-table';
 
 const columnHelper = createColumnHelper<User>();
@@ -30,7 +30,7 @@ export const columns = [
           <Button variant="outline" size="sm">
             編集
           </Button>
-          <DeleteUsers ids={[row.original.id]} name={row.original.name} />
+          <DeleteUser id={row.original.id} name={row.original.name} />
         </div>
       );
     },

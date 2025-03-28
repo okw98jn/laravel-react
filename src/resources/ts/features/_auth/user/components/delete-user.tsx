@@ -1,28 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { AlertModal } from '@/features/_auth/components/modal/alert-modal';
 import { useDelete } from '@/features/_auth/user/hooks/use-delete';
-import { Trash } from 'lucide-react';
 
 interface Props {
-  ids: number[];
+  id: number;
+  name: string;
 }
 
-export function DeleteUsers({ ids }: Props) {
-  const { isOpen, setIsOpen, handleDelete, isPending } = useDelete(ids);
+export function DeleteUser({ id, name }: Props) {
+  const { isOpen, setIsOpen, handleDelete, isPending } = useDelete([id]);
 
   return (
     <AlertModal
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       title="ユーザー削除"
-      description={`選択中のユーザー${ids.length}件を削除しますか？`}
+      description={`ユーザー「${name}」を削除しますか？`}
       trigger={
-        <Button
-          variant="destructive"
-          onClick={() => setIsOpen(true)}
-          disabled={ids.length === 0}
-        >
-          <Trash />
+        <Button variant="destructive" size="sm" onClick={() => setIsOpen(true)}>
           削除
         </Button>
       }
