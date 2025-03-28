@@ -33,6 +33,6 @@ final class IndexUseCase
             $query->where('email', 'like', '%' . $dto->email . '%');
         }
 
-        return $query->paginate($dto->pageSize);
+        return $query->paginate($dto->page_size);
     }
 }

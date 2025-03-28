@@ -11,8 +11,8 @@ final readonly class IndexDTO
         public ?string $id,
         public ?string $name,
         public ?string $email,
-        public int $pageSize,
-        public int $pageIndex,
+        public int $page_size,
+        public int $page_index,
     ) {
     }
 
@@ -28,8 +28,8 @@ final readonly class IndexDTO
             id: $data['id'],
             name: $data['name'],
             email: $data['email'],
-            pageSize: $data['pageSize'],
-            pageIndex: $data['pageIndex'],
+            page_size: $data['page_size'],
+            page_index: $data['page_index'],
         );
     }
 }
