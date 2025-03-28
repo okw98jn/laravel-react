@@ -1,5 +1,6 @@
 import { HTTP_STATUS } from '@/constants/http-status';
 import axios, { type AxiosError } from 'axios';
+import humps from 'humps';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -9,10 +10,19 @@ export const api = axios.create({
   },
 });
 
-api.interceptors.request.use();
+api.interceptors.request.use((request) => {
+  // スネークケースに変換
+  // request.data = humps.decamelizeKeys(request.data);
+  request.params = humps.decamelizeKeys(request.params);
+  return request;
+});
 
 api.interceptors.response.use(
   (response) => {
+    // キャメルケースに変換
+    if (response.data) {
+      response.data = humps.camelizeKeys(response.data);
+    }
     return response;
   },
   (error) => {
