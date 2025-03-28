@@ -1,3 +1,4 @@
+import type { Paginate } from '@/features/_auth/types/paginate';
 import type { User } from '@/features/_auth/types/user';
 import type { SearchSchemaType } from '@/features/_auth/user/schema/search';
 import { api } from '@/lib/api-client';
@@ -6,7 +7,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export interface UsersResponseData {
   users: User[];
-  rowCount: number;
+  paginate: Paginate;
 }
 
 async function fetchUsers(
