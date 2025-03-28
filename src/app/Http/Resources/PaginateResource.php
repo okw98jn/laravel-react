@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class UserResource extends JsonResource
+final class PaginateResource extends JsonResource
 {
     /**
      * リソースを配列に変換
@@ -16,12 +16,11 @@ final class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->resource->id,
-            'name'   => $this->resource->name,
-            'email'  => $this->resource->email,
-            'gender' => $this->resource->gender,
-            'status' => $this->resource->status,
-            'memo'   => $this->resource->memo,
+            'total'        => $this->resource->total(),
+            'count'        => $this->resource->count(),
+            'per_page'     => $this->resource->perPage(),
+            'current_page' => $this->resource->currentPage(),
+            'last_page'    => $this->resource->lastPage(),
         ];
     }
 }

@@ -4,17 +4,17 @@ namespace App\UseCases\User;
 
 use App\Dto\User\IndexDTO;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class IndexUseCase
 {
     /**
      * ユーザー一覧を取得する
      *
-     * @param  IndexDTO                                           $dto ユーザー検索DTO
-     * @return array{users: Collection<int, User>, rowCount: int}
+     * @param  IndexDTO                   $dto ユーザー検索DTO
+     * @return LengthAwarePaginator<User>
      */
-    public function handle(IndexDTO $dto): array
+    public function handle(IndexDTO $dto): LengthAwarePaginator
     {
         $query = User::query();
 
@@ -33,17 +33,6 @@ final class IndexUseCase
             $query->where('email', 'like', '%' . $dto->email . '%');
         }
 
-        // 総件数を取得
-        $rowCount = $query->count();
-
-        // ページネーションを適用
-        $users = $query->skip($dto->pageIndex * $dto->pageSize)
-            ->take($dto->pageSize)
-            ->get();
-
-        return [
-            'users'    => $users,
-            'rowCount' => $rowCount,
-        ];
+        return $query->paginate($dto->pageSize);
     }
 }

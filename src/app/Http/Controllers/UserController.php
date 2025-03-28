@@ -11,6 +11,7 @@ use App\Http\Requests\User\DeleteRequest;
 use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\PaginateResource;
 use App\Http\Resources\UserResource;
 use App\UseCases\User\DeleteUseCase;
 use App\UseCases\User\DownloadUseCase;
@@ -37,8 +38,8 @@ class UserController extends Controller
         $result = $useCase->handle($dto);
 
         return ApiResponse::success([
-            'users'    => UserResource::collection($result['users']),
-            'rowCount' => $result['rowCount'],
+            'users'    => UserResource::collection($result),
+            'paginate' => new PaginateResource($result),
         ], Response::HTTP_OK);
     }
 
