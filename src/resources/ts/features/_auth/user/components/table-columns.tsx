@@ -3,27 +3,26 @@ import { AllCheckbox } from '@/features/_auth/components/table/all-checkbox';
 import { RowCheckbox } from '@/features/_auth/components/table/row-checkbox';
 import type { User } from '@/features/_auth/types/user';
 import { DeleteUsers } from '@/features/_auth/user/components/delete-users';
-import type { ColumnDef } from '@tanstack/react-table';
+import { createColumnHelper } from '@tanstack/react-table';
 
-export const columns: ColumnDef<User>[] = [
-  {
+const columnHelper = createColumnHelper<User>();
+
+export const columns = [
+  columnHelper.display({
     id: 'select',
     header: ({ table }) => <AllCheckbox table={table} />,
     cell: ({ row }) => <RowCheckbox row={row} />,
-  },
-  {
-    accessorKey: 'id',
+  }),
+  columnHelper.accessor('id', {
     header: 'ID',
-  },
-  {
-    accessorKey: 'name',
+  }),
+  columnHelper.accessor('name', {
     header: '名前',
-  },
-  {
-    accessorKey: 'email',
+  }),
+  columnHelper.accessor('email', {
     header: 'メールアドレス',
-  },
-  {
+  }),
+  columnHelper.display({
     id: 'actions',
     cell: ({ row }) => {
       return (
@@ -35,5 +34,5 @@ export const columns: ColumnDef<User>[] = [
         </div>
       );
     },
-  },
+  }),
 ];

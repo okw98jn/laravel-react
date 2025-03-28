@@ -1,11 +1,5 @@
-import {
-  type ColumnDef,
-  type PaginationOptions,
-  type PaginationState,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { flexRender } from '@tanstack/react-table';
+import type { Table as TableType } from '@tanstack/react-table';
 
 import {
   Table,
@@ -20,32 +14,13 @@ import { Pagination } from '@/features/_auth/components/table/pagination';
 import { PendingBody } from '@/features/_auth/components/table/pending-body';
 import { TableError } from '@/features/_auth/components/table/table-error';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  pagination: PaginationState;
-  paginationOptions: Pick<PaginationOptions, 'onPaginationChange' | 'rowCount'>;
+interface Props<TData> {
+  table: TableType<TData>;
   isPending: boolean;
   isError: boolean;
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  pagination,
-  paginationOptions,
-  isPending,
-  isError,
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    state: { pagination },
-    getCoreRowModel: getCoreRowModel(),
-    manualPagination: true,
-    ...paginationOptions,
-  });
-
+export function DataTable<TData>({ table, isPending, isError }: Props<TData>) {
   if (isError) {
     return <TableError />;
   }
@@ -73,7 +48,7 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           {isPending ? (
-            <PendingBody columnLength={columns.length} />
+            <PendingBody columnLength={table.getVisibleFlatColumns().length} />
           ) : (
             <TableBody>
               {table.getRowModel().rows?.length ? (
@@ -93,7 +68,7 @@ export function DataTable<TData, TValue>({
                   </TableRow>
                 ))
               ) : (
-                <EmptyRow columnLength={columns.length} />
+                <EmptyRow columnLength={table.getVisibleFlatColumns().length} />
               )}
             </TableBody>
           )}
