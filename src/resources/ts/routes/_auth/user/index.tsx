@@ -13,6 +13,7 @@ import { searchSchema } from '@/features/_auth/user/schema/search';
 import { createFileRoute } from '@tanstack/react-router';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/user/')({
   component: RouteComponent,
@@ -22,12 +23,17 @@ export const Route = createFileRoute('/_auth/user/')({
 function RouteComponent() {
   const { filters, setFilters } = useFilter(Route.id);
   const { data, isPending, isError } = useUsers(filters);
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data: data?.data.users ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      rowSelection,
+    },
   });
 
   const selectedIds = table
@@ -39,7 +45,7 @@ function RouteComponent() {
       <PageTitle title="ユーザー" />
       <SearchForm />
       <ListButtonContainer>
-        <DeleteUsers ids={selectedIds} />
+        <DeleteUsers ids={selectedIds} onSuccess={() => setRowSelection({})} />
         <CsvDownload />
         <CreateUser />
       </ListButtonContainer>

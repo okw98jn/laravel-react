@@ -2,13 +2,25 @@ import { Button } from '@/components/ui/button';
 import { AlertModal } from '@/features/_auth/components/modal/alert-modal';
 import { useDelete } from '@/features/_auth/user/hooks/use-delete';
 import { Trash } from 'lucide-react';
+import { useState } from 'react';
 
 interface Props {
   ids: number[];
+  onSuccess: () => void;
 }
 
-export function DeleteUsers({ ids }: Props) {
-  const { isOpen, setIsOpen, handleDelete, isPending } = useDelete(ids);
+export function DeleteUsers({ ids, onSuccess: onSuccessProp }: Props) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const onSuccess = () => {
+    setIsOpen(false);
+    onSuccessProp();
+  };
+
+  const { handleDelete, isPending } = useDelete({
+    ids,
+    onSuccess,
+  });
 
   return (
     <AlertModal
@@ -23,7 +35,7 @@ export function DeleteUsers({ ids }: Props) {
           disabled={ids.length === 0}
         >
           <Trash />
-          削除
+          一括削除
         </Button>
       }
       submitButton={

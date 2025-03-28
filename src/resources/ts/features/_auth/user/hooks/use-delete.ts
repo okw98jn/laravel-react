@@ -1,16 +1,19 @@
 import { useDeleteUsers } from '@/features/_auth/user/api/delete-users';
 import { queryClient } from '@/lib/query';
-import { useState } from 'react';
 import { toast } from 'sonner';
 
-export function useDelete(ids: number[]) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+interface Props {
+  ids: number[];
+  onSuccess: () => void;
+}
+
+export function useDelete({ ids, onSuccess }: Props) {
   const { mutate, isPending } = useDeleteUsers();
 
   const handleDelete = () => {
     mutate(ids, {
       onSuccess: () => {
-        setIsOpen(false);
+        onSuccess();
         toast.success('ユーザーを削除しました');
         queryClient.invalidateQueries({ queryKey: ['users'] });
       },
@@ -20,5 +23,5 @@ export function useDelete(ids: number[]) {
     });
   };
 
-  return { isOpen, setIsOpen, handleDelete, isPending };
+  return { handleDelete, isPending };
 }

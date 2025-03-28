@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { AlertModal } from '@/features/_auth/components/modal/alert-modal';
 import { useDelete } from '@/features/_auth/user/hooks/use-delete';
+import { useState } from 'react';
 
 interface Props {
   id: number;
@@ -8,7 +9,11 @@ interface Props {
 }
 
 export function DeleteUser({ id, name }: Props) {
-  const { isOpen, setIsOpen, handleDelete, isPending } = useDelete([id]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { handleDelete, isPending } = useDelete({
+    ids: [id],
+    onSuccess: () => setIsOpen(false),
+  });
 
   return (
     <AlertModal
