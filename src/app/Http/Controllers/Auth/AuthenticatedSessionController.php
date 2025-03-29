@@ -6,7 +6,7 @@ use App\Dto\Auth\AuthenticatedSession\StoreDto;
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthenticatedSession\StoreRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\AuthUserResource;
 use App\UseCases\Auth\AuthenticatedSession\DestroyUseCase;
 use App\UseCases\Auth\AuthenticatedSession\StoreUseCase;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         $user = $useCase->handle($request, $dto);
 
         return ApiResponse::success([
-            'user' => new UserResource($user),
+            'user' => new AuthUserResource($user),
         ], Response::HTTP_CREATED);
     }
 

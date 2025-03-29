@@ -1,9 +1,9 @@
-import type { User } from '@/features/_auth/types/user';
 import { api } from '@/lib/api-client';
+import type { AuthUser } from '@/store/auth';
 import type { ApiSuccessResponse } from '@/types/api';
 
 interface AuthUserResponseData {
-  user: User;
+  user: AuthUser;
 }
 
 // zustandと2重で状態管理をしたくないのでaxiosで取得

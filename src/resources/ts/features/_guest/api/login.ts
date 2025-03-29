@@ -1,12 +1,12 @@
-import type { User } from '@/features/_auth/types/user';
 import { getCsrfCookie } from '@/features/_guest/api/csrf';
 import type { LoginSchemaType } from '@/features/_guest/schema/login';
 import { api } from '@/lib/api-client';
+import type { AuthUser } from '@/store/auth';
 import type { ApiSuccessResponse } from '@/types/api';
 import { useMutation } from '@tanstack/react-query';
 
 interface LoginResponseData {
-  user: User;
+  user: AuthUser;
 }
 
 async function login(

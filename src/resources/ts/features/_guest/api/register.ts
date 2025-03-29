@@ -1,11 +1,11 @@
-import type { User } from '@/features/_auth/types/user';
 import type { RegisterSchemaType } from '@/features/_guest/schema/register';
 import { api } from '@/lib/api-client';
+import type { AuthUser } from '@/store/auth';
 import type { ApiSuccessResponse } from '@/types/api';
 import { useMutation } from '@tanstack/react-query';
 
 interface RegisterResponseData {
-  user: User;
+  user: AuthUser;
 }
 
 async function register(

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\AuthUserResource;
 use App\UseCases\Auth\AuthUser\ShowUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -22,7 +22,7 @@ class AuthUserController extends Controller
         $user = $useCase->handle();
 
         return ApiResponse::success([
-            'user' => new UserResource($user),
+            'user' => new AuthUserResource($user),
         ], Response::HTTP_OK);
     }
 }
