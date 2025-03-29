@@ -65,7 +65,7 @@ jobs:
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
 
-      - name: Serve
+      - name: Run Laravel Server
         run: php artisan serve
 
       - name: Setup Node.js
