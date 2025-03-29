@@ -87,12 +87,19 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
 
-      - name: Execute tests
-        run: |
-          php artisan migrate
-          php artisan test
+      - name: Run Migration
+        run: php artisan migrate
         env:
           DB_HOST: localhost
           DB_DATABASE: postgres
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+
+      - name: Execute tests
+        run: php artisan test
+        env:
+          DB_HOST: localhost
+          DB_DATABASE: postgres
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+
