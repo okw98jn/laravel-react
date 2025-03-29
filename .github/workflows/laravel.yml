@@ -84,10 +84,10 @@ jobs:
       - name: Copy .env
         run: |
           cp .env.example .env
-          echo "DB_HOST=localhost" >> .env
-          echo "DB_DATABASE=postgres" >> .env
-          echo "DB_USERNAME=postgres" >> .env
-          echo "DB_PASSWORD=postgres" >> .env
+          sed -i 's/DB_HOST=.*/DB_HOST=localhost/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=postgres/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=postgres/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=postgres/' .env
 
       - name: Generate key
         run: php artisan key:generate
