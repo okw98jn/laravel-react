@@ -9,17 +9,12 @@ export const Route = createFileRoute('/_auth')({
 });
 
 function RouteComponent() {
-  const { requireAuth } = useAuth();
-  const isAuthenticated = requireAuth();
+  const { isLoading, isAuthenticated } = useAuth();
 
   // 認証情報の読み込み中は何も表示しない
-  if (isAuthenticated === null) {
-    return null;
-  }
+  if (isLoading) return null;
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
   const isSidebarOpen = document.cookie
     .split(';')

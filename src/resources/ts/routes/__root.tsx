@@ -8,10 +8,8 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => {
-    const { initAuth } = useAuth();
-
-    // 認証の初期化
-    initAuth();
+    // ログイン状態の初期化
+    useAuth();
 
     return (
       <>
