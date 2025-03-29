@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCases\User;
 
-use App\Dto\User\StoreDTO;
+use App\Dto\User\StoreDto;
 use App\Enums\User\Gender;
 use App\Enums\User\Status;
 use App\Models\User;
@@ -28,8 +28,8 @@ final class StoreUseCaseTest extends TestCase
      */
     public function test_user_can_be_created_with_valid_data(): void
     {
-        // テスト用DTOの準備
-        $dto = StoreDTO::fromArray([
+        // テスト用Dtoの準備
+        $dto = StoreDto::fromArray([
             'name'     => 'テストユーザー',
             'email'    => 'test@example.com',
             'gender'   => Gender::MALE->value,
@@ -56,8 +56,8 @@ final class StoreUseCaseTest extends TestCase
      */
     public function test_user_can_be_created_with_null_memo(): void
     {
-        // メモがnullのDTO
-        $dto = StoreDTO::fromArray([
+        // メモがnullのDto
+        $dto = StoreDto::fromArray([
             'name'     => 'メモなしユーザー',
             'email'    => 'no-memo@example.com',
             'gender'   => Gender::FEMALE->value,
@@ -93,7 +93,7 @@ final class StoreUseCaseTest extends TestCase
         ]);
 
         // 同じメールアドレスで2人目のユーザーを作成しようとする
-        $dto = StoreDTO::fromArray([
+        $dto = StoreDto::fromArray([
             'name'     => '重複ユーザー',
             'email'    => 'duplicate@example.com',
             'gender'   => Gender::MALE->value,
@@ -113,7 +113,7 @@ final class StoreUseCaseTest extends TestCase
     public function test_user_can_be_created_with_different_status_values(): void
     {
         foreach (Status::cases() as $status) {
-            $dto = StoreDTO::fromArray([
+            $dto = StoreDto::fromArray([
                 'name'     => "ステータステスト{$status->value}",
                 'email'    => "status-test-{$status->value}@example.com",
                 'gender'   => Gender::MALE->value,
@@ -138,7 +138,7 @@ final class StoreUseCaseTest extends TestCase
     public function test_user_can_be_created_with_different_gender_values(): void
     {
         foreach (Gender::cases() as $gender) {
-            $dto = StoreDTO::fromArray([
+            $dto = StoreDto::fromArray([
                 'name'     => "性別テスト{$gender->value}",
                 'email'    => "gender-test-{$gender->value}@example.com",
                 'gender'   => $gender->value,

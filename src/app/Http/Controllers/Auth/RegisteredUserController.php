@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Dto\Auth\RegisteredUser\StoreDTO;
+use App\Dto\Auth\RegisteredUser\StoreDto;
 use App\Facades\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisteredUser\StoreRequest;
@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
     {
-        $dto = StoreDTO::fromArray($request->validated());
+        $dto = StoreDto::fromArray($request->validated());
 
         $user = $useCase->handle($dto);
 

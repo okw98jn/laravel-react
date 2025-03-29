@@ -2,7 +2,7 @@
 
 namespace App\UseCases\User;
 
-use App\Dto\User\StoreDTO;
+use App\Dto\User\StoreDto;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,10 +11,10 @@ final class StoreUseCase
     /**
      * ユーザーを登録する
      *
-     * @param  StoreDTO $dto ユーザー作成DTO
+     * @param  StoreDto $dto ユーザー作成Dto
      * @return User
      */
-    public function handle(StoreDTO $dto): User
+    public function handle(StoreDto $dto): User
     {
         $user = User::create([
             'name'     => $dto->name,

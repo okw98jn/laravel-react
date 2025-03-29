@@ -2,7 +2,7 @@
 
 namespace App\UseCases\Auth\AuthenticatedSession;
 
-use App\Dto\Auth\AuthenticatedSession\StoreDTO;
+use App\Dto\Auth\AuthenticatedSession\StoreDto;
 use App\Http\Requests\Auth\AuthenticatedSession\StoreRequest;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
@@ -14,11 +14,11 @@ final class StoreUseCase
      * ユーザーをログインさせる
      *
      * @param  StoreRequest            $request
-     * @param  StoreDTO                $dto
+     * @param  StoreDto                $dto
      * @return User
      * @throws AuthenticationException
      */
-    public function handle(StoreRequest $request, StoreDTO $dto): User
+    public function handle(StoreRequest $request, StoreDto $dto): User
     {
         $credentials = [
             'email'    => $dto->email,

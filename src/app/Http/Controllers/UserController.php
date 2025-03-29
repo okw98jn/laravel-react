@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\User\DeleteDTO;
-use App\Dto\User\IndexDTO;
-use App\Dto\User\StoreDTO;
-use App\Dto\User\UpdateDTO;
+use App\Dto\User\DeleteDto;
+use App\Dto\User\IndexDto;
+use App\Dto\User\StoreDto;
+use App\Dto\User\UpdateDto;
 use App\Facades\ApiResponse;
 use App\Http\Requests\User\DeleteRequest;
 use App\Http\Requests\User\IndexRequest;
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function index(IndexRequest $request, IndexUseCase $useCase): JsonResponse
     {
-        $dto = IndexDTO::fromArray($request->validated());
+        $dto = IndexDto::fromArray($request->validated());
 
         $result = $useCase->handle($dto);
 
@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function store(StoreRequest $request, StoreUseCase $useCase): JsonResponse
     {
-        $dto = StoreDTO::fromArray($request->validated());
+        $dto = StoreDto::fromArray($request->validated());
 
         $user = $useCase->handle($dto);
 
@@ -70,7 +70,7 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, UpdateUseCase $useCase): JsonResponse
     {
-        $dto = UpdateDTO::fromArray($request->validated());
+        $dto = UpdateDto::fromArray($request->validated());
 
         $user = $useCase->handle($dto);
 
@@ -88,7 +88,7 @@ class UserController extends Controller
      */
     public function delete(DeleteRequest $request, DeleteUseCase $useCase): JsonResponse
     {
-        $dto = DeleteDTO::fromArray($request->validated());
+        $dto = DeleteDto::fromArray($request->validated());
 
         $useCase->handle($dto);
 

@@ -3,9 +3,9 @@
 namespace App\Dto\User;
 
 /**
- * ユーザー削除DTO
+ * ユーザー削除Dto
  */
-final readonly class DeleteDTO
+final readonly class DeleteDto
 {
     /**
      * @param array<int> $ids
@@ -16,7 +16,7 @@ final readonly class DeleteDTO
     }
 
     /**
-     * 配列からDTOを作成
+     * 配列からDtoを作成
      *
      * @param  array<string, mixed> $data
      * @return self

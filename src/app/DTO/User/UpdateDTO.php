@@ -6,9 +6,9 @@ use App\Enums\User\Gender;
 use App\Enums\User\Status;
 
 /**
- * ユーザー更新DTO
+ * ユーザー更新Dto
  */
-final readonly class UpdateDTO
+final readonly class UpdateDto
 {
     public function __construct(
         public int $id,
@@ -22,7 +22,7 @@ final readonly class UpdateDTO
     }
 
     /**
-     * 配列からDTOを作成
+     * 配列からDtoを作成
      *
      * @param  array<string, mixed> $data
      * @return self

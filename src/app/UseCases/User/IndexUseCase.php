@@ -2,7 +2,7 @@
 
 namespace App\UseCases\User;
 
-use App\Dto\User\IndexDTO;
+use App\Dto\User\IndexDto;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -11,10 +11,10 @@ final class IndexUseCase
     /**
      * ユーザー一覧を取得する
      *
-     * @param  IndexDTO                   $dto ユーザー検索DTO
+     * @param  IndexDto                   $dto ユーザー検索Dto
      * @return LengthAwarePaginator<User>
      */
-    public function handle(IndexDTO $dto): LengthAwarePaginator
+    public function handle(IndexDto $dto): LengthAwarePaginator
     {
         $query = User::query();
 

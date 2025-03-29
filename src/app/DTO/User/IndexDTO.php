@@ -3,9 +3,9 @@
 namespace App\Dto\User;
 
 /**
- * ユーザー検索DTO
+ * ユーザー検索Dto
  */
-final readonly class IndexDTO
+final readonly class IndexDto
 {
     public function __construct(
         public ?string $id,
@@ -17,7 +17,7 @@ final readonly class IndexDTO
     }
 
     /**
-     * 配列からDTOを作成
+     * 配列からDtoを作成
      *
      * @param  array<string, mixed> $data
      * @return self

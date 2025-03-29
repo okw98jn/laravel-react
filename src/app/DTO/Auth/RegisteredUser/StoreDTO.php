@@ -3,9 +3,9 @@
 namespace App\Dto\Auth\RegisteredUser;
 
 /**
- * ユーザー登録DTO
+ * ユーザー登録Dto
  */
-final readonly class StoreDTO
+final readonly class StoreDto
 {
     public function __construct(
         public string $name,
@@ -15,7 +15,7 @@ final readonly class StoreDTO
     }
 
     /**
-     * 配列からDTOを作成
+     * 配列からDtoを作成
      *
      * @param  array<string, mixed> $data
      * @return self
