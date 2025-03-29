@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./src/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-vendor-${{ hashFiles('./src/composer.lock') }}
 
       - name: Install Dependencies
         if: steps.cache-vendor.outputs.cache-hit != 'true'
@@ -75,7 +75,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./src/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-vendor-${{ hashFiles('./src/composer.lock') }}
 
       - name: Install Dependencies
         if: steps.cache-vendor.outputs.cache-hit != 'true'
@@ -88,7 +88,9 @@ jobs:
         run: php artisan key:generate
 
       - name: Execute tests
-        run: php artisan test --parallel
+        run: |
+          php artisan migrate
+          php artisan test
         env:
           DB_HOST: localhost
           DB_DATABASE: postgres

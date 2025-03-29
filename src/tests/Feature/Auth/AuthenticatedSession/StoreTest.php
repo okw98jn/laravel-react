@@ -36,12 +36,9 @@ final class StoreTest extends TestCase
             ->assertExactJson([
                 'data' => [
                     'user' => [
-                        'id'     => $user->id,
-                        'name'   => $user->name,
-                        'email'  => $user->email,
-                        'gender' => $user->gender,
-                        'status' => $user->status,
-                        'memo'   => $user->memo,
+                        'id'    => $user->id,
+                        'name'  => $user->name,
+                        'email' => $user->email,
                     ],
                 ],
                 'success' => true,

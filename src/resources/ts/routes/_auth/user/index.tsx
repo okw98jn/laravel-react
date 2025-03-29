@@ -25,7 +25,7 @@ export const Route = createFileRoute('/_auth/user/')({
 });
 
 function RouteComponent() {
-  const { filters, setFilters } = useFilter(Route.id);
+  const { filters } = useFilter(Route.id);
   const { data, isPending, isError } = useUsers(filters);
   const [rowSelection, setRowSelection] = useState({});
   const [pagination, setPagination] = useState<PaginationState>({

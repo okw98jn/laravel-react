@@ -24,7 +24,7 @@ class ShowUseCaseTest extends TestCase
     /**
      * ログインユーザーが取得できることをテスト
      */
-    public function handle_returns_authenticated_user(): void
+    public function test_handle_returns_authenticated_user(): void
     {
         // テストユーザー作成
         /** @var User $expectedUser */
@@ -47,7 +47,7 @@ class ShowUseCaseTest extends TestCase
     /**
      * 未ログイン状態で例外が発生することをテスト
      */
-    public function handle_throws_exception_when_unauthenticated(): void
+    public function test_handle_throws_exception_when_unauthenticated(): void
     {
         // 未ログイン状態を確認
         Auth::logout();

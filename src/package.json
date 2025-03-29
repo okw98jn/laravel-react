@@ -71,5 +71,10 @@
     "typescript": "^5.8.2",
     "vite": "^6.0.11",
     "vitest": "^3.0.9"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
+    "lightningcss-linux-x64-gnu": "^1.29.1"
   }
 }
