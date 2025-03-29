@@ -8,8 +8,12 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => {
-    // ログイン状態の初期化
-    useAuth();
+    // 認証の初期化
+    // リロード時に認証状態をチェック
+    const { isLoading } = useAuth();
+
+    // 認証情報の読み込み中は何も表示しない
+    if (isLoading) return null;
 
     return (
       <>
@@ -19,6 +23,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       </>
     );
   },
+  // 404例外はここに来る
   notFoundComponent: NotFoundError,
   // キャッチされなかった例外はここで処理
   errorComponent: (error) => <ErrorHandler error={error} />,

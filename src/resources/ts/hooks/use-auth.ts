@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
  * 認証関連の機能を提供するカスタムフック
  */
 export function useAuth() {
-  const { isAuthenticated, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   /**
@@ -28,5 +28,5 @@ export function useAuth() {
     fetchUser();
   }, [fetchUser]);
 
-  return { isLoading, isAuthenticated };
+  return { isLoading };
 }
