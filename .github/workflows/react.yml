@@ -124,9 +124,8 @@ jobs:
           path: ./src/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
 
-      # CI環境ではbuildしないとテストが動かない
-      - name: Run Build
-        run: npm run build
-
       - name: Run Vitest
+        env:
+          # https://github.com/laravel/vite-plugin/issues/164
+          LARAVEL_BYPASS_ENV_CHECK: 1
         run: npm run test
