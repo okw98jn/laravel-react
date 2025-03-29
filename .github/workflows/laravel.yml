@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./src/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-vendor-${{ hashFiles('./src/composer.lock') }}
 
       - name: Install Dependencies
         if: steps.cache-vendor.outputs.cache-hit != 'true'
@@ -75,7 +75,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./src/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-vendor-${{ hashFiles('./src/composer.lock') }}
 
       - name: Install Dependencies
         if: steps.cache-vendor.outputs.cache-hit != 'true'
