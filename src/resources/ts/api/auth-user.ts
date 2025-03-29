@@ -12,4 +12,3 @@ export async function fetchAuthUser(): Promise<
 > {
   return api.get('/auth-user').then((res) => res.data);
 }
-//
