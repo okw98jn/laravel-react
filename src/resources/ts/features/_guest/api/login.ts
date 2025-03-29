@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 import type { ApiSuccessResponse } from '@/types/api';
 import { useMutation } from '@tanstack/react-query';
 
-export interface LoginResponseData {
+interface LoginResponseData {
   user: User;
 }
 

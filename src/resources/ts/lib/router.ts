@@ -1,4 +1,3 @@
-import type { AuthData } from '@/hooks/use-auth';
 import { queryClient } from '@/lib/query';
 import { routeTree } from '@/routeTree.gen';
 import type { QueryClient } from '@tanstack/react-query';
@@ -8,13 +7,12 @@ import 'nprogress/nprogress.css';
 
 export interface RouterContext {
   queryClient: QueryClient;
-  auth: AuthData;
 }
 
 export const router = createRouter({
   routeTree,
   notFoundMode: 'root',
-  context: { queryClient, auth: undefined! },
+  context: { queryClient },
 });
 
 // プログレスバー
