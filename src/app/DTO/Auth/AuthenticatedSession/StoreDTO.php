@@ -13,7 +13,6 @@ final readonly class StoreDto
     ) {
     }
 
-    //
     /**
      * 配列からDtoを作成
      *
