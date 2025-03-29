@@ -11,7 +11,11 @@ import { SearchForm } from '@/features/_auth/user/components/search-form';
 import { columns } from '@/features/_auth/user/components/table-columns';
 import { searchSchema } from '@/features/_auth/user/schema/search';
 import { createFileRoute } from '@tanstack/react-router';
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  type PaginationState,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
 import { useState } from 'react';
 
@@ -24,6 +28,10 @@ function RouteComponent() {
   const { filters, setFilters } = useFilter(Route.id);
   const { data, isPending, isError } = useUsers(filters);
   const [rowSelection, setRowSelection] = useState({});
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 1,
+    pageSize: 10,
+  });
 
   const table = useReactTable({
     data: data?.data.users ?? [],
@@ -31,8 +39,11 @@ function RouteComponent() {
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
+    rowCount: data?.data.paginate.total,
     state: {
       rowSelection,
+      pagination,
     },
   });
 
