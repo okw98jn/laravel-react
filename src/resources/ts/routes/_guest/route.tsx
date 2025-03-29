@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/store/auth';
+import { useAuth } from '@/hooks/use-auth';
 import { Navigate, Outlet, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_guest')({
@@ -6,14 +6,15 @@ export const Route = createFileRoute('/_guest')({
 });
 
 function RouteComponent() {
-  const { isAuthenticated, isLoading } = useAuthStore();
+  const { requireGuest } = useAuth();
+  const isGuest = requireGuest();
 
   // 認証情報の読み込み中は何も表示しない
-  if (isLoading) {
+  if (isGuest === null) {
     return null;
   }
 
-  if (isAuthenticated) {
+  if (!isGuest) {
     return <Navigate to="/" />;
   }
 
