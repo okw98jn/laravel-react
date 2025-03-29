@@ -9,12 +9,12 @@ export function useLogoutHandler(): {
 } {
   const navigate = useNavigate();
   const { mutate, isPending } = useLogout();
-  const { logout } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   function handleLogout(): void {
     mutate(undefined, {
       onSuccess: () => {
-        logout();
+        setUser(null);
         navigate({ to: '/login' });
         toast.success('ログアウトしました。');
       },

@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 export function useLoginForm() {
   const navigate = useNavigate();
   const { mutate, isPending } = useLogin();
-  const { login } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   const defaultValues: LoginSchemaType = {
     email: '',
@@ -31,7 +31,7 @@ export function useLoginForm() {
   const onSubmit = form.handleSubmit((formData) => {
     mutate(formData, {
       onSuccess: (data) => {
-        login(data.data.user);
+        setUser(data.data.user);
         navigate({ to: '/' });
         toast.success('ログインしました。');
       },
