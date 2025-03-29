@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('h1にログインテキストが含まれているか確認', async ({ page }) => {
-  await page.goto('http://laravel-web/login');
+  await page.goto('login');
 
   // h1要素の中に「ログイン」テキストがあるか確認
   await expect(

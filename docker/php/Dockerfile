@@ -28,6 +28,10 @@ RUN docker-php-ext-install \
     && pecl install redis \
     && docker-php-ext-enable redis
 
+# playwrightに必要なパッケージをインストール
+RUN npx playwright install-deps \
+    && npx playwright install
+
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 COPY ./zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
