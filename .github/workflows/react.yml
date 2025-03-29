@@ -124,5 +124,9 @@ jobs:
           path: ./src/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
 
+      # CI環境ではbuildしないとテストが動かない
+      - name: Run Build
+        run: npm run build
+
       - name: Run Vitest
         run: npm run test
