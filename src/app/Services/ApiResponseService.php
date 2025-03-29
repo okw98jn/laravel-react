@@ -15,6 +15,7 @@ final class ApiResponseService
      * @param  JsonResource|array<mixed> $data
      * @param  int                       $status
      * @return JsonResponse
+     *
      */
     public function success(JsonResource|array $data, int $status = HttpResponse::HTTP_OK): JsonResponse
     {
