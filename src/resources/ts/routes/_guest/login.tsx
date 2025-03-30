@@ -27,7 +27,7 @@ function RouteComponent() {
             <FormInput<LoginSchemaType>
               name="email"
               label="メールアドレス"
-              type="email"
+              type="text"
               autoComplete="email"
               placeholder="example@example.com"
             />
