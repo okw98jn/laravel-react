@@ -7,7 +7,7 @@
     "unrecognized_keys": "次のキーは認識できません: {{- keys}}。",
     "invalid_union": "入力の形式が正しくありません。",
     "invalid_union_discriminator": "無効な選択肢です。次のいずれかを選んでください: {{- options}}。",
-    "invalid_enum_value": "{{path}}は次のいずれかを選んでください: {{- options}}。",
+    "invalid_enum_value": "{{path}}は必ず選択してください。",
     "invalid_arguments": "引数が正しくありません。",
     "invalid_return_type": "戻り値の型が正しくありません。",
     "invalid_date": "日付の形式が正しくありません。",

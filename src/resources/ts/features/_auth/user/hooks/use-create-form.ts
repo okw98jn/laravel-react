@@ -20,7 +20,7 @@ export function useCreateForm() {
     name: '',
     email: '',
     memo: '',
-    status: 0,
+    status: '',
     password: '',
   };
 

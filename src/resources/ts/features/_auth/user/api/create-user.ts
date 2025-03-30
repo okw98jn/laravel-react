@@ -16,7 +16,7 @@ async function createUser(
       name: formData.name,
       email: formData.email,
       memo: formData.memo,
-      status: formData.status,
+      status: Number(formData.status),
       password: formData.password,
       gender: 1,
     })
