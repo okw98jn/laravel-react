@@ -1,4 +1,4 @@
-name: E2E Tests
+name: E2E Test
 
 on:
   pull_request:
@@ -104,13 +104,3 @@ jobs:
 
       - name: Run Playwright tests
         run: npx playwright test --project=chromium
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-results
-          path: |
-            ./src/test-results/
-            ./src/*.png
-          retention-days: 30
