@@ -2,7 +2,7 @@ name: E2E Test
 
 on:
   workflow_run:
-    workflows: [Laravel React]
+    workflows: [Laravel, React]
     types:
       - completed
 
