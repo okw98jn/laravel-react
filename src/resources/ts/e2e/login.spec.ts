@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { loginAsTestUser } from './utils/auth';
 
 test.describe('ログイン機能のテスト', () => {
   test.beforeEach(async ({ page }) => {
@@ -65,19 +66,46 @@ test.describe('ログイン機能のテスト', () => {
   });
 
   test('正しい認証情報でログインできる', async ({ page }) => {
-    // E2ETestSeederで作成したテストユーザーでログイン
-    await page.getByLabel('メールアドレス').fill('e2e@example.com');
-    await page.getByLabel('パスワード').fill('password');
-    await page.getByRole('button', { name: 'ログイン' }).click();
+    await loginAsTestUser(page);
+  });
 
-    // ログイン成功のトースト通知が表示されることを確認
-    await expect(page.getByText('ログインしました。')).toBeVisible();
+  test('ログアウトできる', async ({ page }) => {
+    await loginAsTestUser(page);
+
+    await page
+      .getByRole('button', { name: 'SN テストユーザー e2e@example.com' })
+      .click();
+
+    await page.getByRole('menuitem', { name: 'ログアウト' }).click();
+
+    // ログインページにリダイレクトされることを確認
+    await expect(page).toHaveURL('/login');
+
+    // トースト通知が表示されることを確認
+    await expect(page.getByText('ログアウトしました。')).toBeVisible();
+  });
+
+  test('未ログイン状態でダッシュボードを開くとログインページにリダイレクトされる', async ({
+    page,
+  }) => {
+    await page.goto('/');
+
+    // ログインページにリダイレクトされることを確認
+    await expect(page).toHaveURL('/login');
+
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'ログイン' }),
+    ).toBeVisible();
+  });
+
+  test('ログイン状態でログイン画面を開くとダッシュボードにリダイレクトされる', async ({
+    page,
+  }) => {
+    await loginAsTestUser(page);
+
+    await page.goto('login');
 
     // ダッシュボードにリダイレクトされることを確認
     await expect(page).toHaveURL('/');
-
-    // ログイン後のユーザー情報が表示されることを確認
-    await expect(page.getByText('テストユーザー')).toBeVisible();
-    await expect(page.getByText('e2e@example.com')).toBeVisible();
   });
 });
