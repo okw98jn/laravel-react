@@ -91,4 +91,14 @@ jobs:
         run: npx playwright install chromium
 
       - name: Run Playwright tests
-        run: npx playwright test --project=chromium
+        run: npx playwright test --project=chromium --debug
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: |
+            ./src/test-results/
+            ./src/*.png
+          retention-days: 30
