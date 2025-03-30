@@ -19,7 +19,7 @@ function RouteComponent() {
 
   // Cookieが存在しない場合はデフォルトでオープン状態
   const isSidebarOpen = sidebarCookie ? sidebarCookie.includes('true') : true;
-  //
+
   return (
     <SidebarProvider defaultOpen={isSidebarOpen}>
       <AppSidebar />
