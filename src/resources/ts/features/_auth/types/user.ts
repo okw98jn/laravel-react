@@ -2,7 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  gender: string;
-  status: string;
+  gender: number;
+  status: number;
   memo: string;
 }
