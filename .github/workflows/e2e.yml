@@ -72,7 +72,7 @@ jobs:
         run: |
           php artisan migrate
           php artisan db:seed --class=E2ETestSeeder
-          php artisan serve &
+          php artisan serve --host=localhost --port=8080 &
 
         env:
           REDIS_HOST: localhost
@@ -80,6 +80,7 @@ jobs:
           DB_DATABASE: postgres
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+          VITE_API_URL: http://localhost:8080/api
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
