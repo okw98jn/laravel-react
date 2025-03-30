@@ -31,6 +31,16 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis:7.4.2
+        ports:
+          - "6379:6379"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,16 +67,17 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
 
-      - name: Migrate
-        run: php artisan migrate
+      - name: Run Laravel Server
+        run: |
+          php artisan migrate
+          php artisan serve &
+
         env:
+          REDIS_HOST: redis
           DB_HOST: localhost
           DB_DATABASE: postgres
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
-
-      - name: Run Laravel Server
-        run: php artisan serve &
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
