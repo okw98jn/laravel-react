@@ -74,7 +74,7 @@ jobs:
           php artisan serve &
 
         env:
-          REDIS_HOST: redis
+          REDIS_HOST: localhost
           DB_HOST: localhost
           DB_DATABASE: postgres
           DB_USERNAME: postgres
