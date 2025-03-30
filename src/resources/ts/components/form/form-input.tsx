@@ -1,3 +1,4 @@
+import { RequiredMark } from '@/components/required-mark';
 import {
   FormControl,
   FormField,
@@ -13,9 +14,10 @@ import { useFormContext } from 'react-hook-form';
 interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
   name: keyof S & string;
   label?: string;
+  isRequired?: boolean;
 }
 
-export function FormInput<S>({ name, label, ...props }: Props<S>) {
+export function FormInput<S>({ name, label, isRequired, ...props }: Props<S>) {
   const form = useFormContext();
   const uniqueId = useId();
   const inputId = `${name}-${uniqueId}`;
@@ -26,7 +28,12 @@ export function FormInput<S>({ name, label, ...props }: Props<S>) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel htmlFor={inputId}>{label}</FormLabel>}
+          {label && (
+            <FormLabel htmlFor={inputId}>
+              {label}
+              {isRequired && <RequiredMark />}
+            </FormLabel>
+          )}
           <FormControl>
             <Input id={inputId} {...field} {...props} />
           </FormControl>

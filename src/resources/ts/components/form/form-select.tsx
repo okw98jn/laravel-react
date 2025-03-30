@@ -1,3 +1,4 @@
+import { RequiredMark } from '@/components/required-mark';
 import {
   FormControl,
   FormField,
@@ -20,6 +21,7 @@ interface Props<S> {
   label?: string;
   options: SelectOption[];
   placeholder?: string;
+  isRequired?: boolean;
 }
 
 export function FormSelect<S>({
@@ -27,6 +29,7 @@ export function FormSelect<S>({
   label,
   options,
   placeholder = '選択してください',
+  isRequired,
 }: Props<S>) {
   const form = useFormContext();
 
@@ -36,7 +39,12 @@ export function FormSelect<S>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+          {label && (
+            <FormLabel htmlFor={name}>
+              {label}
+              {isRequired && <RequiredMark />}
+            </FormLabel>
+          )}
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger className="w-full">

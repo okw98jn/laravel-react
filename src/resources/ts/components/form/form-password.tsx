@@ -1,3 +1,4 @@
+import { RequiredMark } from '@/components/required-mark';
 import { Button } from '@/components/ui/button';
 import {
   FormControl,
@@ -14,9 +15,15 @@ import { useFormContext } from 'react-hook-form';
 interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
   name: keyof S & string;
   label?: string;
+  isRequired?: boolean;
 }
 
-export function FormPassword<S>({ name, label, ...props }: Props<S>) {
+export function FormPassword<S>({
+  name,
+  label,
+  isRequired,
+  ...props
+}: Props<S>) {
   const form = useFormContext();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const uniqueId = useId();
@@ -28,7 +35,12 @@ export function FormPassword<S>({ name, label, ...props }: Props<S>) {
       name={name}
       render={({ field }) => (
         <FormItem className="relative">
-          {label && <FormLabel htmlFor={passwordId}>{label}</FormLabel>}
+          {label && (
+            <FormLabel htmlFor={passwordId}>
+              {label}
+              {isRequired && <RequiredMark />}
+            </FormLabel>
+          )}
           <FormControl>
             <Input
               id={passwordId}
