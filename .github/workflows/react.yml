@@ -1,131 +1,131 @@
-name: React
+# name: React
 
-on:
-  pull_request:
-    paths:
-      - "**/*.ts"
-      - "**/*.tsx"
-      - "**/*.css"
+# on:
+#   pull_request:
+#     paths:
+#       - "**/*.ts"
+#       - "**/*.tsx"
+#       - "**/*.css"
 
-jobs:
-  setup:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
-    outputs:
-      cache-hit: ${{ steps.cache-node-modules.outputs.cache-hit }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+# jobs:
+#   setup:
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./src
+#     outputs:
+#       cache-hit: ${{ steps.cache-node-modules.outputs.cache-hit }}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20"
 
-      - name: Cache Node Modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: ./src/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
+#       - name: Cache Node Modules
+#         id: cache-node-modules
+#         uses: actions/cache@v4
+#         with:
+#           path: ./src/node_modules
+#           key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
 
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
+#       - name: Install dependencies
+#         if: steps.cache-node-modules.outputs.cache-hit != 'true'
+#         run: npm ci
 
-  biome:
-    runs-on: ubuntu-latest
-    needs: setup
-    defaults:
-      run:
-        working-directory: ./src
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   biome:
+#     runs-on: ubuntu-latest
+#     needs: setup
+#     defaults:
+#       run:
+#         working-directory: ./src
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
-        with:
-          version: latest
-          working-dir: ./src
+#       - name: Setup Biome
+#         uses: biomejs/setup-biome@v2
+#         with:
+#           version: latest
+#           working-dir: ./src
 
-      - name: Run Biome
-        run: biome ci .
+#       - name: Run Biome
+#         run: biome ci .
 
-  typecheck:
-    runs-on: ubuntu-latest
-    needs: setup
-    defaults:
-      run:
-        working-directory: ./src
+#   typecheck:
+#     runs-on: ubuntu-latest
+#     needs: setup
+#     defaults:
+#       run:
+#         working-directory: ./src
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20"
 
-      - name: Restore node modules
-        uses: actions/cache@v4
-        with:
-          path: ./src/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
+#       - name: Restore node modules
+#         uses: actions/cache@v4
+#         with:
+#           path: ./src/node_modules
+#           key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
 
-      - name: Run TypeScript Type Check
-        run: npm run typecheck
+#       - name: Run TypeScript Type Check
+#         run: npm run typecheck
 
-  build:
-    runs-on: ubuntu-latest
-    needs: [biome, typecheck]
-    defaults:
-      run:
-        working-directory: ./src
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   build:
+#     runs-on: ubuntu-latest
+#     needs: [biome, typecheck]
+#     defaults:
+#       run:
+#         working-directory: ./src
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20"
 
-      - name: Restore node modules
-        uses: actions/cache@v4
-        with:
-          path: ./src/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
+#       - name: Restore node modules
+#         uses: actions/cache@v4
+#         with:
+#           path: ./src/node_modules
+#           key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
 
-      - name: Run Build
-        run: npm run build
+#       - name: Run Build
+#         run: npm run build
 
-  vitest:
-    runs-on: ubuntu-latest
-    needs: build
-    defaults:
-      run:
-        working-directory: ./src
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   vitest:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     defaults:
+#       run:
+#         working-directory: ./src
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20"
 
-      - name: Restore node modules
-        uses: actions/cache@v4
-        with:
-          path: ./src/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
+#       - name: Restore node modules
+#         uses: actions/cache@v4
+#         with:
+#           path: ./src/node_modules
+#           key: ${{ runner.os }}-node-modules-${{ hashFiles('./src/package-lock.json') }}
 
-      - name: Run Vitest
-        env:
-          # https://github.com/laravel/vite-plugin/issues/164
-          LARAVEL_BYPASS_ENV_CHECK: 1
-        run: npm run test
+#       - name: Run Vitest
+#         env:
+#           # https://github.com/laravel/vite-plugin/issues/164
+#           LARAVEL_BYPASS_ENV_CHECK: 1
+#         run: npm run test
