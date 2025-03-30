@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
 import { AllCheckbox } from '@/features/_auth/components/table/all-checkbox';
 import { RowCheckbox } from '@/features/_auth/components/table/row-checkbox';
 import type { User } from '@/features/_auth/types/user';
 import { DeleteUser } from '@/features/_auth/user/components/delete-user';
+import { UpdateUser } from '@/features/_auth/user/components/update-user';
 import { createColumnHelper } from '@tanstack/react-table';
 
 const columnHelper = createColumnHelper<User>();
@@ -27,9 +27,7 @@ export const columns = [
     cell: ({ row }) => {
       return (
         <div className="flex justify-end gap-4">
-          <Button variant="outline" size="sm">
-            編集
-          </Button>
+          <UpdateUser user={row.original} />
           <DeleteUser id={row.original.id} name={row.original.name} />
         </div>
       );
