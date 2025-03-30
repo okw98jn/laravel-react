@@ -23,7 +23,7 @@ export function useUpdateForm(user: User) {
     password: '',
     status: String(user.status),
     gender: String(user.gender),
-    memo: user.memo,
+    memo: user.memo ?? '',
   };
 
   const form = useForm<UpdateSchemaType>({
