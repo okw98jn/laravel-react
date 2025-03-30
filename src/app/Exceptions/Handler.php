@@ -52,7 +52,7 @@ final class Handler
         $exceptions->render(function (Throwable $e, Request $request) {
             return ApiResponse::error(
                 __('error.500'),
-                [config('app.debug') ? $e->getMessage() : ''],
+                [config('app.debug') ? $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() : ''],
                 HttpResponse::HTTP_INTERNAL_SERVER_ERROR
             );
         });
