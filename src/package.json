@@ -8,7 +8,7 @@
     "typecheck": "tsc -b",
     "test": "vitest",
     "e2e": "./bin/e2e-test-local.sh",
-    "e2e:ui": "./bin/e2e-test-ui-local.sh"
+    "e2e:ui": "./bin/e2e-test-local.sh -u"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
