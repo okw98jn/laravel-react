@@ -13,9 +13,12 @@ function RouteComponent() {
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
-  const isSidebarOpen = document.cookie
+  const sidebarCookie = document.cookie
     .split(';')
-    .some((cookie) => cookie.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=true`));
+    .find((cookie) => cookie.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=`));
+
+  // Cookieが存在しない場合はデフォルトでオープン状態
+  const isSidebarOpen = sidebarCookie ? sidebarCookie.includes('true') : true;
 
   return (
     <SidebarProvider defaultOpen={isSidebarOpen}>
