@@ -1,12 +1,10 @@
 name: E2E Test
 
 on:
-  pull_request:
-    paths:
-      - "**/*.php"
-      - "**/*.ts"
-      - "**/*.tsx"
-      - "**/*.css"
+  workflow_run:
+    workflows: [Laravel React]
+    types:
+      - completed
 
 jobs:
   test:
