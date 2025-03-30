@@ -20,7 +20,7 @@ api.interceptors.request.use((request) => {
 api.interceptors.response.use(
   (response) => {
     // キャメルケースに変換
-    if (response.data) {
+    if (response.data && !(response.data instanceof Blob)) {
       response.data = humps.camelizeKeys(response.data);
     }
     return response;
