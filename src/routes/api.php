@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
-        Route::put('/{user}', 'update')->name('update');
+        Route::put('/', 'update')->name('update');
         Route::delete('/', 'delete')->name('delete');
         Route::get('/download', 'download')->name('download');
     });

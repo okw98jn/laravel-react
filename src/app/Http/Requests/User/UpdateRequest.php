@@ -18,6 +18,11 @@ final class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => [
+                'required',
+                'integer',
+                'exists:users,id',
+            ],
             'name' => [
                 'required',
                 'string',
@@ -28,7 +33,7 @@ final class UpdateRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                'unique:users',
+                'unique:users,email,' . $this->id,
             ],
             'gender' => [
                 'required',
@@ -58,6 +63,7 @@ final class UpdateRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'id'       => 'ID',
             'name'     => '名前',
             'email'    => 'メールアドレス',
             'gender'   => '性別',
