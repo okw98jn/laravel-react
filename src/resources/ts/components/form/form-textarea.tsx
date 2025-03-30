@@ -1,3 +1,4 @@
+import { RequiredMark } from '@/components/required-mark';
 import {
   FormControl,
   FormField,
@@ -13,9 +14,15 @@ import { useFormContext } from 'react-hook-form';
 interface Props<S> extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: keyof S & string;
   label?: string;
+  isRequired?: boolean;
 }
 
-export function FormTextarea<S>({ name, label, ...props }: Props<S>) {
+export function FormTextarea<S>({
+  name,
+  label,
+  isRequired,
+  ...props
+}: Props<S>) {
   const form = useFormContext();
   const uniqueId = useId();
   const textareaId = `${name}-${uniqueId}`;
@@ -26,7 +33,12 @@ export function FormTextarea<S>({ name, label, ...props }: Props<S>) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel htmlFor={textareaId}>{label}</FormLabel>}
+          {label && (
+            <FormLabel htmlFor={textareaId}>
+              {label}
+              {isRequired && <RequiredMark />}
+            </FormLabel>
+          )}
           <FormControl>
             <Textarea id={textareaId} {...field} {...props} />
           </FormControl>

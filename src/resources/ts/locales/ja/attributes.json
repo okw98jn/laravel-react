@@ -4,5 +4,6 @@
   "password": "パスワード",
   "password_confirmation": "パスワード（確認）",
   "memo": "メモ",
-  "status": "ステータス"
+  "status": "ステータス",
+  "gender": "性別"
 }

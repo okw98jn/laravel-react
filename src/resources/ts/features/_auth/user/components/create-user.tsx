@@ -1,10 +1,12 @@
 import { FormInput } from '@/components/form/form-input';
 import { FormPassword } from '@/components/form/form-password';
+import { FormRadioGroup } from '@/components/form/form-radio-group';
 import { FormSelect } from '@/components/form/form-select';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { FormModal } from '@/features/_auth/components/modal/form-modal';
+import { genderOptions } from '@/features/_auth/user/constants/gender';
 import { statusOptions } from '@/features/_auth/user/constants/status';
 import { useCreateForm } from '@/features/_auth/user/hooks/use-create-form';
 import type { CreateSchemaType } from '@/features/_auth/user/schema/create';
@@ -67,6 +69,12 @@ export function CreateUser() {
               label="ステータス"
               options={statusOptions}
               placeholder="ステータスを選択してください"
+              isRequired
+            />
+            <FormRadioGroup<CreateSchemaType>
+              name="gender"
+              label="性別"
+              options={genderOptions}
               isRequired
             />
             <FormTextarea<CreateSchemaType>

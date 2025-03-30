@@ -6,13 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Option } from '@/utils/options';
 import { useFormContext } from 'react-hook-form';
 
@@ -20,15 +14,13 @@ interface Props<S> {
   name: keyof S & string;
   label?: string;
   options: Option[];
-  placeholder?: string;
   isRequired?: boolean;
 }
 
-export function FormSelect<S>({
+export function FormRadioGroup<S>({
   name,
   label,
   options,
-  placeholder = '選択してください',
   isRequired,
 }: Props<S>) {
   const form = useFormContext();
@@ -40,25 +32,32 @@ export function FormSelect<S>({
       render={({ field }) => (
         <FormItem>
           {label && (
-            <FormLabel htmlFor={name}>
+            <FormLabel>
               {label}
               {isRequired && <RequiredMark />}
             </FormLabel>
           )}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
-            <FormControl>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
+          <FormControl>
+            <RadioGroup
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              className="flex"
+            >
               {options.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
+                <FormItem
+                  key={option.value}
+                  className="flex items-center space-x-1 space-y-0 cursor-pointer"
+                >
+                  <FormControl>
+                    <RadioGroupItem value={option.value} />
+                  </FormControl>
+                  <FormLabel className="font-normal cursor-pointer">
+                    {option.label}
+                  </FormLabel>
+                </FormItem>
               ))}
-            </SelectContent>
-          </Select>
+            </RadioGroup>
+          </FormControl>
           <FormMessage />
         </FormItem>
       )}

@@ -1,4 +1,4 @@
-import { toSelectOptions } from '@/utils/select';
+import { toOptions } from '@/utils/options';
 
 export const status = {
   temporary: {
@@ -15,4 +15,4 @@ export const status = {
   },
 } as const;
 
-export const statusOptions = toSelectOptions(status);
+export const statusOptions = toOptions(status);

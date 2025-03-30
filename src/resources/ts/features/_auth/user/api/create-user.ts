@@ -15,10 +15,10 @@ async function createUser(
     .post('/users', {
       name: formData.name,
       email: formData.email,
-      memo: formData.memo,
-      status: Number(formData.status),
       password: formData.password,
-      gender: 1,
+      status: Number(formData.status),
+      gender: Number(formData.gender),
+      memo: formData.memo,
     })
     .then((res) => res.data);
 }

@@ -1,14 +1,14 @@
-import { toSelectOptions } from '@/utils/select';
+import { toOptions } from '@/utils/options';
 import { describe, expect, it } from 'vitest';
 
-describe('toSelectOptions', () => {
+describe('toOptions', () => {
   it('数値のvalueを文字列に変換すること', () => {
     const status = {
       valid: { value: 2, label: '有効' },
       invalid: { value: 1, label: '無効' },
     };
 
-    const result = toSelectOptions(status);
+    const result = toOptions(status);
 
     expect(result).toEqual([
       { value: '2', label: '有効' },
@@ -27,7 +27,7 @@ describe('toSelectOptions', () => {
       drink: { value: 'drink', label: '飲料' },
     };
 
-    const result = toSelectOptions(category);
+    const result = toOptions(category);
 
     expect(result).toEqual([
       { value: 'food', label: '食品' },
@@ -41,7 +41,7 @@ describe('toSelectOptions', () => {
       user2: { value: 2, label: 'ユーザー2', id: 'u002', active: false },
     };
 
-    const result = toSelectOptions(users);
+    const result = toOptions(users);
 
     expect(result).toEqual([
       { value: '1', label: 'ユーザー1' },
@@ -58,7 +58,7 @@ describe('toSelectOptions', () => {
 
   it('空のオブジェクトの場合は空の配列を返すこと', () => {
     const emptyObj = {};
-    const result = toSelectOptions(emptyObj);
+    const result = toOptions(emptyObj);
     expect(result).toEqual([]);
   });
 });
