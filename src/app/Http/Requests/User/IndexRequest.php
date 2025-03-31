@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\User;
 
+use App\Enums\User\Sort;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 final class IndexRequest extends FormRequest
 {
@@ -42,7 +44,7 @@ final class IndexRequest extends FormRequest
             'sort' => [
                 'nullable',
                 'string',
-                'in:id,name',
+                Rule::enum(Sort::class),
             ],
         ];
     }

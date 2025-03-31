@@ -19,6 +19,7 @@ async function fetchUsers(
         id: filters.id,
         name: filters.name,
         email: filters.email,
+        sort: filters.sort,
         pageIndex: filters.pageIndex,
         pageSize: filters.pageSize,
       },
