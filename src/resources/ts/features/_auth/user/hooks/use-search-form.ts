@@ -13,6 +13,7 @@ export function useSearchForm() {
     id: '',
     name: '',
     email: '',
+    status: [],
     pageIndex: 0,
     pageSize: 10,
   };
