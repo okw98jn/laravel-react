@@ -1,4 +1,5 @@
 import { useFilter } from '@/features/_auth/hooks/use-filter';
+import { sort } from '@/features/_auth/user/constants/sort';
 import {
   type SearchSchemaType,
   searchSchema,
@@ -14,6 +15,7 @@ export function useSearchForm() {
     name: '',
     email: '',
     status: [],
+    sort: sort.id.value,
     pageIndex: 0,
     pageSize: 10,
   };
@@ -32,5 +34,10 @@ export function useSearchForm() {
     resetFilters();
   };
 
-  return { form, onSubmit, handleClear };
+  const handleSortChange = (value: string) => {
+    const currentValues = form.getValues();
+    setFilters({ ...currentValues, sort: value });
+  };
+
+  return { form, onSubmit, handleClear, handleSortChange };
 }

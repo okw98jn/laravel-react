@@ -22,6 +22,7 @@ interface Props<S> {
   options: Option[];
   placeholder?: string;
   isRequired?: boolean;
+  onValueChange?: (value: string) => void;
 }
 
 export function FormSelect<S>({
@@ -30,6 +31,7 @@ export function FormSelect<S>({
   options,
   placeholder = '選択してください',
   isRequired,
+  onValueChange,
 }: Props<S>) {
   const form = useFormContext();
 
@@ -45,7 +47,13 @@ export function FormSelect<S>({
               {isRequired && <RequiredMark />}
             </FormLabel>
           )}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={(value) => {
+              field.onChange(value);
+              onValueChange?.(value);
+            }}
+            value={field.value}
+          >
             <FormControl>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />
