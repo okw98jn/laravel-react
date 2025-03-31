@@ -1,7 +1,9 @@
+import { FormCheckbox } from '@/components/form/form-checkbox';
 import { FormInput } from '@/components/form/form-input';
 import { Form } from '@/components/ui/form';
 import { ButtonGroup } from '@/features/_auth/components/search/button-group';
 import { Card } from '@/features/_auth/components/search/card';
+import { statusOptions } from '@/features/_auth/user/constants/status';
 import { useSearchForm } from '@/features/_auth/user/hooks/use-search-form';
 import type { SearchSchemaType } from '@/features/_auth/user/schema/search';
 
@@ -19,6 +21,11 @@ export function SearchForm() {
               name="email"
               label="メールアドレス"
               type="text"
+            />
+            <FormCheckbox<SearchSchemaType>
+              name="status"
+              label="ステータス"
+              options={statusOptions}
             />
           </div>
           <ButtonGroup handleClear={handleClear} />
