@@ -28,6 +28,7 @@ export function useUpdateForm(user: User) {
 
   const form = useForm<UpdateSchemaType>({
     defaultValues,
+    values: defaultValues,
     resolver: zodResolver(updateSchema),
   });
 
