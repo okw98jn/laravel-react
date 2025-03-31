@@ -39,6 +39,11 @@ final class IndexRequest extends FormRequest
                 'integer',
                 'min:0',
             ],
+            'sort' => [
+                'nullable',
+                'string',
+                'in:id,name',
+            ],
         ];
     }
 
@@ -55,6 +60,7 @@ final class IndexRequest extends FormRequest
             'email'      => 'メールアドレス',
             'page_size'  => 'ページサイズ',
             'page_index' => 'ページ番号',
+            'sort'       => '並び順',
         ];
     }
 }

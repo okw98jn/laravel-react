@@ -33,6 +33,11 @@ final class IndexUseCase
             $query->where('email', 'like', '%' . $dto->email . '%');
         }
 
+        // 並び順
+        if ($dto->sort !== null) {
+            $query->orderBy($dto->sort, 'desc');
+        }
+
         return $query->orderBy('id', 'desc')->paginate($dto->page_size);
     }
 }
