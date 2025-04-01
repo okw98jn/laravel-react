@@ -20,7 +20,8 @@ async function fetchUsers(
         name: filters.name,
         email: filters.email,
         sort: filters.sort,
-        pageIndex: filters.pageIndex,
+        status: filters.status,
+        page: filters.pageIndex,
         pageSize: filters.pageSize,
       },
     })

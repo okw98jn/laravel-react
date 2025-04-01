@@ -1,3 +1,4 @@
+import { PAGE_INDEX, PAGE_SIZE } from '@/constants/paginate';
 import { sort, sortOptions } from '@/features/_auth/user/constants/sort';
 import { statusOptions } from '@/features/_auth/user/constants/status';
 import { toOptionValues } from '@/utils/options';
@@ -10,8 +11,8 @@ export const defaultSearchParams = {
   email: '',
   status: [],
   sort: sort.id.value,
-  pageIndex: 0,
-  pageSize: 10,
+  pageIndex: PAGE_INDEX,
+  pageSize: PAGE_SIZE,
 };
 
 export const searchSchema = z.object({
