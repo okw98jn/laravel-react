@@ -38,6 +38,6 @@ final class IndexUseCase
             $query->orderBy($dto->sort, 'desc');
         }
 
-        return $query->orderBy('id', 'desc')->paginate($dto->page_size);
+        return $query->orderBy('id', 'desc')->paginate($dto->page_size, ['*'], 'page', $dto->page);
     }
 }

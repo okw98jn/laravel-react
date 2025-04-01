@@ -12,7 +12,7 @@ final readonly class IndexDto
         public ?string $name,
         public ?string $email,
         public int $page_size,
-        public int $page_index,
+        public int $page,
         public ?string $sort,
     ) {
     }
@@ -30,7 +30,7 @@ final readonly class IndexDto
             name: $data['name'],
             email: $data['email'],
             page_size: $data['page_size'],
-            page_index: $data['page_index'],
+            page: $data['page'],
             sort: $data['sort'],
         );
     }

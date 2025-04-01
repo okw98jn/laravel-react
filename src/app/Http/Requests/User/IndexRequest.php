@@ -33,13 +33,13 @@ final class IndexRequest extends FormRequest
             'page_size' => [
                 'nullable',
                 'integer',
-                'min:1',
+                'min:10',
                 'max:100',
             ],
-            'page_index' => [
+            'page' => [
                 'nullable',
                 'integer',
-                'min:0',
+                'min:1',
             ],
             'sort' => [
                 'nullable',
@@ -57,12 +57,12 @@ final class IndexRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'id'         => 'ユーザーID',
-            'name'       => '名前',
-            'email'      => 'メールアドレス',
-            'page_size'  => 'ページサイズ',
-            'page_index' => 'ページ番号',
-            'sort'       => '並び順',
+            'id'        => 'ユーザーID',
+            'name'      => '名前',
+            'email'     => 'メールアドレス',
+            'page_size' => 'ページサイズ',
+            'page'      => 'ページ番号',
+            'sort'      => '並び順',
         ];
     }
 }
