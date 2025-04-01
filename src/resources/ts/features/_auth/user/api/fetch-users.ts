@@ -21,7 +21,7 @@ async function fetchUsers(
         email: filters.email,
         sort: filters.sort,
         status: filters.status,
-        page: filters.pageIndex,
+        page: filters.pageIndex + 1,
         pageSize: filters.pageSize,
       },
     })

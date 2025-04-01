@@ -14,31 +14,27 @@ import {
   searchSchema,
 } from '@/features/_auth/user/schema/search';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
-import {
-  type PaginationState,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
 import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/user/')({
   component: RouteComponent,
   validateSearch: zodValidator(searchSchema),
-  // search: {
-  //   middlewares: [stripSearchParams(defaultSearchParams)],
-  // },
+  search: {
+    middlewares: [stripSearchParams(defaultSearchParams)],
+  },
 });
 
 function RouteComponent() {
-  const { filters, setFilters } = useFilter(Route.id);
+  const { filters, setFilters, resetFilters } = useFilter(Route.id);
 
   const { data, isError, isFetching } = useUsers(filters);
 
   const [rowSelection, setRowSelection] = useState({});
 
   const pagination = {
-    pageIndex: filters.pageIndex - 1,
+    pageIndex: filters.pageIndex,
     pageSize: filters.pageSize,
   };
 
@@ -50,9 +46,7 @@ function RouteComponent() {
     onRowSelectionChange: setRowSelection,
     onPaginationChange: (updater) => {
       setFilters(
-        typeof updater === 'function'
-          ? updater({ ...pagination, pageIndex: pagination.pageIndex + 1 })
-          : { ...pagination, pageIndex: pagination.pageIndex + 1 },
+        typeof updater === 'function' ? updater(pagination) : pagination,
       );
     },
     rowCount: data?.data.paginate.total,
@@ -65,6 +59,10 @@ function RouteComponent() {
   const selectedIds = table
     .getSelectedRowModel()
     .rows.map((row) => row.original.id);
+
+  if (isError) {
+    resetFilters();
+  }
 
   return (
     <Main>

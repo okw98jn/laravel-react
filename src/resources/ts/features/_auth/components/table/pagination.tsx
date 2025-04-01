@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PAGE_INDEX, PAGE_SIZE_OPTIONS } from '@/constants/paginate';
+import { PAGE_SIZE_OPTIONS } from '@/constants/paginate';
 import type { Table } from '@tanstack/react-table';
 import {
   ChevronLeft,
@@ -25,7 +25,7 @@ export function Pagination<TData>({ table }: Props<TData>) {
       <Button
         variant="outline"
         className="hidden h-8 w-8 p-0 lg:flex"
-        onClick={() => table.setPageIndex(PAGE_INDEX)}
+        onClick={() => table.firstPage()}
         disabled={!table.getCanPreviousPage()}
       >
         <ChevronsLeft />
@@ -49,7 +49,7 @@ export function Pagination<TData>({ table }: Props<TData>) {
       <Button
         variant="outline"
         className="hidden h-8 w-8 p-0 lg:flex"
-        onClick={() => table.setPageIndex(table.getPageCount())}
+        onClick={() => table.lastPage()}
         disabled={!table.getCanNextPage()}
       >
         <ChevronsRight />

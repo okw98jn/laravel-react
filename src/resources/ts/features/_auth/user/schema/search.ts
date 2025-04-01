@@ -1,4 +1,4 @@
-import { PAGE_INDEX, PAGE_SIZE } from '@/constants/paginate';
+import { PAGE_INDEX, PAGE_SIZE, PAGE_SIZE_OPTIONS } from '@/constants/paginate';
 import { sort, sortOptions } from '@/features/_auth/user/constants/sort';
 import { statusOptions } from '@/features/_auth/user/constants/status';
 import { toOptionValues } from '@/utils/options';
@@ -24,8 +24,14 @@ export const searchSchema = z.object({
     defaultSearchParams.status,
   ),
   sort: fallback(z.enum(toOptionValues(sortOptions)), defaultSearchParams.sort),
-  pageIndex: fallback(z.number(), defaultSearchParams.pageIndex),
-  pageSize: fallback(z.number(), defaultSearchParams.pageSize),
+  pageIndex: fallback(
+    z.number().min(PAGE_INDEX),
+    defaultSearchParams.pageIndex,
+  ),
+  pageSize: fallback(
+    z.number().refine((val) => PAGE_SIZE_OPTIONS.includes(val)),
+    defaultSearchParams.pageSize,
+  ),
 });
 
 export type SearchSchemaType = z.infer<typeof searchSchema>;
