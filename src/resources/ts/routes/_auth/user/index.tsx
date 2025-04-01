@@ -9,8 +9,11 @@ import { CsvDownload } from '@/features/_auth/user/components/csv-download';
 import { DeleteUsers } from '@/features/_auth/user/components/delete-users';
 import { SearchForm } from '@/features/_auth/user/components/search-form';
 import { columns } from '@/features/_auth/user/components/table-columns';
-import { searchSchema } from '@/features/_auth/user/schema/search';
-import { createFileRoute } from '@tanstack/react-router';
+import {
+  defaultSearchParams,
+  searchSchema,
+} from '@/features/_auth/user/schema/search';
+import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
 import {
   type PaginationState,
   getCoreRowModel,
@@ -22,6 +25,9 @@ import { useState } from 'react';
 export const Route = createFileRoute('/_auth/user/')({
   component: RouteComponent,
   validateSearch: zodValidator(searchSchema),
+  search: {
+    middlewares: [stripSearchParams(defaultSearchParams)],
+  },
 });
 
 function RouteComponent() {
