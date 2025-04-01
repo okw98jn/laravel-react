@@ -25,19 +25,22 @@ import { useState } from 'react';
 export const Route = createFileRoute('/_auth/user/')({
   component: RouteComponent,
   validateSearch: zodValidator(searchSchema),
-  search: {
-    middlewares: [stripSearchParams(defaultSearchParams)],
-  },
+  // search: {
+  //   middlewares: [stripSearchParams(defaultSearchParams)],
+  // },
 });
 
 function RouteComponent() {
-  const { filters } = useFilter(Route.id);
-  const { data, isPending, isError } = useUsers(filters);
+  const { filters, setFilters } = useFilter(Route.id);
+
+  const { data, isError, isFetching } = useUsers(filters);
+
   const [rowSelection, setRowSelection] = useState({});
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 1,
-    pageSize: 10,
-  });
+
+  const pagination = {
+    pageIndex: filters.pageIndex - 1,
+    pageSize: filters.pageSize,
+  };
 
   const table = useReactTable({
     data: data?.data.users ?? [],
@@ -45,7 +48,13 @@ function RouteComponent() {
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     onRowSelectionChange: setRowSelection,
-    onPaginationChange: setPagination,
+    onPaginationChange: (updater) => {
+      setFilters(
+        typeof updater === 'function'
+          ? updater({ ...pagination, pageIndex: pagination.pageIndex + 1 })
+          : { ...pagination, pageIndex: pagination.pageIndex + 1 },
+      );
+    },
     rowCount: data?.data.paginate.total,
     state: {
       rowSelection,
@@ -66,7 +75,7 @@ function RouteComponent() {
         <CsvDownload />
         <CreateUser />
       </ListButtonContainer>
-      <DataTable table={table} isPending={isPending} isError={isError} />
+      <DataTable table={table} isPending={isFetching} isError={isError} />
     </Main>
   );
 }
