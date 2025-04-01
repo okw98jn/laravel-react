@@ -48,7 +48,10 @@ export function DataTable<TData>({ table, isPending, isError }: Props<TData>) {
             ))}
           </TableHeader>
           {isPending ? (
-            <PendingBody columnLength={table.getVisibleFlatColumns().length} />
+            <PendingBody
+              columnLength={table.getVisibleFlatColumns().length}
+              rowLength={table.getState().pagination.pageSize}
+            />
           ) : (
             <TableBody>
               {table.getRowModel().rows?.length ? (
