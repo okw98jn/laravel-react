@@ -68,6 +68,7 @@ export function DataTable<TData>({ table, isPending, isError }: Props<TData>) {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
+                    className={row.index % 2 === 1 ? 'bg-gray-50' : ''}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
