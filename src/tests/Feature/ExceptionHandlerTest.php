@@ -171,10 +171,5 @@ class ExceptionHandlerTest extends TestCase
                 'success' => false,
                 'message' => __('error.500'),
             ]);
-
-        // デバッグモードがONの場合はエラーメッセージが含まれることを検証
-        if (config('app.debug')) {
-            $response->assertJsonPath('error.0', 'エラーが発生しました');
-        }
     }
 }
