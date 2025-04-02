@@ -44,6 +44,9 @@ ide:
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) php src/artisan ide-helper:models --nowrite
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) mv _ide_helper_models.php src/_ide_helper_models.php
 
+test:
+	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) sh -c "cd src && php artisan test"
+
 setup:
 	$(DOCKER_COMPOSE) build --no-cache
 	$(DOCKER_COMPOSE) up -d
@@ -53,5 +56,5 @@ setup:
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) php src/artisan migrate:fresh
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) php src/artisan db:seed
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) php src/artisan ide-helper:generate
-	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) npm install
+	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) npm ci
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) npm run dev
