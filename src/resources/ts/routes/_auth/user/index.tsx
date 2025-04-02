@@ -2,6 +2,7 @@ import { ListButtonContainer } from '@/features/_auth/components/list-button-con
 import { Main } from '@/features/_auth/components/main';
 import { PageTitle } from '@/features/_auth/components/page-title';
 import { DataTable } from '@/features/_auth/components/table/data-table';
+import { PaginationResult } from '@/features/_auth/components/table/pagination-result';
 import { useFilter } from '@/features/_auth/hooks/use-filter';
 import { useUsers } from '@/features/_auth/user/api/fetch-users';
 import { CreateUser } from '@/features/_auth/user/components/create-user';
@@ -68,11 +69,17 @@ function RouteComponent() {
     <Main>
       <PageTitle title="ユーザー" />
       <SearchForm />
-      <ListButtonContainer>
-        <DeleteUsers ids={selectedIds} onSuccess={() => setRowSelection({})} />
-        <CsvDownload />
-        <CreateUser />
-      </ListButtonContainer>
+      <div className="flex items-center justify-between">
+        <PaginationResult table={table} />
+        <ListButtonContainer>
+          <DeleteUsers
+            ids={selectedIds}
+            onSuccess={() => setRowSelection({})}
+          />
+          <CsvDownload />
+          <CreateUser />
+        </ListButtonContainer>
+      </div>
       <DataTable table={table} isPending={isFetching} isError={isError} />
     </Main>
   );
