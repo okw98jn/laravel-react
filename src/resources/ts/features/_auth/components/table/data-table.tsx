@@ -1,5 +1,5 @@
 import { flexRender } from '@tanstack/react-table';
-import type { Table as TableType } from '@tanstack/react-table';
+import type { RowData, Table as TableType } from '@tanstack/react-table';
 
 import {
   Table,
@@ -13,6 +13,12 @@ import { EmptyRow } from '@/features/_auth/components/table/empty-row';
 import { Pagination } from '@/features/_auth/components/table/pagination';
 import { PendingBody } from '@/features/_auth/components/table/pending-body';
 import { TableError } from '@/features/_auth/components/table/table-error';
+
+declare module '@tanstack/react-table' {
+  interface ColumnMeta<TData extends RowData, TValue> {
+    className: string;
+  }
+}
 
 interface Props<TData> {
   table: TableType<TData>;
@@ -34,7 +40,10 @@ export function DataTable<TData>({ table, isPending, isError }: Props<TData>) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className={header.column.columnDef.meta?.className}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
