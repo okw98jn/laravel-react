@@ -48,7 +48,7 @@ final class Handler
         });
 
         // 取りこぼしたくないのでThrowable
-        // 静的解析の時点でエラーになりここまで来ないはずですが一応
+        // ここに来る前にPHPStanが見つけてくれるはずですが一応
         $exceptions->render(function (Throwable $e, Request $request) {
             return ApiResponse::error(
                 __('error.500'),
