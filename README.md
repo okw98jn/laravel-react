@@ -38,3 +38,22 @@ Laravel IDE Helperを使用するとFacadeやモデルへのコード補完が�
 ```bash
 make ide
 ```
+
+## テスト
+### Laravel
+```bash
+make test
+```
+
+### コントローラーのテスト
+
+コントローラーのテストは `tests/Feature/` ディレクトリに配置し、エンドポイントとしての振る舞いを検証します。
+ここでは基本的にリクエストを投げて期待通りのレスポンス(Json)が返って来ることだけを検証します。
+テストが遅くなるため、バリデーションやDBの確認など、細かいテストはここでは行いません。
+
+### リクエストクラスのテスト
+
+リクエストクラスのテストは `tests/Unit/Requests/` ディレクトリに配置します。これらのテストは主にバリデーションルールの動作を検証します。
+各テストクラスで、`AbstractRequest`を継承し`validationFailureDataProvider()`、`getRequestClass()`、`getValidData()`を
+実装してください。
+基本的なテストはこれだけで書けると思います。
