@@ -28,4 +28,10 @@ export default defineConfig({
       '@': '/resources/ts',
     },
   },
+  server: {
+    host: true,
+    hmr: {
+      host: 'localhost',
+    },
+  },
 });
