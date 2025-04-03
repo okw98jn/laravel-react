@@ -26,7 +26,9 @@ class AuthenticatedSessionController extends Controller
     {
         $dto = StoreDto::fromArray($request->validated());
 
-        $user = $useCase->handle($request, $dto);
+        $user = $useCase->handle($dto);
+
+        $request->session()->regenerate();
 
         return ApiResponse::success([
             'user' => new AuthUserResource($user),
@@ -42,7 +44,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request, DestroyUseCase $useCase): JsonResponse
     {
-        $useCase->handle($request);
+        $useCase->handle();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return ApiResponse::success([], Response::HTTP_NO_CONTENT);
     }
