@@ -14,6 +14,7 @@ abstract class AbstractRequest extends TestCase
 {
     /**
      * バリデーション失敗のテストデータを提供する
+     * 各テストクラスで実装してください。
      *
      * 例:
      * [
@@ -103,6 +104,7 @@ abstract class AbstractRequest extends TestCase
 
     /**
      * テスト対象のRequestクラスを返す
+     * 各テストクラスで実装してください。
      *
      * @return string
      */
@@ -110,6 +112,7 @@ abstract class AbstractRequest extends TestCase
 
     /**
      * 有効なリクエストデータを返す
+     * 各テストクラスで実装してください。
      *
      * @return array<string, mixed>
      */
