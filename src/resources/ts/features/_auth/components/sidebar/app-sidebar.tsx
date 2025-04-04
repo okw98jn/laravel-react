@@ -50,7 +50,7 @@ const sidebarItems: NavGroupType[] = [
 
 export function AppSidebar() {
   return (
-    <Sidebar collapsible="icon" variant="floating">
+    <Sidebar collapsible="icon" variant="sidebar">
       <SidebarHeader>
         <NavHeader />
       </SidebarHeader>
