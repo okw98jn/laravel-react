@@ -5,9 +5,5 @@ interface Props {
 }
 
 export function Main({ children }: Props) {
-  return (
-    <main className="peer-[.header-fixed]/header:mt-16 px-4 pb-2 space-y-4">
-      {children}
-    </main>
-  );
+  return <main className="px-4 pb-2 space-y-4">{children}</main>;
 }

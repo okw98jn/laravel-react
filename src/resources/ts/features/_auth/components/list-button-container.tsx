@@ -3,5 +3,9 @@ interface Props {
 }
 
 export function ListButtonContainer({ children }: Props) {
-  return <div className="flex justify-end items-center gap-4">{children}</div>;
+  return (
+    <div className="flex flex-wrap justify-end items-center gap-4">
+      {children}
+    </div>
+  );
 }

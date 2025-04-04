@@ -1,5 +1,5 @@
 import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/sidebar';
-import { Header } from '@/features/_auth/components/header';
+import { AppHeader } from '@/features/_auth/components/header/app-header';
 import { AppSidebar } from '@/features/_auth/components/sidebar/app-sidebar';
 import { useAuthStore } from '@/store/auth';
 import { Navigate, Outlet, createFileRoute } from '@tanstack/react-router';
@@ -24,7 +24,7 @@ function RouteComponent() {
     <SidebarProvider defaultOpen={isSidebarOpen}>
       <AppSidebar />
       <div className="w-full">
-        <Header />
+        <AppHeader />
         <Outlet />
       </div>
     </SidebarProvider>
