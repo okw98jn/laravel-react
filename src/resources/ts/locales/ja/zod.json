@@ -1,82 +1,82 @@
 {
   "errors": {
-    "invalid_type": "{{expected}}の形式で入力してください。（現在の入力: {{received}}）",
-    "invalid_type_received_undefined": "{{path}}は必ず入力してください。",
-    "invalid_type_received_null": "{{path}}は必ず入力してください。",
-    "invalid_literal": "正しい値を入力してください。（期待される値: {{expected}}）",
-    "unrecognized_keys": "次のキーは認識できません: {{- keys}}。",
-    "invalid_union": "入力の形式が正しくありません。",
-    "invalid_union_discriminator": "無効な選択肢です。次のいずれかを選んでください: {{- options}}。",
-    "invalid_enum_value": "{{path}}は必ず選択してください。",
-    "invalid_arguments": "引数が正しくありません。",
-    "invalid_return_type": "戻り値の型が正しくありません。",
-    "invalid_date": "日付の形式が正しくありません。",
-    "custom": "入力の形式が正しくありません。",
-    "invalid_intersection_types": "異なる型のデータを統合できませんでした。",
-    "not_multiple_of": "{{multipleOf}}の倍数で入力してください。",
-    "not_finite": "有限な数値を入力してください。",
+    "invalid_type": "{{path}}には{{expected}}型を指定してください。（入力値: {{received}}）",
+    "invalid_type_received_undefined": "{{path}}は必ず指定してください。",
+    "invalid_type_received_null": "{{path}}は必ず指定してください。",
+    "invalid_literal": "選択された{{path}}は正しくありません。(期待される値: {{expected}})",
+    "unrecognized_keys": "指定されていないキーが含まれています: {{- keys}}。",
+    "invalid_union": "{{path}}の入力が正しくありません。",
+    "invalid_union_discriminator": "選択された値が正しくありません。次のいずれかを指定してください: {{- options}}。",
+    "invalid_enum_value": "{{path}}は必ず指定してください。",
+    "invalid_arguments": "引数の形式が正しくありません。",
+    "invalid_return_type": "戻り値の形式が正しくありません。",
+    "invalid_date": "{{path}}には有効な日付を指定してください。",
+    "custom": "{{path}}の入力が正しくありません。",
+    "invalid_intersection_types": "入力データの型が一致しないため処理できませんでした。",
+    "not_multiple_of": "{{path}}には{{multipleOf}}の倍数を指定してください。",
+    "not_finite": "{{path}}には有限の数値を指定してください。",
     "invalid_string": {
-      "email": "{{validation}}の形式で入力してください。",
-      "url": "{{validation}}の形式で入力してください。",
-      "uuid": "{{validation}}の形式で入力してください。",
-      "cuid": "{{validation}}の形式で入力してください。",
-      "regex": "入力形式が間違っています。",
-      "datetime": "{{validation}}の形式で入力してください。",
-      "startsWith": "\"{{startsWith}}\"で始まる文字列である必要があります。",
-      "endsWith": "\"{{endsWith}}\"で終わる文字列である必要があります。"
+      "email": "{{path}}には、有効なメールアドレスを指定してください。",
+      "url": "{{path}}には、有効なURLを指定してください。",
+      "uuid": "{{path}}に有効なUUIDを指定してください。",
+      "cuid": "{{path}}の形式が正しくありません。(CUID)",
+      "regex": "{{path}}の形式が正しくありません。",
+      "datetime": "{{path}}には、正しい日時形式を指定してください。",
+      "startsWith": "{{path}}は\"{{startsWith}}\"で始まる必要があります。",
+      "endsWith": "{{path}}は\"{{endsWith}}\"で終わる必要があります。"
     },
     "too_small": {
       "array": {
-        "exact": "{{minimum}}個の要素が必要です。",
-        "inclusive": "{{minimum}}個以上の要素を入力してください。",
-        "not_inclusive": "{{minimum}}個より多い要素を入力してください。"
+        "exact": "{{path}}は{{minimum}}個の要素が必要です。",
+        "inclusive": "{{path}}には{{minimum}}個以上の要素を指定してください。",
+        "not_inclusive": "{{path}}には{{minimum}}個より多くの要素を指定してください。"
       },
       "string": {
-        "exact": "{{path}}は{{minimum}}文字で入力してください。",
-        "inclusive": "{{path}}は{{minimum}}文字以上で入力してください。",
-        "not_inclusive": "{{path}}は{{minimum}}文字より長く入力してください。"
+        "exact": "{{path}}は{{minimum}}文字で指定してください。",
+        "inclusive": "{{path}}は{{minimum}}文字以上で指定してください。",
+        "not_inclusive": "{{path}}は{{minimum}}文字より長く指定してください。"
       },
       "number": {
-        "exact": "{{minimum}}の数値で入力してください。",
-        "inclusive": "{{minimum}}以上の数値を入力してください。",
-        "not_inclusive": "{{minimum}}より大きな数値を入力してください。"
+        "exact": "{{path}}は{{minimum}}の数値で指定してください。",
+        "inclusive": "{{path}}には{{minimum}}以上の数値を指定してください。",
+        "not_inclusive": "{{path}}には{{minimum}}より大きな数値を指定してください。"
       },
       "set": {
-        "exact": "選択肢の数が正しくありません。",
-        "inclusive": "選択肢が足りません。",
-        "not_inclusive": "選択肢が少なすぎます。"
+        "exact": "選択肢の数が正しくありません。(ちょうど{{minimum}}個必要です)",
+        "inclusive": "選択肢が足りません。(最低{{minimum}}個必要です)",
+        "not_inclusive": "選択肢が足りません。(もっと多くの選択肢が必要です)"
       },
       "date": {
-        "exact": "{{- minimum, datetime}}の日付を入力してください。",
-        "inclusive": "{{- minimum, datetime}}以降の日付を入力してください。",
-        "not_inclusive": "{{- minimum, datetime}}より後の日付を入力してください。"
+        "exact": "{{path}}は{{minimum}}の日付を指定してください。",
+        "inclusive": "{{path}}には{{minimum}}以降の日付を指定してください。",
+        "not_inclusive": "{{path}}には{{minimum}}より後の日付を指定してください。"
       }
     },
     "too_big": {
       "array": {
-        "exact": "{{maximum}}個の要素で入力してください。",
-        "inclusive": "{{maximum}}個以下の要素を入力してください。",
-        "not_inclusive": "{{maximum}}個未満の要素を入力してください。"
+        "exact": "{{path}}は{{maximum}}個の要素で指定してください。",
+        "inclusive": "{{path}}には{{maximum}}個以下の要素を指定してください。",
+        "not_inclusive": "{{path}}には{{maximum}}個未満の要素を指定してください。"
       },
       "string": {
-        "exact": "{{maximum}}文字で入力してください。",
-        "inclusive": "{{maximum}}文字以下で入力してください。",
-        "not_inclusive": "{{maximum}}文字より短く入力してください。"
+        "exact": "{{path}}は{{maximum}}文字で入力してください。",
+        "inclusive": "{{path}}は{{maximum}}文字以下で入力してください。",
+        "not_inclusive": "{{path}}は{{maximum}}文字未満で入力してください。"
       },
       "number": {
-        "exact": "{{maximum}}の数値で入力してください。",
-        "inclusive": "{{maximum}}以下の数値を入力してください。",
-        "not_inclusive": "{{maximum}}未満の数値を入力してください。"
+        "exact": "{{path}}は{{maximum}}の数値で指定してください。",
+        "inclusive": "{{path}}には{{maximum}}以下の数値を指定してください。",
+        "not_inclusive": "{{path}}には{{maximum}}未満の数値を指定してください。"
       },
       "set": {
-        "exact": "選択肢の数が正しくありません。",
-        "inclusive": "選択肢が多すぎます。",
-        "not_inclusive": "選択肢を減らしてください。"
+        "exact": "選択肢の数が正しくありません。(ちょうど{{maximum}}個必要です)",
+        "inclusive": "選択肢が多すぎます。(最大{{maximum}}個まで)",
+        "not_inclusive": "選択肢が多すぎます。(もっと少なくしてください)"
       },
       "date": {
-        "exact": "{{- maximum, datetime}}の日付を入力してください。",
-        "inclusive": "{{- maximum, datetime}}以前の日付を入力してください。",
-        "not_inclusive": "{{- maximum, datetime}}より前の日付を入力してください。"
+        "exact": "{{path}}は{{maximum}}の日付で指定してください。",
+        "inclusive": "{{path}}には{{maximum}}以前の日付を指定してください。",
+        "not_inclusive": "{{path}}には{{maximum}}より前の日付を指定してください。"
       }
     }
   },
@@ -90,24 +90,24 @@
   },
   "types": {
     "function": "関数",
-    "number": "数値",
+    "number": "数字",
     "string": "文字列",
     "nan": "NaN",
     "integer": "整数",
     "float": "浮動小数点数",
     "boolean": "真偽値",
-    "date": "日時",
+    "date": "日付",
     "bigint": "Bigint",
-    "undefined": "undefined",
+    "undefined": "未定義",
     "symbol": "シンボル",
     "null": "NULL",
     "array": "配列",
     "object": "オブジェクト",
-    "unknown": "unknown",
+    "unknown": "不明",
     "promise": "Promise",
     "void": "void",
     "never": "never",
-    "map": "マップ",
-    "set": "セット"
+    "map": "Map",
+    "set": "Set"
   }
 }
