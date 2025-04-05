@@ -23,14 +23,13 @@ export function ActionHeader<TData, TValue>({
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="-ml-3">
           <span>{title}</span>
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-          {/* {column.getIsSorted() === 'desc' ? (
+          {column.getIsSorted() === 'desc' ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === 'asc' ? (
             <ArrowUpIcon className="ml-2 h-4 w-4" />
           ) : (
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          )} */}
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">

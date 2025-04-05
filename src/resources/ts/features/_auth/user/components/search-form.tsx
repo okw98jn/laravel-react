@@ -30,7 +30,7 @@ export function SearchForm() {
               options={statusOptions}
             />
             <FormSelect<SearchSchemaType>
-              name="sort"
+              name="sortColumn"
               label="並び順"
               options={sortOptions}
               onValueChange={handleSortChange}

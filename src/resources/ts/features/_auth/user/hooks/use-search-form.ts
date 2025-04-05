@@ -14,7 +14,8 @@ export function useSearchForm() {
     name: filters.name,
     email: filters.email,
     status: filters.status,
-    sort: filters.sort,
+    sortColumn: filters.sortColumn,
+    sortDirection: filters.sortDirection,
     pageIndex: filters.pageIndex,
     pageSize: filters.pageSize,
   };
@@ -36,7 +37,7 @@ export function useSearchForm() {
 
   const handleSortChange = (value: string) => {
     const currentValues = form.getValues();
-    setFilters({ ...currentValues, sort: value });
+    setFilters({ ...currentValues, sortColumn: value });
   };
 
   return { form, onSubmit, handleClear, handleSortChange };

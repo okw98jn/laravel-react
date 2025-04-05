@@ -20,6 +20,7 @@ import {
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
 import {
   type RowSelectionState,
+  type SortingState,
   type VisibilityState,
   getCoreRowModel,
   useReactTable,
@@ -49,11 +50,19 @@ function RouteComponent() {
     pageSize: filters.pageSize,
   };
 
+  const sorting: SortingState = [
+    {
+      id: filters.sortColumn,
+      desc: filters.sortDirection === 'desc',
+    },
+  ];
+
   const table = useReactTable({
     data: data?.data.users ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
+    manualSorting: true,
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: (updater) => {
@@ -61,11 +70,30 @@ function RouteComponent() {
         typeof updater === 'function' ? updater(pagination) : pagination,
       );
     },
+    onSortingChange: (updater) => {
+      const newSorting =
+        typeof updater === 'function' ? updater(sorting) : updater;
+
+      if (newSorting.length > 0) {
+        const { id, desc } = newSorting[0];
+        setFilters({
+          sortColumn: id,
+          sortDirection: desc ? 'desc' : 'asc',
+        });
+      } else {
+        // デフォルトのソート設定に戻す
+        setFilters({
+          sortColumn: defaultSearchParams.sortColumn,
+          sortDirection: defaultSearchParams.sortDirection,
+        });
+      }
+    },
     rowCount: data?.data.paginate.total,
     state: {
       rowSelection,
       pagination,
       columnVisibility,
+      sorting,
     },
   });
 

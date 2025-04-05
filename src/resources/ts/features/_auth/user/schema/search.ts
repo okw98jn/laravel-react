@@ -10,7 +10,8 @@ export const defaultSearchParams = {
   name: '',
   email: '',
   status: [],
-  sort: sort.id.value,
+  sortColumn: sort.id.value,
+  sortDirection: 'asc' as const,
   pageIndex: PAGE_INDEX,
   pageSize: PAGE_SIZE,
 };
@@ -23,7 +24,14 @@ export const searchSchema = z.object({
     z.array(z.enum(toOptionValues(statusOptions))),
     defaultSearchParams.status,
   ),
-  sort: fallback(z.enum(toOptionValues(sortOptions)), defaultSearchParams.sort),
+  sortColumn: fallback(
+    z.enum(toOptionValues(sortOptions)),
+    defaultSearchParams.sortColumn,
+  ),
+  sortDirection: fallback(
+    z.enum(['asc', 'desc'] as const),
+    defaultSearchParams.sortDirection,
+  ),
   pageIndex: fallback(
     z.number().min(PAGE_INDEX),
     defaultSearchParams.pageIndex,
