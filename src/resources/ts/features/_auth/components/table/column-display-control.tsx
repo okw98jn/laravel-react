@@ -48,7 +48,7 @@ export function ColumnDisplayControl<TData>({ table }: Props<TData>) {
               onCheckedChange={(value) => column.toggleVisibility(!!value)}
               onSelect={(event) => event.preventDefault()}
             >
-              {column.columnDef.header?.toString() ?? ''}
+              {column.columnDef.meta?.headerText ?? ''}
             </DropdownMenuCheckboxItem>
           );
         })}

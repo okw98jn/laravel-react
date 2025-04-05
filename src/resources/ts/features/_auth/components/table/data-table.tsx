@@ -16,7 +16,8 @@ import { TableError } from '@/features/_auth/components/table/table-error';
 
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
-    className: string;
+    className?: string;
+    headerText?: string;
   }
 }
 

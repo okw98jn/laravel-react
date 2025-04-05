@@ -1,3 +1,4 @@
+import { ActionHeader } from '@/features/_auth/components/table/action-header';
 import { AllCheckbox } from '@/features/_auth/components/table/all-checkbox';
 import { RowCheckbox } from '@/features/_auth/components/table/row-checkbox';
 import type { User } from '@/features/_auth/types/user';
@@ -15,13 +16,24 @@ export const columns = [
     enableHiding: false,
   }),
   columnHelper.accessor('id', {
-    header: 'ID',
+    header: ({ column }) => <ActionHeader title="ID" column={column} />,
+    meta: {
+      headerText: 'ID',
+    },
   }),
   columnHelper.accessor('name', {
-    header: '名前',
+    header: ({ column }) => <ActionHeader title="名前" column={column} />,
+    meta: {
+      headerText: '名前',
+    },
   }),
   columnHelper.accessor('email', {
-    header: 'メールアドレス',
+    header: ({ column }) => (
+      <ActionHeader title="メールアドレス" column={column} />
+    ),
+    meta: {
+      headerText: 'メールアドレス',
+    },
   }),
   columnHelper.display({
     id: 'actions',

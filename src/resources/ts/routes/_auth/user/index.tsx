@@ -16,7 +16,12 @@ import {
   searchSchema,
 } from '@/features/_auth/user/schema/search';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  type RowSelectionState,
+  type VisibilityState,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
 import { useState } from 'react';
 
@@ -33,9 +38,9 @@ function RouteComponent() {
 
   const { data, isError, isFetching } = useUsers(filters);
 
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const pagination = {
     pageIndex: filters.pageIndex,
