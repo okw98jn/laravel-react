@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLogoutHandler } from '@/features/_auth/hooks/use-logout';
 import { useAuthStore } from '@/store/auth';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, UserRound } from 'lucide-react';
 
 export function UserDropdown() {
   const { user } = useAuthStore();
@@ -18,9 +18,11 @@ export function UserDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full border">
-          <User />
-        </Button>
+        <Avatar>
+          <AvatarFallback>
+            <UserRound strokeWidth={1.5} />
+          </AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
