@@ -20,6 +20,7 @@ import {
   defaultSearchParams,
   searchSchema,
 } from '@/features/_auth/user/schema/search';
+import { getSelectedIds } from '@/features/_auth/utils/table';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
@@ -79,10 +80,6 @@ function RouteComponent() {
     },
   });
 
-  const selectedIds = table
-    .getSelectedRowModel()
-    .rows.map((row) => row.original.id);
-
   // エラーが発生した場合、クエリパラメーターをリセット
   if (isError) {
     resetFilters();
@@ -99,7 +96,7 @@ function RouteComponent() {
           <ColumnDisplayControl table={table} />
           <Separator orientation="vertical" className="h-8! hidden md:block" />
           <DeleteUsers
-            ids={selectedIds}
+            ids={getSelectedIds(table)}
             onSuccess={() => setRowSelection({})}
           />
           <CsvDownload />
