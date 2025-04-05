@@ -149,17 +149,19 @@ function SidebarMenuCollapsedDropdown({
         <DropdownMenuContent side="right" align="start" sideOffset={4}>
           <DropdownMenuLabel>{item.title}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {item.items.map((sub) => (
-            <DropdownMenuItem key={`${sub.title}-${sub.url}`} asChild>
-              <Link
-                to={sub.url}
-                className={`${checkIsActive(href, sub) ? 'bg-secondary' : ''}`}
-              >
-                {sub.icon && <sub.icon />}
-                <span className="max-w-52 text-wrap">{sub.title}</span>
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          <div className="flex flex-col gap-1">
+            {item.items.map((sub) => (
+              <DropdownMenuItem key={`${sub.title}-${sub.url}`} asChild>
+                <Link
+                  to={sub.url}
+                  className={`${checkIsActive(href, sub) ? 'bg-secondary' : ''}`}
+                >
+                  {sub.icon && <sub.icon />}
+                  <span className="max-w-52 text-wrap">{sub.title}</span>
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </SidebarMenuItem>
