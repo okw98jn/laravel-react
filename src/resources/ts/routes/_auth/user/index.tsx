@@ -19,6 +19,7 @@ import {
 } from '@/features/_auth/user/schema/search';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
 import {
+  type PaginationState,
   type RowSelectionState,
   type SortingState,
   type VisibilityState,
@@ -45,7 +46,7 @@ function RouteComponent() {
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-  const pagination = {
+  const pagination: PaginationState = {
     pageIndex: filters.pageIndex,
     pageSize: filters.pageSize,
   };
