@@ -7,6 +7,9 @@ import { DataTable } from '@/features/_auth/components/table/data-table';
 import { PaginationSize } from '@/features/_auth/components/table/paginasion-size';
 import { PaginationResult } from '@/features/_auth/components/table/pagination-result';
 import { useFilter } from '@/features/_auth/hooks/use-filter';
+import { useTablePaginate } from '@/features/_auth/hooks/use-table-paginate';
+import { useTableSort } from '@/features/_auth/hooks/use-table-sort';
+import { useTableState } from '@/features/_auth/hooks/use-table-state';
 import { useUsers } from '@/features/_auth/user/api/fetch-users';
 import { CreateUser } from '@/features/_auth/user/components/create-user';
 import { CsvDownload } from '@/features/_auth/user/components/csv-download';
@@ -18,16 +21,8 @@ import {
   searchSchema,
 } from '@/features/_auth/user/schema/search';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
-import {
-  type PaginationState,
-  type RowSelectionState,
-  type SortingState,
-  type VisibilityState,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
-import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/user/')({
   component: RouteComponent,
@@ -38,26 +33,33 @@ export const Route = createFileRoute('/_auth/user/')({
 });
 
 function RouteComponent() {
+  // クエリパラメーターを管理
   const { filters, setFilters, resetFilters } = useFilter(Route.id);
 
+  // ユーザー一覧を取得
   const { data, isError, isFetching } = useUsers(filters);
 
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  // ページネーションを管理
+  const { pagination, handlePaginationChange } = useTablePaginate({
+    filters,
+    setFilters,
+  });
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  // ソートを管理
+  const { sorting, handleSortingChange } = useTableSort({
+    filters,
+    setFilters,
+  });
 
-  const pagination: PaginationState = {
-    pageIndex: filters.pageIndex,
-    pageSize: filters.pageSize,
-  };
+  // テーブルの状態を管理
+  const {
+    rowSelection,
+    columnVisibility,
+    setRowSelection,
+    setColumnVisibility,
+  } = useTableState();
 
-  const sorting: SortingState = [
-    {
-      id: filters.sortColumn,
-      desc: filters.sortDirection === 'desc',
-    },
-  ];
-
+  // テーブルを作成
   const table = useReactTable({
     data: data?.data.users ?? [],
     columns,
@@ -66,29 +68,8 @@ function RouteComponent() {
     manualSorting: true,
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
-    onPaginationChange: (updater) => {
-      setFilters(
-        typeof updater === 'function' ? updater(pagination) : pagination,
-      );
-    },
-    onSortingChange: (updater) => {
-      const newSorting =
-        typeof updater === 'function' ? updater(sorting) : updater;
-
-      if (newSorting.length > 0) {
-        const { id, desc } = newSorting[0];
-        setFilters({
-          sortColumn: id,
-          sortDirection: desc ? 'desc' : 'asc',
-        });
-      } else {
-        // デフォルトのソート設定に戻す
-        setFilters({
-          sortColumn: defaultSearchParams.sortColumn,
-          sortDirection: defaultSearchParams.sortDirection,
-        });
-      }
-    },
+    onPaginationChange: (updater) => handlePaginationChange(updater),
+    onSortingChange: (updater) => handleSortingChange(updater),
     rowCount: data?.data.paginate.total,
     state: {
       rowSelection,
@@ -102,6 +83,7 @@ function RouteComponent() {
     .getSelectedRowModel()
     .rows.map((row) => row.original.id);
 
+  // エラーが発生した場合、クエリパラメーターをリセット
   if (isError) {
     resetFilters();
   }
