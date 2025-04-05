@@ -31,20 +31,25 @@ final class IndexRequest extends FormRequest
                 'max:255',
             ],
             'page_size' => [
-                'nullable',
+                'required',
                 'integer',
                 'min:10',
                 'max:100',
             ],
             'page' => [
-                'nullable',
+                'required',
                 'integer',
                 'min:1',
             ],
-            'sort' => [
-                'nullable',
+            'sort_column' => [
+                'required',
                 'string',
                 Rule::enum(Sort::class),
+            ],
+            'sort_direction' => [
+                'required',
+                'string',
+                Rule::in(['asc', 'desc']),
             ],
         ];
     }
@@ -57,12 +62,13 @@ final class IndexRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'id'        => 'ユーザーID',
-            'name'      => '名前',
-            'email'     => 'メールアドレス',
-            'page_size' => 'ページサイズ',
-            'page'      => 'ページ番号',
-            'sort'      => '並び順',
+            'id'             => 'ユーザーID',
+            'name'           => '名前',
+            'email'          => 'メールアドレス',
+            'page_size'      => 'ページサイズ',
+            'page'           => 'ページ番号',
+            'sort_column'    => '並び順',
+            'sort_direction' => '並び順',
         ];
     }
 }

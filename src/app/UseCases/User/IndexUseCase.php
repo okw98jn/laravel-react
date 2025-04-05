@@ -34,10 +34,8 @@ final class IndexUseCase
         }
 
         // 並び順
-        if ($dto->sort !== null) {
-            $query->orderBy($dto->sort, 'desc');
-        }
+        $query->orderBy($dto->sort_column, $dto->sort_direction);
 
-        return $query->orderBy('id', 'desc')->paginate($dto->page_size, ['*'], 'page', $dto->page);
+        return $query->paginate($dto->page_size, ['*'], 'page', $dto->page);
     }
 }
