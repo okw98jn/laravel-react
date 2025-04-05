@@ -13,19 +13,26 @@ interface Props<TData> {
 
 export function Pagination<TData>({ table }: Props<TData>) {
   const currentPage = table.getState().pagination.pageIndex;
+  const totalPages = table.getPageCount();
 
-  // 表示するページ番号の配列を生成（現在のページの前後2ページ）
+  // 常に5ページ分表示するためのページ番号配列を生成
   const generatePageNumbers = () => {
     const pages: number[] = [];
-    // 前後に表示するページ数
-    const delta = 2;
+    const displayCount = 5; // 常に表示するページ数
 
-    for (
-      let i = Math.max(0, currentPage - delta);
-      i <= Math.min(table.getPageCount() - 1, currentPage + delta);
-      i++
-    ) {
-      pages.push(i);
+    // 表示開始ページを計算
+    let startPage = Math.max(0, currentPage - Math.floor(displayCount / 2));
+
+    // 末尾のページを超えないように調整
+    if (startPage + displayCount > totalPages) {
+      startPage = Math.max(0, totalPages - displayCount);
+    }
+
+    // 実際のページ数
+    const actualPages = Math.min(displayCount, totalPages);
+
+    for (let i = 0; i < actualPages; i++) {
+      pages.push(startPage + i);
     }
 
     return pages;
