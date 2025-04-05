@@ -3,6 +3,7 @@ import { Main } from '@/features/_auth/components/main';
 import { PageTitle } from '@/features/_auth/components/page-title';
 import { ColumnDisplayControl } from '@/features/_auth/components/table/column-display-control';
 import { DataTable } from '@/features/_auth/components/table/data-table';
+import { PaginationSize } from '@/features/_auth/components/table/paginasion-size';
 import { PaginationResult } from '@/features/_auth/components/table/pagination-result';
 import { useFilter } from '@/features/_auth/hooks/use-filter';
 import { useUsers } from '@/features/_auth/user/api/fetch-users';
@@ -82,6 +83,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between">
         <PaginationResult table={table} />
         <ListButtonContainer>
+          <PaginationSize table={table} />
           <ColumnDisplayControl table={table} />
           <DeleteUsers
             ids={selectedIds}
