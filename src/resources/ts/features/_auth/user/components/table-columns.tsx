@@ -12,6 +12,7 @@ export const columns = [
     id: 'select',
     header: ({ table }) => <AllCheckbox table={table} />,
     cell: ({ row }) => <RowCheckbox row={row} />,
+    enableHiding: false,
   }),
   columnHelper.accessor('id', {
     header: 'ID',
@@ -32,5 +33,6 @@ export const columns = [
         </div>
       );
     },
+    enableHiding: false,
   }),
 ];

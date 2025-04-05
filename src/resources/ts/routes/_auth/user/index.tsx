@@ -1,6 +1,7 @@
 import { ListButtonContainer } from '@/features/_auth/components/list-button-container';
 import { Main } from '@/features/_auth/components/main';
 import { PageTitle } from '@/features/_auth/components/page-title';
+import { ColumnDisplayControl } from '@/features/_auth/components/table/column-display-control';
 import { DataTable } from '@/features/_auth/components/table/data-table';
 import { PaginationResult } from '@/features/_auth/components/table/pagination-result';
 import { useFilter } from '@/features/_auth/hooks/use-filter';
@@ -34,6 +35,8 @@ function RouteComponent() {
 
   const [rowSelection, setRowSelection] = useState({});
 
+  const [columnVisibility, setColumnVisibility] = useState({});
+
   const pagination = {
     pageIndex: filters.pageIndex,
     pageSize: filters.pageSize,
@@ -45,6 +48,7 @@ function RouteComponent() {
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     onRowSelectionChange: setRowSelection,
+    onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: (updater) => {
       setFilters(
         typeof updater === 'function' ? updater(pagination) : pagination,
@@ -54,6 +58,7 @@ function RouteComponent() {
     state: {
       rowSelection,
       pagination,
+      columnVisibility,
     },
   });
 
@@ -72,6 +77,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between">
         <PaginationResult table={table} />
         <ListButtonContainer>
+          <ColumnDisplayControl table={table} />
           <DeleteUsers
             ids={selectedIds}
             onSuccess={() => setRowSelection({})}
