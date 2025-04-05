@@ -81,7 +81,7 @@ function RouteComponent() {
       <PageTitle title="ユーザー" />
       <SearchForm />
       <div className="flex items-center justify-between">
-        <PaginationResult table={table} />
+        <PaginationResult table={table} isPending={isFetching} />
         <ListButtonContainer>
           <PaginationSize table={table} />
           <ColumnDisplayControl table={table} />

@@ -2,9 +2,10 @@ import type { Table } from '@tanstack/react-table';
 
 interface Props<TData> {
   table: Table<TData>;
+  isPending: boolean;
 }
 
-export function PaginationResult<TData>({ table }: Props<TData>) {
+export function PaginationResult<TData>({ table, isPending }: Props<TData>) {
   const currentPage = table.getState().pagination.pageIndex;
   const pageSize = table.getState().pagination.pageSize;
   const totalRows = table.getRowCount();
@@ -15,7 +16,7 @@ export function PaginationResult<TData>({ table }: Props<TData>) {
 
   return (
     <div className="text-sm">
-      {totalRows}件中 {startRow} ~ {endRow}件を表示
+      {isPending ? '' : `${totalRows}件中 ${startRow} ~ ${endRow}件を表示`}
     </div>
   );
 }
