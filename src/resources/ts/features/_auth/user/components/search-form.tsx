@@ -16,7 +16,7 @@ export function SearchForm() {
     <Card>
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-2 gap-x-8 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 gap-x-8 mb-4">
             <FormInput<SearchSchemaType> name="id" label="ID" type="number" />
             <FormInput<SearchSchemaType> name="name" label="名前" type="text" />
             <FormInput<SearchSchemaType>
