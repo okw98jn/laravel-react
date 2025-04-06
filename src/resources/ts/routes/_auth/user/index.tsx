@@ -1,5 +1,3 @@
-import { Separator } from '@/components/ui/separator';
-import { ListButtonContainer } from '@/features/_auth/components/list-button-container';
 import { Main } from '@/features/_auth/components/main';
 import { PageTitle } from '@/features/_auth/components/page-title';
 import { ColumnDisplayControl } from '@/features/_auth/components/table/column-display-control';
@@ -89,19 +87,20 @@ function RouteComponent() {
     <Main>
       <PageTitle title="ユーザー" />
       <SearchForm />
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        <PaginationResult table={table} isPending={isFetching} />
-        <ListButtonContainer>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between">
+        <div className="mb-2 lg:mb-0">
+          <PaginationResult table={table} isPending={isFetching} />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
           <PaginationSize table={table} />
           <ColumnDisplayControl table={table} />
-          <Separator orientation="vertical" className="h-8! hidden md:block" />
           <DeleteUsers
             ids={getSelectedIds(table)}
             onSuccess={() => setRowSelection({})}
           />
           <CsvDownload />
           <CreateUser />
-        </ListButtonContainer>
+        </div>
       </div>
       <DataTable table={table} isPending={isFetching} isError={isError} />
     </Main>
