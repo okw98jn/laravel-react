@@ -1,6 +1,7 @@
 import { FormCheckbox } from '@/components/form/form-checkbox';
 import { FormInput } from '@/components/form/form-input';
 import { FormSelect } from '@/components/form/form-select';
+import { FormSuggest } from '@/components/form/form-suggest';
 import { Form } from '@/components/ui/form';
 import { ButtonGroup } from '@/features/_auth/components/search/button-group';
 import { Card } from '@/features/_auth/components/search/card';
@@ -11,6 +12,10 @@ import type { SearchSchemaType } from '@/features/_auth/user/schema/search';
 
 export function SearchForm() {
   const { form, onSubmit, handleClear, handleSortChange } = useSearchForm();
+
+  const handleStatusChange = (value: string) => {
+    console.log(value);
+  };
 
   return (
     <Card>
@@ -34,6 +39,12 @@ export function SearchForm() {
               label="並び順"
               options={sortOptions}
               onValueChange={handleSortChange}
+            />
+            <FormSuggest<SearchSchemaType>
+              name="status"
+              label="ステータス"
+              options={statusOptions}
+              onValueChange={handleStatusChange}
             />
           </div>
           <ButtonGroup handleClear={handleClear} />
