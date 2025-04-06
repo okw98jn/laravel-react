@@ -47,6 +47,17 @@ final class StoreRequest extends FormRequest
                 'required',
                 Password::defaults(),
             ],
+            'images' => [
+                'nullable',
+                'array',
+                'max:4',
+            ],
+            'images.*' => [
+                'required',
+                'image',
+                'mimes:jpeg,jpg,png,webp',
+                'max:5120',
+            ],
         ];
     }
 
@@ -64,6 +75,8 @@ final class StoreRequest extends FormRequest
             'status'   => 'ステータス',
             'memo'     => 'メモ',
             'password' => 'パスワード',
+            'images'   => 'ファイル',
+            'images.*' => 'ファイル',
         ];
     }
 }
