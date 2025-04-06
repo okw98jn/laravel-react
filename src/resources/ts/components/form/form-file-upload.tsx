@@ -34,6 +34,13 @@ export function FormFileUpload<S>({
 
     const fileArray = Array.from(newFiles);
 
+    if (files.length + fileArray.length > 4) {
+      form.setError(name as string, {
+        message: '画像は最大4枚までアップロードできます',
+      });
+      return;
+    }
+
     form.setValue(name as string, [...files, ...fileArray], {
       shouldValidate: true,
     });
