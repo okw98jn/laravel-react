@@ -6,10 +6,16 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { cn } from '@/lib/utils';
 import { Upload, X } from 'lucide-react';
 import { useId, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+
+interface FilePreview {
+  url: string;
+  id: string;
+  name: string;
+  size: number;
+}
 
 interface Props<S> {
   name: keyof S & string;
@@ -30,17 +36,18 @@ export function FormFileUpload<S>({
   const uniqueId = useId();
   const inputId = `${name}-${uniqueId}`;
 
-  const [previewUrls, setPreviewUrls] = useState<
-    Array<{ url: string; id: string }>
-  >([]);
+  const [previewUrls, setPreviewUrls] = useState<FilePreview[]>([]);
 
   const handleFileChange = (files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
+
     const newPreviewUrls = fileArray.map((file) => ({
       url: URL.createObjectURL(file),
       id: `${file.name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      name: file.name,
+      size: file.size,
     }));
 
     setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
@@ -74,10 +81,7 @@ export function FormFileUpload<S>({
             <div className="flex flex-col gap-2">
               <label
                 htmlFor={inputId}
-                className={cn(
-                  'border-input flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed bg-transparent transition-colors',
-                  'hover:border-ring hover:bg-muted/50',
-                )}
+                className="border-input flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed bg-transparent transition-colors hover:border-ring hover:bg-muted/50"
               >
                 <Upload className="mb-1 h-5 w-5" />
                 <span className="text-sm">画像をアップロード</span>
@@ -95,26 +99,11 @@ export function FormFileUpload<S>({
                   {...field}
                 />
               </label>
-
               {previewUrls.length > 0 && (
-                <div className="grid grid-cols-2 gap-4 mt-2">
-                  {previewUrls.map((preview, index) => (
-                    <div key={preview.id} className="relative">
-                      <img
-                        src={preview.url}
-                        alt={`プレビュー ${index + 1}`}
-                        className="w-full rounded-md object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeFile(index)}
-                        className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-white cursor-pointer"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                <FilePreview
+                  previewUrls={previewUrls}
+                  removeFile={removeFile}
+                />
               )}
             </div>
           </FormControl>
@@ -124,3 +113,46 @@ export function FormFileUpload<S>({
     />
   );
 }
+
+interface FilePreviewProps {
+  previewUrls: FilePreview[];
+  removeFile: (index: number) => void;
+}
+
+const FilePreview = ({ previewUrls, removeFile }: FilePreviewProps) => {
+  return (
+    <div className="space-y-2">
+      <h4 className="text-sm font-medium text-muted-foreground">
+        プレビュー ({previewUrls.length}枚)
+      </h4>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {previewUrls.map((preview, index) => (
+          <div
+            key={preview.id}
+            className="relative rounded-lg overflow-hidden border border-border shadow-sm"
+          >
+            <div className="aspect-video bg-muted/30 flex items-center justify-center">
+              <img
+                src={preview.url}
+                alt={`プレビュー ${index + 1}`}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="p-2 bg-muted/10 text-xs">
+              <p className="truncate font-medium" title={preview.name}>
+                {preview.name}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => removeFile(index)}
+              className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-destructive/90 text-white cursor-pointer shadow-sm hover:bg-destructive transition-colors"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

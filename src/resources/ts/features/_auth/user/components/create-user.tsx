@@ -1,3 +1,4 @@
+import { FormFileUpload } from '@/components/form/form-file-upload';
 import { FormInput } from '@/components/form/form-input';
 import { FormPassword } from '@/components/form/form-password';
 import { FormRadioGroup } from '@/components/form/form-radio-group';
@@ -82,6 +83,7 @@ export function CreateUser() {
               label="メモ"
               placeholder="メモを入力してください"
             />
+            <FormFileUpload<CreateSchemaType> name="images" label="画像" />
           </div>
         </form>
       </Form>
