@@ -5,6 +5,7 @@ import { FormSuggest } from '@/components/form/form-suggest';
 import { Form } from '@/components/ui/form';
 import { ButtonGroup } from '@/features/_auth/components/search/button-group';
 import { Card } from '@/features/_auth/components/search/card';
+import { useUserSuggest } from '@/features/_auth/hooks/use-user-suggest';
 import { sortOptions } from '@/features/_auth/user/constants/sort';
 import { statusOptions } from '@/features/_auth/user/constants/status';
 import { useSearchForm } from '@/features/_auth/user/hooks/use-search-form';
@@ -12,9 +13,10 @@ import type { SearchSchemaType } from '@/features/_auth/user/schema/search';
 
 export function SearchForm() {
   const { form, onSubmit, handleClear, handleSortChange } = useSearchForm();
+  const { setKeyword, options, isPending, isError } = useUserSuggest();
 
-  const handleStatusChange = (value: string) => {
-    console.log(value);
+  const handleUserSuggestChange = (value: string) => {
+    setKeyword(value);
   };
 
   return (
@@ -41,10 +43,13 @@ export function SearchForm() {
               onValueChange={handleSortChange}
             />
             <FormSuggest<SearchSchemaType>
-              name="status"
-              label="ステータス"
-              options={statusOptions}
-              onValueChange={handleStatusChange}
+              name="id"
+              label="ユーザー"
+              options={options}
+              onInputChange={handleUserSuggestChange}
+              placeholder="ユーザーを検索"
+              isPending={isPending}
+              isError={isError}
             />
           </div>
           <ButtonGroup handleClear={handleClear} />
