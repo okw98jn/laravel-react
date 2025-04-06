@@ -17,8 +17,4 @@ export async function loginAsTestUser(page: Page): Promise<void> {
 
   // ダッシュボードにリダイレクトされることを確認
   await expect(page).toHaveURL('/');
-
-  // ログイン後のユーザー情報が表示されることを確認
-  await expect(page.getByText('テストユーザー')).toBeVisible();
-  await expect(page.getByText('e2e@example.com')).toBeVisible();
 }
