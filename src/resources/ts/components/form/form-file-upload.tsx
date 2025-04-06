@@ -94,7 +94,8 @@ export function FormFileUpload<S>({
                   onChange={(e) => {
                     const files = e.target.files;
                     handleFileChange(files);
-                    onChange(multiple ? files : files?.[0]);
+                    const filesArray = files ? Array.from(files) : [];
+                    onChange(filesArray);
                   }}
                   {...field}
                 />
