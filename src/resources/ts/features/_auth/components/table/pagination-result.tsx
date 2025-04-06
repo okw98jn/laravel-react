@@ -15,7 +15,7 @@ export function PaginationResult<TData>({ table, isPending }: Props<TData>) {
   const endRow = Math.min(startRow + pageSize - 1, totalRows);
 
   return (
-    <div className="text-sm">
+    <div className="text-sm text-muted-foreground">
       {isPending ? '' : `${totalRows}件中 ${startRow} ~ ${endRow}件を表示`}
     </div>
   );
