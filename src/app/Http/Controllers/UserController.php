@@ -10,13 +10,16 @@ use App\Facades\ApiResponse;
 use App\Http\Requests\User\DeleteRequest;
 use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\SuggestRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\PaginateResource;
+use App\Http\Resources\SuggestResource;
 use App\Http\Resources\UserResource;
 use App\UseCases\User\DeleteUseCase;
 use App\UseCases\User\DownloadUseCase;
 use App\UseCases\User\IndexUseCase;
 use App\UseCases\User\StoreUseCase;
+use App\UseCases\User\SuggestUseCase;
 use App\UseCases\User\UpdateUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -107,7 +110,23 @@ class UserController extends Controller
 
         return ApiResponse::csvDownload(
             $result['fileName'],
-            $result['callback']
+            $result['callback'],
         );
+    }
+
+    /**
+     * ユーザーのサジェスト
+     *
+     * @param  SuggestRequest $request
+     * @param  SuggestUseCase $useCase
+     * @return JsonResponse
+     */
+    public function suggest(SuggestRequest $request, SuggestUseCase $useCase): JsonResponse
+    {
+        $result = $useCase->handle($request->keyword ?? '');
+
+        return ApiResponse::success([
+            'results' => SuggestResource::collection($result),
+        ], Response::HTTP_OK);
     }
 }
