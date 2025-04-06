@@ -33,6 +33,7 @@ export const createSchema = z.object({
           '有効な画像ファイル（jpg, png, webp）を選択してください',
         ),
     )
+    .max(4, '画像は最大4枚までアップロードできます')
     .optional(),
 });
 
