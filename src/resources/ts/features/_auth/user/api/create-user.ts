@@ -19,6 +19,7 @@ async function createUser(
       status: Number(formData.status),
       gender: Number(formData.gender),
       memo: formData.memo,
+      images: formData.images,
     })
     .then((res) => res.data);
 }
