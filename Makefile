@@ -32,7 +32,10 @@ stan:
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && vendor/bin/phpstan analyse app --memory-limit=2G -c phpstan.neon"
 
 fixer:
-	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php"
+	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php"
+
+biome:
+	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && npm run lint"
 
 ide:
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && php artisan ide-helper:generate"
@@ -40,6 +43,12 @@ ide:
 
 test:
 	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && php artisan test"
+
+e2e:
+	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && ./bin/e2e-test-local.sh"
+
+e2e-ui:
+	$(DOCKER_COMPOSE) exec $(APP_CONTAINER) bash -c "cd src && ./bin/e2e-test-local.sh -u"
 
 setup:
 	$(DOCKER_COMPOSE) build --no-cache

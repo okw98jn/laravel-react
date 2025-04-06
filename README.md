@@ -57,3 +57,59 @@ make test
 各テストクラスで、`AbstractRequest`を継承し`validationFailureDataProvider()`、`getRequestClass()`、`getValidData()`を
 実装してください。
 基本的なテストはこれだけで書けると思います。
+
+# githooks
+## pre-commit
+```bash
+#!/bin/sh
+
+make fixer
+FIXER_STATUS=$?
+
+make biome
+BIOME_STATUS=$?
+
+if [ $FIXER_STATUS -ne 0 ]; then
+  exit 1
+fi
+
+if [ $BIOME_STATUS -ne 0 ]; then
+  exit 1
+fi
+
+exit 0
+```
+```
+chmod +x pre-commit
+```
+
+## pre-push
+```bash
+#!/bin/sh
+
+make stan
+STAN_STATUS=$?
+
+if [ $STAN_STATUS -ne 0 ]; then
+  exit 1
+fi
+
+make test
+TEST_STATUS=$?
+
+if [ $TEST_STATUS -ne 0 ]; then
+  exit 1
+fi
+
+make e2e
+E2E_STATUS=$?
+
+if [ $E2E_STATUS -ne 0 ]; then
+  exit 1
+fi
+
+exit 0
+```
+```
+chmod +x pre-push
+```
