@@ -11,15 +11,28 @@ export interface CreateUserResponseData {
 async function createUser(
   formData: CreateSchemaType,
 ): Promise<ApiSuccessResponse<CreateUserResponseData>> {
+  const form = new FormData();
+  form.append('name', formData.name);
+  form.append('email', formData.email);
+  form.append('password', formData.password);
+  form.append('status', String(formData.status));
+  form.append('gender', String(formData.gender));
+
+  if (formData.memo) {
+    form.append('memo', formData.memo);
+  }
+
+  if (formData.images && formData.images.length > 0) {
+    formData.images.forEach((image, index) => {
+      form.append(`images[${index}]`, image);
+    });
+  }
+
   return api
-    .post('/users', {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      status: Number(formData.status),
-      gender: Number(formData.gender),
-      memo: formData.memo,
-      images: formData.images,
+    .post('/users', form, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     })
     .then((res) => res.data);
 }
