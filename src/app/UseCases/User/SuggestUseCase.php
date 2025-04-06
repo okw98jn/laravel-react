@@ -10,20 +10,19 @@ final class SuggestUseCase
     /**
      * ユーザーのサジェスト
      *
-     * @param  string                                            $keyword キーワード
-     * @return Collection<int, array{value: int, label: string}>
+     * @param  string                                               $keyword キーワード
+     * @return Collection<int, array{value: string, label: string}>
      */
     public function handle(string $keyword): Collection
     {
         return User::query()
             ->select('id', 'name')
             ->where('name', 'like', '%' . $keyword . '%')
-            ->orWhere('email', 'like', '%' . $keyword . '%')
             ->orderBy('id', 'asc')
             ->limit(100)
             ->get()
             ->map(fn (User $user) => [
-                'value' => $user->id,
+                'value' => (string) $user->id,
                 'label' => $user->name,
             ]);
     }
