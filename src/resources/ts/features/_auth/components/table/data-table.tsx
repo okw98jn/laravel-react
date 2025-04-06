@@ -35,34 +35,34 @@ export function DataTable<TData>({ table, isPending, isError }: Props<TData>) {
   return (
     <>
       <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      className={header.column.columnDef.meta?.className}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          {isPending ? (
-            <PendingBody
-              columnLength={table.getVisibleFlatColumns().length}
-              rowLength={table.getState().pagination.pageSize}
-            />
-          ) : (
+        {isPending ? (
+          <PendingBody
+            columnLength={table.getVisibleFlatColumns().length}
+            rowLength={table.getState().pagination.pageSize}
+          />
+        ) : (
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead
+                        key={header.id}
+                        className={header.column.columnDef.meta?.className}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
@@ -85,8 +85,8 @@ export function DataTable<TData>({ table, isPending, isError }: Props<TData>) {
                 <EmptyRow columnLength={table.getVisibleFlatColumns().length} />
               )}
             </TableBody>
-          )}
-        </Table>
+          </Table>
+        )}
       </div>
       <Pagination table={table} />
     </>

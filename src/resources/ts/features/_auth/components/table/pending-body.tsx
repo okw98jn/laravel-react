@@ -1,5 +1,12 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { TableBody, TableCell, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Props {
   columnLength: number;
@@ -8,16 +15,27 @@ interface Props {
 
 export function PendingBody({ columnLength, rowLength }: Props) {
   return (
-    <TableBody>
-      {Array.from({ length: rowLength }).map(() => (
+    <Table>
+      <TableHeader>
         <TableRow key={crypto.randomUUID()}>
           {Array.from({ length: columnLength }).map(() => (
-            <TableCell key={crypto.randomUUID()}>
+            <TableHead key={crypto.randomUUID()}>
               <Skeleton className="h-8" />
-            </TableCell>
+            </TableHead>
           ))}
         </TableRow>
-      ))}
-    </TableBody>
+      </TableHeader>
+      <TableBody>
+        {Array.from({ length: rowLength }).map(() => (
+          <TableRow key={crypto.randomUUID()}>
+            {Array.from({ length: columnLength }).map(() => (
+              <TableCell key={crypto.randomUUID()}>
+                <Skeleton className="h-8" />
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
