@@ -22,7 +22,6 @@ interface Props<S> {
   label?: string;
   isRequired?: boolean;
   accept?: string;
-  multiple?: boolean;
 }
 
 export function FormFileUpload<S>({
@@ -30,7 +29,6 @@ export function FormFileUpload<S>({
   label,
   isRequired,
   accept = 'image/*',
-  multiple = true,
 }: Props<S>) {
   const form = useFormContext();
   const uniqueId = useId();
@@ -90,7 +88,6 @@ export function FormFileUpload<S>({
                   type="file"
                   className="hidden"
                   accept={accept}
-                  multiple={multiple}
                   onChange={(e) => {
                     const files = e.target.files;
                     handleFileChange(files);
@@ -144,10 +141,13 @@ const FilePreview = ({ previewUrls, removeFile }: FilePreviewProps) => {
                 {preview.name}
               </p>
             </div>
+            <p className="absolute top-1 left-2 text-xs text-muted-foreground">
+              {index + 1}
+            </p>
             <button
               type="button"
               onClick={() => removeFile(index)}
-              className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-destructive/90 text-white cursor-pointer shadow-sm hover:bg-destructive transition-colors"
+              className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-500 text-white cursor-pointer shadow-sm hover:bg-gray-600 transition-colors"
             >
               <X className="h-3.5 w-3.5" />
             </button>
