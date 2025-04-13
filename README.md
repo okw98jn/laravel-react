@@ -241,6 +241,78 @@ src/resources/ts/features/shop/
 詳細は以下のドキュメントを参照してください。
 -   [TanStack Router Search Params](https://tanstack.com/router/latest/docs/framework/react/guide/search-params)
 
+## データ取得 (TanStack Query + Axios)
+
+このプロジェクトでは、サーバーからのデータ取得と状態管理（キャッシュ、バックグラウンド更新など）に [TanStack Query (v5)](https://tanstack.com/query/latest) を、HTTP リクエストの実行に [Axios](https://axios-http.com/) を使用しています。
+
+-   **Axios**: Promise ベースの HTTP クライアントです。`src/resources/ts/lib/axios.ts` で共通の設定（ベース URL、ヘッダー、インターセプターなど）がされたインスタンスを使用します。
+-   **TanStack Query**: サーバー状態のフェッチ、キャッシュ、同期、更新を効率的に行うためのライブラリです。データのローディング状態やエラー状態の管理、キャッシュによる不要な再取得の防止などを宣言的に扱えます。
+
+### 実装の流れ
+
+1.  **`useQuery` を使用したカスタムフック**: API 通信関数をラップし、データ取得ロジックをカプセル化するためのカスタムフックを作成します。データ取得はにこのようなパターンです。
+    ```typescript
+    // src/resources/ts/features/hoge/api/fetch-hoge.ts
+
+    // APIからのレスポンスの型を定義
+    interface Response {
+      hoge: Hoge[];
+      paginate: Paginate;
+    }
+
+    export const useHoge = (params: SearchSchemaType) => {
+      return useQuery({
+        // クエリキー: params が変わると TanStack Query が自動で再取得
+        queryKey: ['hoge', params],
+        // データ取得関数
+        queryFn: async ():Promise<Response> => {
+          return api
+            .get('/hoge', {
+              params: { keyword },
+            })
+            .then((res) => res.data);
+        },
+        // 必要に応じて staleTime, gcTime などでキャッシュ挙動を制御
+      });
+    };
+    ```
+    -   **`queryKey`**: クエリを一意に識別するキーです。データ種別を示す文字列 (`hoge`) とパラメータ (`params`) を配列で指定します。`params` が変更されると、TanStack Query はキャッシュを確認し、必要であれば `queryFn` を実行してデータを再取得します。
+    -   **`queryFn`**: 実際にデータを取得する非同期関数（axiosのAPI処理）を指定します。
+    -   このカスタムフック (`useHoge`) は、`useQuery` が返すデータの状態 (`data`)、ローディング状態 (`isLoading`, `isFetching`)、エラー状態 (`isError`, `error`) などをそのまま返します。コンポーネントは、このフックを利用してデータを取得し、UI を構築します。
+
+3.  **`useMutation` を使用したカスタムフック**: データの作成、更新、削除など、サーバーの状態を変更する操作についても同様にカスタムフックを作成します。データ更新系はこのようなパターンになります。
+    ```typescript
+    // src/resources/ts/features/hoge/api/create-hoge.ts
+    export const useCreateHoge = () => {
+      return useMutation({
+        mutationFn: async (data: HogeFormValues): Promise<ApiSuccessResponse<void>> => { // データ作成を行う非同期関数
+          return api
+            .post('/hoge', {
+              name: data.name,
+            })
+            .then((res) => res.data);
+        },
+        onSuccess: () => {
+          // データ作成成功時にキャッシュを無効化 (関連する useQuery を再取得させる)
+          queryClient.invalidateQueries({ queryKey: ['hoge'] });
+          // トースト表示などの成功時処理
+        },
+        onError: (error) => {
+          // エラーハンドリング (例: エラートースト表示)
+        },
+      });
+    };
+    ```
+    -   **`mutationFn`**: データを変更する非同期関数を指定します。
+    -   **`onSuccess`**: データ変更が成功した後に実行されます。`queryClient.invalidateQueries` を呼び出して関連するクエリ（hoge一覧）のキャッシュを無効化し、表示が最新の状態に更新されるようにします。
+    -   **`onError`**: データ変更が失敗した場合に実行されます。
+    -   このカスタムフック (`useCreateUser`) は、`useMutation` が返す実行関数 (`mutate` または `mutateAsync`)、ローディング状態 (`isPending`) などを返します。フォームの送信時などに `mutate(formData)` のように呼び出して使用します。
+
+このカスタムフックを中心としたパターンにより、各コンポーネントはデータ取得や更新の詳細なロジックを意識することなく、必要なフックを呼び出すだけで機能を利用できます。
+
+詳細は以下のドキュメントを参照してください。
+-   [TanStack Query Documentation](https://tanstack.com/query/latest)
+
 ## フォーム操作 (React Hook Form + Zod)
 
 このプロジェクトでは、フォームの状態管理とバリデーションに以下のライブラリを組み合わせて使用しています。
@@ -382,7 +454,7 @@ src/resources/ts/features/shop/
 
 このプロジェクトでは、データの表形式表示に [TanStack Table (v8)](https://tanstack.com/table/latest) を使用しています。
 
-TanStack Table は「ヘッドレス UI」ライブラリであり、テーブルのロジック、状態管理、API を提供しますが、特定のマークアップやスタイルは提供しません。これにより、HTML 構造やスタイリング（CSS、UI ライブラリなど）を自由に制御できます。
+TanStack Table は「ヘッドレス UI」ライブラリであり、テーブルのロジック、状態管理、API を提供しますが、特定のマークアップやスタイリング（CSS、UI ライブラリなど）は提供しません。これにより、HTML 構造やスタイリング（CSS、UI ライブラリなど）を自由に制御できます。
 
 このプロジェクトでは、TanStack Table のロジックと `shadcn/ui` の Table コンポーネント (`<Table>`, `<TableHeader>`, `<TableBody>`, `<TableRow>`, `<TableHead>`, `<TableCell>`) を組み合わせて、見た目と機能を実装します。
 
