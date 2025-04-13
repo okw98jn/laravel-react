@@ -33,7 +33,7 @@ SERVER_PID=$!
 # E2Eテストを実行
 if [ "$UI_MODE" = true ]; then
   echo "UIモードでテストを実行します"
-  npx playwright test --project=chromium --ui-host=0.0.0.0 "$@"
+  npx playwright test --project=chromium --ui-host=0.0.0.0 --ui-port=9323 "$@"
 else
   echo "通常モードでテストを実行します"
   npx playwright test --project=chromium "$@"

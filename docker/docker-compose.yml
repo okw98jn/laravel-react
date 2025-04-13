@@ -6,6 +6,7 @@ services:
     container_name: laravel-app
     ports:
       - "5173:5173"
+      - "9323:9323"
     environment:
       # PHP8.4に対応するまで
       PHP_CS_FIXER_IGNORE_ENV: 1
