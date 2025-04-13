@@ -154,3 +154,27 @@ src/resources/ts/features/shop/
 ├── schema/          # 店舗機能で使うzodバリデーションスキーマ
 └── types/           # 店舗機能で使う型定義
 ```
+
+# ルーティング (TanStack Router)
+
+このプロジェクトでは、フロントエンドのルーティングに [TanStack Router](https://tanstack.com/router/latest) を使用しています。
+**ファイルベースルーティング** という仕組みを採用しているため、`src/resources/ts/routes/` ディレクトリ内のファイル構造によって自動的にルーティングが定義されます。
+
+## ファイルベースルーティングの仕組み
+
+-   **`src/resources/ts/routes/` が基準**: このディレクトリがルーティング定義のルート（起点）となります。
+-   **ファイル/ディレクトリ構造がURLに対応**: `routes/` 内のファイルやディレクトリの階層構造が、そのままアプリケーションのURLパスに対応します。
+    -   `routes/index.tsx` → `/` (ルートパス)
+    -   `routes/hoge/index.tsx` → `/hoge`
+-   **`__root.tsx`**: `routes/` 直下に置かれる特別なファイルです。アプリケーション全体の **ルートレイアウト** になります。その他、404ページやエラーページの設定もここで行います。
+-   **レイアウトファイル (`route.tsx`)**: ルートで共通のレイアウトを適用したい場合に使用します。例えば `routes/hoge/route.tsx` を作成すると、`/hoge/*` 以下のすべてのルートに共通のレイアウトを適用できます。
+-   **パスのないレイアウトルート (`_auth`)**: 接頭辞に`_`を付けると、URLには影響せずに子ルートをまとめることができます。
+
+## 自動生成される `routeTree.gen.ts`
+
+-   開発中に `routes/` ディレクトリ内のファイルを追加・変更・削除すると、TanStack Router のツール（Viteプラグイン）がそれを検知し、**自動的に `src/resources/ts/routeTree.gen.ts` というファイルを生成・更新します**。
+-   このファイルには、`routes/` の構造に基づいたルーティング設定がコードとして書き出されます。
+-   アプリケーションは、`app.tsx` で `routeTree.gen.ts` をインポートしてルーターを初期化します。
+-   **重要**: `routeTree.gen.ts` は自動生成されるファイルなので、**手動で編集しないでください**。編集しても、次にファイル構造が変更された際に上書きされてしまいます。
+
+詳細は [TanStack Router のドキュメント](https://tanstack.com/router/latest/docs/framework/react/overview) を参照してください。
