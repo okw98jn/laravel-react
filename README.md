@@ -180,6 +180,67 @@ src/resources/ts/features/shop/
 
 詳細は [TanStack Router のドキュメント](https://tanstack.com/router/latest/docs/framework/react/overview) を参照してください。
 
+## クエリパラメータの管理 (TanStack Router)
+
+このプロジェクトでは、TanStack Router の機能を利用して、ページの検索、ソート、ページネーションの状態を URL のクエリパラメータで管理しています。これにより、URL を共有したり、リロードしても状態が保持されます。
+
+### 実装の流れ
+
+1.  **Zod スキーマ定義 (`searchSchema`, `defaultSearchParams`)**: 各機能（例: hoge一覧）ごとに、受け付けるクエリパラメータとその型、デフォルト値を定義した Zod スキーマ (`searchSchema`) とデフォルト値オブジェクト (`defaultSearchParams`) を作成します (例: `src/resources/ts/features/hoge/schema/search.ts`)。
+    -   `@tanstack/zod-adapter` の `fallback` を使用して、パラメータが存在しない場合や型が不正な場合のデフォルト値をスキーマ内で定義しています。
+    ```typescript
+    // src/resources/ts/features/hoge/schema/search.ts (抜粋)
+    import { fallback } from '@tanstack/zod-adapter';
+    import { z } from 'zod';
+
+    export const defaultSearchParams = { /* ... デフォルト値 ... */ };
+
+    export const searchSchema = z.object({
+      pageIndex: fallback(z.number().min(1), defaultSearchParams.pageIndex),
+      pageSize: fallback(z.number(), defaultSearchParams.pageSize),
+      sortColumn: fallback(z.enum([/*...*/]), defaultSearchParams.sortColumn),
+      sortDirection: fallback(z.enum(['asc', 'desc']), defaultSearchParams.sortDirection),
+      // ... 他のフィルタ用パラメータ
+    });
+
+    export type SearchSchemaType = z.infer<typeof searchSchema>;
+    ```
+2.  **ルート定義でのバリデーション (`validateSearch`, `stripSearchParams`)**: 対応するルートファイル (例: `src/resources/ts/routes/hoge/index.tsx`) の `createFileRoute` で、`validateSearch` オプションに `@tanstack/zod-adapter` の `zodValidator` を使ってスキーマを適用し、型安全なバリデーションを行います。さらに `search.middlewares` に `stripSearchParams` を使用することで、URL 上のクエリパラメータがデフォルト値と一致する場合に自動的に削除し、URL を短く保ちます。
+    ```typescript
+    // src/resources/ts/routes/hoge/index.tsx (抜粋)
+    import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
+    import { zodValidator } from '@tanstack/zod-adapter';
+    import {
+      defaultSearchParams,
+      searchSchema,
+    } from '@/features/_auth/user/schema/search';
+
+    export const Route = createFileRoute('/hoge/')({
+      component: RouteComponent,
+      validateSearch: zodValidator(searchSchema), // Zodスキーマでバリデーション
+      search: {
+        middlewares: [stripSearchParams(defaultSearchParams)], // デフォルト値ならURLから除去
+      },
+    });
+    ```
+3.  **カスタムフックでの状態管理 (`useFilter`)**: コンポーネント内でのクエリパラメータの取得と更新を容易にするため、カスタムフック (例: `useFilter`) を用意しています。このフックは内部で TanStack Router の `useSearch` と `useNavigate` を使用し、現在のフィルタ状態 (`filters`) と、それを更新する関数 (`setFilters`, `resetFilters`) を提供します。
+    ```typescript
+    // src/resources/ts/routes/hoge/index.tsx (抜粋)
+    import { useFilter } from '@/features/_auth/hooks/use-filter';
+
+    function RouteComponent() {
+      // カスタムフックでクエリパラメータ（フィルタ）を管理
+      const { filters, setFilters, resetFilters } = useFilter(Route.id);
+      // ...
+    }
+    ```
+4.  **状態の利用と更新**: `useFilter` から取得した `filters` オブジェクト（バリデーション済みで型安全）を API リクエスト（例: `useHoges(filters)`）やテーブルの状態 (`useTablePaginate`, `useTableSort`) に渡します。ページネーションやソートのコンポーネントからの変更イベント時には、`setFilters` を呼び出して状態を更新します。`setFilters` が呼ばれると `useFilter` フック内部で `navigate` が実行され、URL のクエリパラメータが更新されます。
+
+これにより、URL のクエリパラメータを型安全かつ宣言的に状態を管理できます。
+
+詳細は以下のドキュメントを参照してください。
+-   [TanStack Router Search Params](https://tanstack.com/router/latest/docs/framework/react/guide/search-params)
+
 ## フォーム操作 (React Hook Form + Zod)
 
 このプロジェクトでは、フォームの状態管理とバリデーションに以下のライブラリを組み合わせて使用しています。
