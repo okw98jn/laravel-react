@@ -250,7 +250,7 @@ src/resources/ts/features/shop/
 
 ### 実装の流れ
 
-1.  **`useQuery` を使用したカスタムフック**: API 通信関数をラップし、データ取得ロジックをカプセル化するためのカスタムフックを作成します。データ取得はにこのようなパターンです。
+1.  **`useQuery` を使用したカスタムフック**: API 通信関数をラップし、データ取得ロジックをカプセル化するためのカスタムフックを作成します。データ取得はこのようなパターンです。
     ```typescript
     // src/resources/ts/features/hoge/api/fetch-hoge.ts
 
@@ -285,7 +285,7 @@ src/resources/ts/features/shop/
     // src/resources/ts/features/hoge/api/create-hoge.ts
     export const useCreateHoge = () => {
       return useMutation({
-        mutationFn: async (data: HogeFormValues): Promise<ApiSuccessResponse<void>> => { // データ作成を行う非同期関数
+        mutationFn: async (data: HogeFormValues): Promise<void> => { // データ作成を行う非同期関数
           return api
             .post('/hoge', {
               name: data.name,
