@@ -316,3 +316,114 @@ src/resources/ts/features/shop/
 -   [React Hook Form Documentation](https://react-hook-form.com/)
 -   [Zod Documentation](https://zod.dev/)
 -   [shadcn/ui Form Component](https://ui.shadcn.com/docs/components/form)
+
+## テーブル操作 (TanStack Table)
+
+このプロジェクトでは、データの表形式表示に [TanStack Table (v8)](https://tanstack.com/table/latest) を使用しています。
+
+TanStack Table は「ヘッドレス UI」ライブラリであり、テーブルのロジック、状態管理、API を提供しますが、特定のマークアップやスタイルは提供しません。これにより、HTML 構造やスタイリング（CSS、UI ライブラリなど）を自由に制御できます。
+
+このプロジェクトでは、TanStack Table のロジックと `shadcn/ui` の Table コンポーネント (`<Table>`, `<TableHeader>`, `<TableBody>`, `<TableRow>`, `<TableHead>`, `<TableCell>`) を組み合わせて、見た目と機能を実装します。
+
+### 実装パターン
+
+基本的な実装フローは以下のようになります。
+
+1.  **カラム定義 (`ColumnDef`)**: 表示するデータの各列を定義します。
+    TanStack Table では、`createColumnHelper` を使うと、型安全性を高めながらカラム定義を簡潔に記述できます。
+    `helper.accessor` でデータオブジェクトのキーを指定し、`header` や `cell` で表示内容を定義します。
+    `helper.display` を使うと、データに直接紐づかない列（アクションボタンなど）を定義できます。
+    ```typescript
+    // 例: src/features/hoge/components/columns.tsx
+    import { createColumnHelper } from "@tanstack/react-table";
+    import { Hoge } from "@/features/hoge/types";
+    import { Button } from "@/components/ui/button";
+    import { ArrowUpDown } from "lucide-react";
+
+    const columnHelper = createColumnHelper<User>(); // Hoge 型でヘルパーを作成
+
+    export const columns = [
+      // 'id' キーに対応する列を定義
+      columnHelper.accessor("id", {
+        header: "ID",
+        // cell: info => info.getValue(), // デフォルトで値が表示されるので通常は不要
+      }),
+      // 'name' キーに対応する列を定義
+      columnHelper.accessor("name", {
+        // ヘッダーをクリック可能にし、ソートアイコンを表示する例
+        header: ({ column }) => {
+          return (
+            <Button
+              variant="ghost"
+              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+              名前
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+          );
+        },
+        // cell: info => info.getValue(), // デフォルト表示
+      }),
+      // 'email' キーに対応する列を定義
+      columnHelper.accessor("email", {
+        header: "メールアドレス",
+      }),
+      // アクションボタンなど、データに直接紐づかない表示用の列を定義
+      columnHelper.display({
+        id: "actions",
+        header: "操作", // ヘッダー名を追加
+        cell: ({ row }) => {
+          const hoge = row.original; // `row.original`で行データにアクセス
+          return (
+            <Button variant="outline" size="sm" onClick={() => alert(`編集: ${hoge.name}`)}>
+              編集
+            </Button>
+          );
+        },
+      }),
+    ];
+    ```
+2.  **`useReactTable` フックの使用**: テーブルを表示するコンポーネント内で `useReactTable` フックを呼び出します。`data` に表示するデータの配列、`columns` に 1. で定義したカラム定義を渡します。必要に応じて、ソート、フィルタリング、ページネーション、行選択などの状態管理や機能の有効化を行います。
+    ```typescript
+    // 例: src/features/hoge/components/hoge-table.tsx
+
+    // テーブルを作成
+    const table = useReactTable({
+      data: data?.data.hoge ?? [], // APIから取得したデータ
+      columns, // 1.で作成したカラム定義
+      getCoreRowModel: getCoreRowModel(), // 必要な関数。基本的に渡さないといけない
+      manualPagination: true, // APIと連携してページネーションを行う場合に使用
+      manualSorting: true, // APIと連携してソートを行う場合に使用
+      onRowSelectionChange: setRowSelection, // 行が選択されたり、解除されたときに実行
+      onColumnVisibilityChange: setColumnVisibility, // カラムの表示、非表示が変化したときに実行
+      onPaginationChange: (updater) => handlePaginationChange(updater), // ページネーションに関連するパラメータ(ページインデックス、ページサイズ)が変化したときに実行
+      onSortingChange: (updater) => handleSortingChange(updater), // ソート条件が変化したときに実行
+      rowCount: data?.data.paginate.total, // テーブルの全行数 manualPaginationがtrueの場合渡す必要があり
+      state: {
+        rowSelection, // 選択中の行の状態
+        pagination, // ページネーションの状態
+        columnVisibility, // カラムの表示、非表示状態
+        sorting, // ソート状態
+      },
+    });
+
+    // DataTableコンポーネントはこのプロジェクトで使用する基本のテーブルコンポーネント
+    return <DataTable table={table} />
+    ```
+
+### 主な機能
+
+TanStack Table は多くの機能を提供しており、`useReactTable` のオプションで有効化できます。
+
+-   **ソート (`getSortedRowModel`)**: 列ヘッダーをクリックしてデータを並び替えます。
+-   **フィルタリング (`getFilteredRowModel`)**: 特定の条件でデータを絞り込みます。
+-   **ページネーション (`getPaginationRowModel`)**: 大量のデータをページに分割して表示します。
+-   **行選択 (`enableRowSelection`)**: ユーザーがテーブルの行を選択できるようにします。
+-   **カラムの表示/非表示**: ユーザーが表示する列を選択できるようにします。
+-   **カラムの並び替え**: ユーザーが列の順序を変更できるようにします。
+
+これらの機能の実装例は、`shadcn/ui` のドキュメントにある [DataTable](https://ui.shadcn.com/docs/components/data-table) の例が非常に参考になります。
+
+詳細は以下のドキュメントを参照してください。
+-   [TanStack Table Documentation](https://tanstack.com/table/latest)
+-   [shadcn/ui DataTable Example](https://ui.shadcn.com/docs/components/data-table)
