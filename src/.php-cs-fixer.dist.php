@@ -52,8 +52,8 @@ return $config
         // 縦方向は揃えつつ、横方向は最小限のスペースに揃える
         'binary_operator_spaces' => [
             'operators' => [
-                '='  => 'align_single_space_minimal',
-                '=>' => 'align_single_space_minimal',
+                '=' => 'single_space',
+                '=>' => 'single_space',
             ],
         ],
         // 末尾にカンマを追加
