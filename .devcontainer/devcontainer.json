@@ -3,6 +3,7 @@
   "dockerComposeFile": "../docker/docker-compose.yml",
   "service": "laravel-app",
   "workspaceFolder": "/var/www/html",
+  "initializeCommand": "chmod +x .devcontainer/initialize.sh && bash .devcontainer/initialize.sh",
   "customizations": {
     "vscode": {
       // 拡張機能
