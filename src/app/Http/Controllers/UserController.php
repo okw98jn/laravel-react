@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\User\DeleteDto;
 use App\Dto\User\IndexDto;
+use App\Dto\User\PreviewPdfDto;
 use App\Dto\User\StoreDto;
 use App\Dto\User\UpdateDto;
 use App\Facades\ApiResponse;
@@ -18,12 +19,15 @@ use App\Http\Resources\UserResource;
 use App\UseCases\User\DeleteUseCase;
 use App\UseCases\User\DownloadUseCase;
 use App\UseCases\User\IndexUseCase;
+use App\UseCases\User\PreviewPdfUseCase;
 use App\UseCases\User\StoreUseCase;
 use App\UseCases\User\SuggestUseCase;
 use App\UseCases\User\UpdateUseCase;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -96,6 +100,21 @@ class UserController extends Controller
         $useCase->handle($dto);
 
         return ApiResponse::success([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * ユーザー情報のPDFプレビュー
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function previewPdf(Request $request, PreviewPdfUseCase $useCase): Response
+    {
+        $dto = PreviewPdfDto::fromArray($request->only(['name', 'email']));
+
+        $result = $useCase->handle($dto);
+
+        return ApiResponse::pdfStream($result['pdf'], $result['file_name']);
     }
 
     /**

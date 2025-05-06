@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -55,5 +57,17 @@ final class ApiResponseService
             'Cache-Control'       => 'no-store, no-cache',
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ]);
+    }
+
+    /**
+     * PDFストリーム用レスポンスを生成
+     *
+     * @param  PDF    $pdf      PDF
+     * @param  string $fileName ファイル名
+     * @return Response
+     */
+    public function pdfStream(PDF $pdf, string $fileName): Response
+    {
+        return $pdf->stream($fileName);
     }
 }

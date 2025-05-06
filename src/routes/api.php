@@ -26,5 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/', 'delete')->name('delete');
         Route::get('/download', 'download')->name('download');
         Route::get('/suggest', 'suggest')->name('suggest');
+        Route::post('/preview-pdf', 'previewPdf')->name('preview-pdf');
     });
 });
