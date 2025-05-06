@@ -61,10 +61,11 @@ class UserController extends Controller
     {
         $dto = StoreDto::fromArray($request->validated());
 
-        $user = $useCase->handle($dto);
+        $result = $useCase->handle($dto);
 
         return ApiResponse::success([
-            'user' => new UserResource($user),
+            'user' => new UserResource($result['user']),
+            'pdf_path' => $result['pdf_path'],
         ], Response::HTTP_CREATED);
     }
 
@@ -105,7 +106,8 @@ class UserController extends Controller
     /**
      * ユーザー情報のPDFプレビュー
      *
-     * @param  Request  $request
+     * @param  Request $request
+     * @param  PreviewPdfUseCase $useCase
      * @return Response
      */
     public function previewPdf(Request $request, PreviewPdfUseCase $useCase): Response
@@ -114,7 +116,7 @@ class UserController extends Controller
 
         $result = $useCase->handle($dto);
 
-        return ApiResponse::pdfStream($result['pdf'], $result['file_name']);
+        return ApiResponse::pdfStream($result['pdf'], $result['fileName']);
     }
 
     /**

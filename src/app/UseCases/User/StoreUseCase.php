@@ -3,6 +3,7 @@
 namespace App\UseCases\User;
 
 use App\Dto\User\StoreDto;
+use App\Facades\PdfGenerator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,9 +13,9 @@ final class StoreUseCase
      * ユーザーを登録する
      *
      * @param  StoreDto $dto ユーザー作成Dto
-     * @return User
+     * @return array{user: User, pdf_path: string}
      */
-    public function handle(StoreDto $dto): User
+    public function handle(StoreDto $dto): array
     {
         $user = User::create([
             'name'     => $dto->name,
@@ -25,6 +26,15 @@ final class StoreUseCase
             'password' => Hash::make($dto->password),
         ]);
 
-        return $user;
+        // ユーザー情報のPDFを生成してストレージに保存
+        $fileName = 'user_' . $user->id . '.pdf';
+        $path = PdfGenerator::getStoragePath('users', $user->id, $fileName);
+
+        $pdfPath = PdfGenerator::generateAndSave('pdf.user_preview', ['user' => $user], $path);
+
+        return [
+            'user' => $user,
+            'pdf_path' => $pdfPath
+        ];
     }
 }

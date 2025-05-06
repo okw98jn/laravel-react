@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Facades\PdfGenerator;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -68,6 +69,6 @@ final class ApiResponseService
      */
     public function pdfStream(PDF $pdf, string $fileName): Response
     {
-        return $pdf->stream($fileName);
+        return PdfGenerator::stream($pdf, $fileName);
     }
 }

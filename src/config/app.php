@@ -126,6 +126,7 @@ return [
     'aliases' => [
         'ApiResponse' => \App\Facades\ApiResponse::class,
         'Csv'         => \App\Facades\Csv::class,
+        'PdfGenerator' => \App\Facades\PdfGenerator::class,
     ],
 
 ];
