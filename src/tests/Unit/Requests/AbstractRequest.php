@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Validator as ValidatorInstance;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -73,17 +74,35 @@ abstract class AbstractRequest extends TestCase
     {
         // リクエストクラスを作成
         $requestClass = $this->getRequestClass();
-        $request      = new $requestClass();
+
+        // FormRequestインスタンスにリクエストデータをセットするためのモック
+        $request = new Request();
+        $request->merge($data);
+
+        // FormRequestのインスタンスを作成
+        $formRequest = new $requestClass();
+        $formRequest->setMethod('POST');
+
+        // FormRequestにHTTPリクエストをセット
+        $formRequest->initialize(
+            $request->query->all(),
+            $request->request->all(),
+            $request->attributes->all(),
+            $request->cookies->all(),
+            $request->files->all(),
+            $request->server->all(),
+            $request->getContent()
+        );
 
         // ルールを取得
-        $rules = $request->rules();
+        $rules = $formRequest->rules();
 
         // バリデーションを実行
         return Validator::make(
             $data,
             $rules,
-            $request->messages(),
-            $request->attributes()
+            $formRequest->messages(),
+            $formRequest->attributes()
         );
     }
 
