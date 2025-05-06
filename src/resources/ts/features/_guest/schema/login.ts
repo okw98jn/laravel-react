@@ -32,6 +32,16 @@ function getByPath(obj: any, path: string): any {
   return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
 }
 
+/**
+ * カラム名を取得するユーティリティ
+ *
+ * @param colKey attributes.json のキー
+ * @returns カラム名
+ */
+export function getColumnName<C extends AttrKey>(colKey: C): string {
+  return (attributes as Record<string, string>)[colKey] || colKey;
+}
+
 /** {{…}} を置き換えるユーティリティ */
 function fmt(template: string, params: Record<string, any>): string {
   return template.replace(/{{\s*(\w+)\s*}}/g, (_, key) =>
@@ -60,6 +70,6 @@ export function buildErrorMessage<
     return tplKey;
   }
 
-  const columnName = (attributes as Record<string, string>)[colKey]!;
+  const columnName = getColumnName(colKey);
   return fmt(template, { path: columnName, ...extras });
 }
