@@ -18,6 +18,11 @@ async function createUser(
   form.append('status', String(formData.status));
   form.append('gender', String(formData.gender));
 
+  formData.items.forEach((item, i) => {
+    form.append(`items[${i}][name]`, item.name);
+    form.append(`items[${i}][memo]`, item.memo);
+  });
+
   if (formData.memo) {
     form.append('memo', formData.memo);
   }

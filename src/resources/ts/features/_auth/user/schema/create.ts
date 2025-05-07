@@ -20,6 +20,12 @@ export const createSchema = z.object({
   status: z.enum(toOptionValues(statusOptions)),
   gender: z.enum(toOptionValues(genderOptions)),
   memo: z.string().max(1000),
+  items: z.array(
+    z.object({
+      name: z.string().min(1).max(255),
+      memo: z.string().min(1).max(255),
+    }),
+  ),
   images: z
     .array(
       z

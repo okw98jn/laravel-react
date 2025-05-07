@@ -11,11 +11,20 @@ import { genderOptions } from '@/features/_auth/user/constants/gender';
 import { statusOptions } from '@/features/_auth/user/constants/status';
 import { useCreateForm } from '@/features/_auth/user/hooks/use-create-form';
 import type { CreateSchemaType } from '@/features/_auth/user/schema/create';
-import { Plus } from 'lucide-react';
+import { Plus, Trash } from 'lucide-react';
 
 export function CreateUser() {
-  const { form, isPending, onSubmit, reset, isOpen, setIsOpen } =
-    useCreateForm();
+  const {
+    form,
+    isPending,
+    onSubmit,
+    reset,
+    isOpen,
+    setIsOpen,
+    fields,
+    append,
+    remove,
+  } = useCreateForm();
 
   const handleClose = () => {
     setIsOpen(false);
@@ -84,6 +93,35 @@ export function CreateUser() {
               placeholder="メモを入力してください"
             />
             <FormFileUpload<CreateSchemaType> name="images" label="画像" />
+            <div className="grid grid-cols-1 gap-2">
+              {fields.map((field, index) => (
+                <div key={field.id}>
+                  <FormInput<CreateSchemaType>
+                    name={`items.${index}.name`}
+                    label="名前"
+                    isRequired
+                  />
+                  <FormInput<CreateSchemaType>
+                    name={`items.${index}.memo`}
+                    label="メモ"
+                    isRequired
+                  />
+                  {index === fields.length - 1 && index < 3 && (
+                    <Button
+                      type="button"
+                      onClick={() => append({ name: '', memo: '' })}
+                    >
+                      <Plus />
+                    </Button>
+                  )}
+                  {index > 0 && (
+                    <Button type="button" onClick={() => remove(index)}>
+                      <Trash />
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </form>
       </Form>

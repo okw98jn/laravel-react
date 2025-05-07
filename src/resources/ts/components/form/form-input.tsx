@@ -9,10 +9,10 @@ import {
 import { Input } from '@/components/ui/input';
 import type { InputHTMLAttributes } from 'react';
 import { useId } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { type Path, useFormContext } from 'react-hook-form';
 
 interface Props<S> extends InputHTMLAttributes<HTMLInputElement> {
-  name: keyof S & string;
+  name: Path<S>;
   label?: string;
   isRequired?: boolean;
 }

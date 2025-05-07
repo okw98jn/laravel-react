@@ -9,7 +9,7 @@ import { queryClient } from '@/lib/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export function useCreateForm() {
@@ -23,6 +23,12 @@ export function useCreateForm() {
     status: '',
     gender: '',
     memo: '',
+    items: [
+      {
+        name: '',
+        memo: '',
+      },
+    ],
   };
 
   const form = useForm<CreateSchemaType>({
@@ -55,5 +61,20 @@ export function useCreateForm() {
     });
   });
 
-  return { form, isPending, onSubmit, reset, isOpen, setIsOpen };
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'items',
+  });
+
+  return {
+    form,
+    isPending,
+    onSubmit,
+    reset,
+    isOpen,
+    setIsOpen,
+    fields,
+    append,
+    remove,
+  };
 }

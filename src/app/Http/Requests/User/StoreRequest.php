@@ -58,6 +58,24 @@ final class StoreRequest extends FormRequest
                 'mimes:jpeg,jpg,png,webp',
                 'max:5120',
             ],
+            'items' => [
+                'required',
+                'array',
+                'max:10',
+            ],
+            'items.*' => [
+                'required',
+                'array',
+                'max:2',
+            ],
+            'items.*.name' => [
+                'required',
+                'boolean',
+            ],
+            'items.*.memo' => [
+                'required',
+                'boolean',
+            ],
         ];
     }
 
